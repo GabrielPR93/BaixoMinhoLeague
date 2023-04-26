@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/home"
+        android:title="Inicio"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_home"/>
+    <item
+        android:id="@+id/Buscar"
+        android:title="Buscar"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_person"/>
+
+    <item
+        android:id="@+id/holder"
+        android:title=""
+        app:showAsAction="ifRoom"
+        android:enabled="false"/>
+
+    <item
+        android:id="@+id/clasificacion"
+        android:title="Ranking"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_clasificacion"/>
+
+    <item
+        android:id="@+id/calendario"
+        android:title="Calendario"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_calendar"/>
+
+
+</menu>
