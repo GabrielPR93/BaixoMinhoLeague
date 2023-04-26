@@ -7,6 +7,11 @@
     tools:context=".MainActivity"
     android:background="#c4c4c4">
 
+    <FrameLayout
+        android:id="@+id/frameContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
 <com.google.android.material.bottomappbar.BottomAppBar
     android:id="@+id/AppBar_Menu"
     android:layout_width="match_parent"
