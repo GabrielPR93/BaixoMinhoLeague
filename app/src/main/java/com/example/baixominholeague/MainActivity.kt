@@ -3,6 +3,7 @@ package com.example.baixominholeague
 import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import com.example.baixominholeague.databinding.ActivityMainBinding
 import com.example.baixominholeague.ui.menu.CalendarioFragment
@@ -20,6 +21,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.bottomNavigation.setBackground(null);
+
 
         binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
 
@@ -40,5 +42,6 @@ class MainActivity : AppCompatActivity() {
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frameContainer,fragment)
         fragmentTransaction.commit()
+
     }
 }
