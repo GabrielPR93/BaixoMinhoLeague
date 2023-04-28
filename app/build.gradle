@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -44,9 +45,6 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     //fragments
     implementation 'androidx.fragment:fragment-ktx:1.5.7'
-    //room
-    implementation "androidx.room:room-ktx:2.4.0"
-    kapt "androidx.room:room-compiler:2.4.0"
 
     //corrutinas
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
@@ -54,4 +52,8 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    //firebase
+    implementation platform('com.google.firebase:firebase-bom:31.5.0')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 }

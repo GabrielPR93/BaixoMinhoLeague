@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1000430869996",
+    "project_id": "baixominholeague",
+    "storage_bucket": "baixominholeague.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1000430869996:android:6d1de019cb9f06d649f4c9",
+        "android_client_info": {
+          "package_name": "com.example.baixominholeague"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1000430869996-8mp8mdkdli01ak1b6ic5dnirct5vue4c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUnfHNTTwrU3Im63s0QUhOriSE00oBfcY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1000430869996-8mp8mdkdli01ak1b6ic5dnirct5vue4c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
