@@ -30,7 +30,48 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this,RegisterActivity::class.java))
             finish()
         }
+
+        binding.buttomLogin.setOnClickListener {
+            login()
+        }
     }
+
+    private fun login() {
+        if(checkEmpty(binding.editTextNombre.text.toString(),binding.editTextPassword.text.toString())){
+            FirebaseAuth.getInstance()
+                .signInWithEmailAndPassword(binding.editTextNombre.text.toString(),binding.editTextPassword.text.toString()).addOnCompleteListener {
+                    if(it.isSuccessful){
+                        showHome(it.result?.user?.email?:"")
+
+                    }else{
+                        showAlert()
+
+                    }
+                }
+        }
+    }
+
+    private fun showHome(email: String){
+        val homeIntent: Intent = Intent(this,MainActivity::class.java).apply {
+            putExtra("email",email)
+        }
+        startActivity(homeIntent)
+        finish()
+    }
+
+    private fun showAlert() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Error")
+        builder.setMessage("Se ha producido un error autenticando al usuario")
+        builder.setPositiveButton("Aceptar",null)
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
+    }
+
+    private fun checkEmpty(email: String, password: String): Boolean {
+        return email.isNotEmpty() && password.isNotEmpty()
+    }
+
 
 
 
