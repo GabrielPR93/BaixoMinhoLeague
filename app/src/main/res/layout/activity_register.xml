@@ -20,26 +20,27 @@
         android:id="@+id/textViewAuth"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Crear cuenta"
-        android:textSize="25dp"
-        android:fontFamily="@font/hurme_light"
         android:layout_marginStart="30dp"
         android:layout_marginTop="-5dp"
-        app:layout_constraintTop_toBottomOf="@id/imageViewAuth"
+        android:fontFamily="@font/hurme_light"
+        android:text="Crear cuenta"
+        android:textSize="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/imageViewAuth" />
 
     <EditText
         android:id="@+id/editTextNombre"
         android:layout_width="match_parent"
-        android:hint="  Nombre"
         android:layout_height="30dp"
-        android:layout_marginTop="30dp"
         android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="40dp"
-        android:drawableStart="@drawable/name"
         android:background="@drawable/editext_background"
+        android:drawableStart="@drawable/name"
+        android:drawablePadding="20dp"
         android:ems="10"
+        android:hint="  Nombre"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewAuth" />
@@ -47,26 +48,31 @@
     <EditText
         android:id="@+id/editTextEmail"
         android:layout_width="match_parent"
-        android:hint="  Correo electrónico"
         android:layout_height="30dp"
-        android:layout_marginTop="20dp"
         android:layout_marginStart="30dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="40dp"
-        android:drawableStart="@drawable/email"
         android:background="@drawable/editext_background"
+        android:drawableStart="@drawable/email"
+        android:drawablePadding="20dp"
+        android:hint="  Correo electrónico"
+        android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextNombre" />
+
     <EditText
         android:id="@+id/editTextPassword"
         android:layout_width="match_parent"
-        android:hint="   Contraseña"
         android:layout_height="30dp"
-        android:layout_marginTop="20dp"
         android:layout_marginStart="30dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="40dp"
-        android:drawableStart="@drawable/password"
         android:background="@drawable/editext_background"
+        android:drawableStart="@drawable/password"
+        android:drawablePadding="20dp"
+        android:hint="   Contraseña"
+        android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextEmail" />
@@ -74,29 +80,56 @@
     <EditText
         android:id="@+id/editTextPaswoord2"
         android:layout_width="match_parent"
-        android:hint="   Repetir contraseña"
         android:layout_height="30dp"
-        android:layout_marginTop="20dp"
         android:layout_marginStart="30dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="40dp"
-        android:drawableStart="@drawable/password"
         android:background="@drawable/editext_background"
+        android:drawableStart="@drawable/password"
+        android:drawablePadding="20dp"
+        android:hint="   Repetir contraseña"
+        android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
 
-
-    <Button
-        android:id="@+id/buttomCrearCuenta"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/idLinearLayoutRegister"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="crear cuenta"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
         android:layout_marginTop="40dp"
-        android:backgroundTint="@color/blue"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPaswoord2" />
+        app:layout_constraintEnd_toEndOf="@id/editTextPaswoord2"
+        app:layout_constraintStart_toStartOf="@id/editTextPaswoord2"
+        app:layout_constraintTop_toBottomOf="@id/editTextPaswoord2"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/buttomBackLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="30dp"
+            android:backgroundTint="@color/blue"
+            android:text="Volver"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextPaswoord2" />
+
+        <Button
+            android:id="@+id/buttomCrearCuenta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="30dp"
+            android:backgroundTint="@color/blue"
+            android:text="crear cuenta"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextPaswoord2" />
+
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
