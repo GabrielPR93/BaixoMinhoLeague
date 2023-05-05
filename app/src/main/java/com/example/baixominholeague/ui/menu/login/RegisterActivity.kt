@@ -31,7 +31,7 @@ class RegisterActivity : AppCompatActivity() {
     private fun register() {
         //title = "Autenticación"
 
-            if(binding.editTextPassword.equals(binding.editTextPaswoord2) && checkEmpty(binding.editTextEmail.text.toString(),binding.editTextPassword.text.toString(),binding.editTextPaswoord2.text.toString())){
+            if(binding.editTextPassword.text.toString().equals(binding.editTextPaswoord2.text.toString()) && checkEmpty(binding.editTextEmail.text.toString(),binding.editTextPassword.text.toString(),binding.editTextPaswoord2.text.toString())){
                 FirebaseAuth.getInstance()
                     .createUserWithEmailAndPassword(binding.editTextEmail.text.toString(),binding.editTextPassword.text.toString()).addOnCompleteListener {
                         if(it.isSuccessful){
