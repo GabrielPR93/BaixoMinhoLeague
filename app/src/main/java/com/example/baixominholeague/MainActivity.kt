@@ -1,6 +1,8 @@
 package com.example.baixominholeague
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -15,6 +17,7 @@ import com.example.baixominholeague.ui.menu.PerfilFragment
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private var correo: String? = null
 
     companion object {
         const val CLAVE_CORREO = "correo"
@@ -27,12 +30,17 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigation.setBackground(null);
 
         val intent = intent
-        val correo = intent.getStringExtra("correo")
+        correo = intent.getStringExtra("correo")
 
-//        val args = Bundle().apply {
-//            putString(CLAVE_CORREO,correo)
-//        }
-//        PerfilFragment().arguments=args
+        //Pasar correo a fragment de perfil
+        val args = Bundle().apply {
+            putString(CLAVE_CORREO,correo.toString())
+        }
+        val fragmentPerfil = PerfilFragment()
+        fragmentPerfil.arguments=args
+
+        saveData()
+
 
 
 
@@ -43,13 +51,21 @@ class MainActivity : AppCompatActivity() {
                 R.id.home -> replaceFragment(InicioFragment())
                 R.id.Buscar -> replaceFragment(JugadoresFragment())
                 R.id.clasificacion -> replaceFragment(ClasificacionFragment())
-                R.id.perfil -> replaceFragment(PerfilFragment())
+                R.id.perfil -> replaceFragment(fragmentPerfil)
 
             }
             true
         }
 
         }
+
+    private fun saveData() {
+        //Guardado de datos
+        val prefs = getSharedPreferences(getString(R.string.prefs_file),Context.MODE_PRIVATE).edit()
+        prefs.putString("email",correo)
+        prefs.apply()
+    }
+
     private fun replaceFragment(fragment: Fragment){
 
         val fragmentManager = supportFragmentManager

@@ -16,7 +16,9 @@
 
         <activity
             android:name=".ui.menu.login.LoginActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.BaixoMinhoLeagueStartingSinActionBar">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

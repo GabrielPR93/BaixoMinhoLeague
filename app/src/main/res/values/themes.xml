@@ -26,4 +26,14 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="Theme.BaixoMinhoLeagueStartingSinActionBar" parent="Theme.SplashScreen">
+   
+        <item name="windowSplashScreenBackground">@color/blue</item>
+     <!--   <item name="windowSplashScreenAnimatedIcon">@color/blue</item>
+        <item name="windowSplashScreenAnimationDuration">300</item> -->
+        <item name="postSplashScreenTheme">@style/Theme.BaixoMinhoLeagueSinActionBar</item>
+        
+
+    </style>
 </resources>
