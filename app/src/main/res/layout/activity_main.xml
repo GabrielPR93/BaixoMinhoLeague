@@ -37,6 +37,6 @@
         android:src="@drawable/ic_add"
         app:maxImageSize="40dp"
         android:backgroundTint="@color/white"
-        app:layout_anchor="@id/AppBar_Menu"/>
+        app:layout_anchor="@id/AppBar_Menu" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

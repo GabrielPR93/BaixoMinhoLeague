@@ -3,6 +3,7 @@ package com.example.baixominholeague.ui.menu.login
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import com.example.baixominholeague.MainActivity
 import com.example.baixominholeague.databinding.ActivityLoginBinding
@@ -53,7 +54,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun showHome(email: String){
         val homeIntent: Intent = Intent(this,MainActivity::class.java).apply {
-            putExtra("email",email)
+            putExtra("correo",email)
         }
         startActivity(homeIntent)
         finish()

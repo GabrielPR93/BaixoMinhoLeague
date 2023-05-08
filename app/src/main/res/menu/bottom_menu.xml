@@ -25,10 +25,10 @@
         android:icon="@drawable/ic_clasificacion"/>
 
     <item
-        android:id="@+id/calendario"
-        android:title="Calendario"
+        android:id="@+id/perfil"
+        android:title="Perfil"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_calendar"/>
+        android:icon="@drawable/baseline_account_circle_24"/>
 
 
 </menu>
