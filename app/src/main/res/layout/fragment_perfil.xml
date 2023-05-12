@@ -6,35 +6,142 @@
     android:layout_height="match_parent"
     tools:context=".ui.menu.PerfilFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/tituloPerfil"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Perfil"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="parent"/>
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/textViewCorreo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tituloPerfil" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <Button
-        android:id="@+id/buttomLogout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="85dp"
-        android:text="Cerrar sesión"
-        android:backgroundTint="#FF0000"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:elevation="100dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:elevation="20dp">
+
+                    <TextView
+                        android:id="@+id/textViewPosition"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="1ª Posición"
+                        android:layout_marginTop="40dp"
+                        app:layout_constraintStart_toStartOf="@id/imageViewProfile"
+                        app:layout_constraintEnd_toEndOf="@id/imageViewProfile"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <ImageView
+                        android:id="@+id/imageViewProfile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/profile"
+                        app:layout_constraintTop_toBottomOf="@id/textViewPosition"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginStart="10dp"/>
+
+                    <EditText
+                        android:id="@+id/editTextAlias"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/hurmebold"
+                        android:hint="'Alias'"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/imageViewProfile"
+                        app:layout_constraintTop_toTopOf="@id/imageViewProfile"/>
+
+                    <EditText
+                        android:id="@+id/editTextNombre"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="210dp"
+                        android:fontFamily="@font/hurme_light"
+                        android:hint="Nombre y apellidos"
+                        android:textSize="16dp"
+                        android:layout_marginEnd="10dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/imageViewProfile"
+                        app:layout_constraintTop_toBottomOf="@id/editTextAlias" />
+
+                    <EditText
+                        android:id="@+id/editTextTelefono"
+                        android:layout_width="match_parent"
+                        android:layout_marginStart="210dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/hurme_light"
+                        android:textSize="16dp"
+                        android:hint="Teléfono"
+                        android:inputType="number"
+                        android:maxLength="9"
+                        app:layout_constraintStart_toStartOf="@id/editTextNombre"
+                        app:layout_constraintTop_toBottomOf="@id/editTextNombre"/>
+
+                    <TextView
+                        android:id="@+id/textViewCorreo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/hurme_light"
+                        android:textSize="16dp"
+                        android:layout_marginStart="210dp"
+                        android:layout_marginEnd="10dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/editTextTelefono"
+                        app:layout_constraintTop_toBottomOf="@id/editTextTelefono"
+                        tools:text="Correo" />
+
+                    <ImageButton
+                        android:id="@+id/buttomLogout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/blue"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:src="@drawable/exit_to_app_24"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <EditText
+                        android:id="@+id/editTextLocalidad"
+                        android:drawableStart="@drawable/location_on_24"
+                        android:fontFamily="@font/hurme_light"
+                        android:hint="Localidad"
+                        android:textSize="14dp"
+                        android:layout_marginEnd="7dp"
+                        android:drawablePadding="3dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="@id/imageViewProfile"
+                        app:layout_constraintTop_toBottomOf="@id/imageViewProfile"/>
+
+                    <EditText
+                        android:id="@+id/editTextPosiciones"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/hurme_light"
+                        android:layout_marginStart="20dp"
+                        android:textSize="14dp"
+                        android:hint="Posiciones"
+                        android:layout_marginTop="5dp"
+                        app:layout_constraintStart_toEndOf="@id/editTextLocalidad"
+                        app:layout_constraintTop_toBottomOf="@id/imageViewProfile"/>
+
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

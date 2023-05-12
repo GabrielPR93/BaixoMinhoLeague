@@ -38,7 +38,7 @@ class PerfilFragment : Fragment() {
         _binding = FragmentPerfilBinding.inflate(inflater,container,false)
         val view = binding.root
 
-        binding.textViewCorreo.text = "correo: "+correo
+        binding.textViewCorreo.text = correo
 
         binding.buttomLogout.setOnClickListener {
             //Borramos datos de la sesión

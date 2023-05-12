@@ -64,7 +64,6 @@ class LoginActivity : AppCompatActivity() {
         binding.buttomGoogle.setOnClickListener {
             googleInit()
         }
-
     }
 
     private fun googleInit() {
