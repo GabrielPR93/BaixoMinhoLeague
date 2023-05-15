@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import com.example.baixominholeague.R
 import com.example.baixominholeague.databinding.FragmentPerfilBinding
 import com.example.baixominholeague.MainActivity.Companion.CLAVE_CORREO
@@ -19,6 +21,7 @@ class PerfilFragment : Fragment() {
     private val binding get() = _binding!!
 
     private var correo: String? = null
+
 
 
 
@@ -40,6 +43,14 @@ class PerfilFragment : Fragment() {
 
         binding.textViewCorreo.text = correo
 
+        logout()
+
+
+        return view
+    }
+
+
+    private fun logout() {
         binding.buttomLogout.setOnClickListener {
             //Borramos datos de la sesión
             val prefs = requireActivity().getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE).edit()
@@ -51,8 +62,6 @@ class PerfilFragment : Fragment() {
             requireActivity().finish()
 
         }
-
-        return view
     }
 
 //    companion object {

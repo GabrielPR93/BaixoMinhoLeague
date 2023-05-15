@@ -55,6 +55,7 @@ class LoginActivity : AppCompatActivity() {
 
         binding.buttomRegister.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
+
         }
 
         binding.buttomLogin.setOnClickListener {
@@ -114,7 +115,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun showHome(email: String) {
         val homeIntent: Intent = Intent(this, MainActivity::class.java).apply {
-            putExtra("correo", email)
+            putExtra("correoLogin", email)
         }
         startActivity(homeIntent)
         finish()

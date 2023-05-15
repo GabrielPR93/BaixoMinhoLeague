@@ -25,6 +25,8 @@ class RegisterActivity : AppCompatActivity() {
 
         binding.buttomCrearCuenta.setOnClickListener {
             register()
+
+
         }
     }
 
@@ -42,14 +44,18 @@ class RegisterActivity : AppCompatActivity() {
 
                         }
                     }
+            }else{
+                showAlert()
             }
     }
 
     private fun showHome(email: String){
         val homeIntent: Intent = Intent(this,MainActivity::class.java).apply {
             putExtra("email",email)
+
         }
         startActivity(homeIntent)
+
     }
 
     private fun showAlert() {

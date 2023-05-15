@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private var correo: String? = null
+    private var correoLogin: String? = null
 
     companion object {
         const val CLAVE_CORREO = "correo"
@@ -30,11 +31,11 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigation.setBackground(null);
 
         val intent = intent
-        correo = intent.getStringExtra("correo")
-
+        correo = intent.getStringExtra("email")
+        correoLogin = intent.getStringExtra("correoLogin")
         //Pasar correo a fragment de perfil
         val args = Bundle().apply {
-            putString(CLAVE_CORREO,correo.toString())
+            putString(CLAVE_CORREO, correo?.toString()?:correoLogin.toString())
         }
         val fragmentPerfil = PerfilFragment()
         fragmentPerfil.arguments=args
@@ -62,7 +63,7 @@ class MainActivity : AppCompatActivity() {
     private fun saveData() {
         //Guardado de datos
         val prefs = getSharedPreferences(getString(R.string.prefs_file),Context.MODE_PRIVATE).edit()
-        prefs.putString("email",correo)
+        prefs.putString("email",correo?:correoLogin)
         prefs.apply()
     }
 
