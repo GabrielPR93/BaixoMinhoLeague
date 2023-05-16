@@ -13,15 +13,31 @@ import com.example.baixominholeague.ui.menu.ClasificacionFragment
 import com.example.baixominholeague.ui.menu.InicioFragment
 import com.example.baixominholeague.ui.menu.JugadoresFragment
 import com.example.baixominholeague.ui.menu.PerfilFragment
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private val db = FirebaseFirestore.getInstance()
+    private var fragmentPerfil = PerfilFragment()
+
     private var correo: String? = null
     private var correoLogin: String? = null
+    private var alias: String? = null
+    private var nombre: String? = null
+    private var telefono: String? = null
+    private var localidad: String? = null
+    private var posiciones: String? = null
+    private var args: Bundle? = null
 
     companion object {
         const val CLAVE_CORREO = "correo"
+        const val CLAVE_ALIAS = "alias"
+        const val CLAVE_NOMBRE = "nombre"
+        const val CLAVE_TELEFONO = "telefono"
+        const val CLAVE_LOCALIDAD = "localidad"
+        const val CLAVE_POSICIONES = "posiciones"
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,18 +49,9 @@ class MainActivity : AppCompatActivity() {
         val intent = intent
         correo = intent.getStringExtra("email")
         correoLogin = intent.getStringExtra("correoLogin")
-        //Pasar correo a fragment de perfil
-        val args = Bundle().apply {
-            putString(CLAVE_CORREO, correo?.toString()?:correoLogin.toString())
-        }
-        val fragmentPerfil = PerfilFragment()
-        fragmentPerfil.arguments=args
 
+        getDataBd() //Acceder a datos del usuario
         saveData()
-
-
-
-
 
         binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
 
@@ -59,7 +66,32 @@ class MainActivity : AppCompatActivity() {
         }
 
         }
+    private fun getDataBd() {
+        db.collection("users").document(correo?:correoLogin.orEmpty()).get().addOnCompleteListener {
+            if(it.isSuccessful){
+                val document = it.result
+                if(document!=null){
+                    alias = document.get("alias") as String?
+                    nombre = document.get("nombre") as String?
+                    telefono = document.get("telefono") as String?
+                    localidad = document.get("localidad") as String?
+                    posiciones = document.get("posiciones") as String?
 
+                    args = Bundle().apply {
+
+                        putString(CLAVE_CORREO, correo?.toString()?:correoLogin.toString())
+                        putString(CLAVE_ALIAS, alias?.toString())
+                        putString(CLAVE_NOMBRE, nombre?.toString())
+                        putString(CLAVE_TELEFONO, telefono?.toString())
+                        putString(CLAVE_LOCALIDAD, localidad?.toString())
+                        putString(CLAVE_POSICIONES, posiciones?.toString())
+                    }
+                    fragmentPerfil.arguments=args
+                }
+            }
+        }
+
+    }
     private fun saveData() {
         //Guardado de datos
         val prefs = getSharedPreferences(getString(R.string.prefs_file),Context.MODE_PRIVATE).edit()

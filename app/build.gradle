@@ -63,4 +63,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx'
     //login Google
     implementation 'com.google.android.gms:play-services-auth:20.5.0'
+    //Firestore
+    implementation 'com.google.firebase:firebase-firestore-ktx'
+
+    //Menu
+    //implementation 'com.github.capur16:ArcMenu:v1.0.3'
+
 }
