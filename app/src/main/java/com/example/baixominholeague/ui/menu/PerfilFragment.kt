@@ -91,7 +91,9 @@ class PerfilFragment : Fragment() {
                 "nombre" to binding.editTextNombre.text.toString(),
                 "telefono" to binding.editTextTelefono.text.toString(),
                 "localidad" to binding.editTextLocalidad.text.toString(),
-                "posiciones" to binding.editTextPosiciones.text.toString())
+                "posiciones" to binding.editTextPosiciones.text.toString(),
+                "id" to 0)
+
             )
 
             Toast.makeText(requireContext(),"Guardado correctamente",Toast.LENGTH_SHORT).show()

@@ -158,7 +158,7 @@
                         android:layout_marginStart="20dp"
                         android:textSize="14dp"
                         android:hint="Posiciones"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="7dp"
                         android:textColor="@color/black"
                         app:layout_constraintStart_toEndOf="@id/editTextLocalidad"
                         app:layout_constraintTop_toBottomOf="@id/imageViewProfile"/>
