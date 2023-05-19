@@ -19,10 +19,14 @@ import com.example.baixominholeague.databinding.FragmentPerfilBinding
 import com.example.baixominholeague.recyclerViewJugadores.JugadorAdapter
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 private var _binding: FragmentJugadoresBinding? = null
 private val binding get() = _binding!!
 private lateinit var adapter: JugadorAdapter
+private var setupExecuted = false
 private val jugadores = mutableListOf<Jugador>()
 
 class JugadoresFragment : Fragment() {
@@ -32,6 +36,7 @@ class JugadoresFragment : Fragment() {
         arguments?.let {
 
         }
+
     }
 
     override fun onCreateView(
@@ -70,31 +75,40 @@ class JugadoresFragment : Fragment() {
         val filteredJugadores = jugadores.filter { jugador ->
             jugador.nombre.contains(query, ignoreCase = true)
         }
+        Log.i("GAB","NAME")
         adapter.updateList(filteredJugadores)
         binding.ProgresBar.isVisible=false
     }
 
     private fun setup() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val jugadoresCollectionRef = FirebaseFirestore.getInstance().collection("jugadores")
 
-        val jugadoresCollectionRef = FirebaseFirestore.getInstance().collection("jugadores")
+            // Consulta los jugadores des Firestore
+            jugadoresCollectionRef.get()
+                .addOnSuccessListener { querySnapshot ->
 
-       // Consulta los jugadores des Firestore
-        jugadoresCollectionRef.get()
-            .addOnSuccessListener { querySnapshot ->
+                    if(!setupExecuted){
+                        for (document in querySnapshot) {
+                            val jugador = document.toObject(Jugador::class.java)
+                            jugadores.add(jugador)
+                        }
+                        setupExecuted=true
+                    }
+                    Log.i("GAB", jugadores.size.toString())
+                    // Configura el RecyclerView y el adaptador
 
-                for (document in querySnapshot) {
-                    val jugador = document.toObject(Jugador::class.java)
-                    jugadores.add(jugador)
+
+                    val recyclerView = binding.recyclerViewJugadores
+                    recyclerView.layoutManager = LinearLayoutManager(requireContext())
+                    recyclerView.adapter = adapter
+
                 }
+                .addOnFailureListener { exception ->
+                    Log.e("Error", "Error al obtener los jugadores", exception)
+                }
+        }
 
-                // Configura el RecyclerView y el adaptador
-                val recyclerView = binding.recyclerViewJugadores
-                recyclerView.layoutManager = LinearLayoutManager(requireContext())
-                recyclerView.adapter = adapter
-            }
-            .addOnFailureListener { exception ->
-                Log.e("Error", "Error al obtener los jugadores", exception)
-            }
     }
 
     private fun navigateToDetailPlayer(id:Int){
