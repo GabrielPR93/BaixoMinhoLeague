@@ -21,6 +21,7 @@ private var _binding: FragmentClasificacionBinding? = null
 private val binding get() = _binding!!
 private var setupExecuted = false
 private val db = FirebaseFirestore.getInstance()
+private val jugadoresPuntuacionMap = mutableMapOf<String, Int>()
 class ClasificacionFragment : Fragment() {
 
 
@@ -42,6 +43,8 @@ class ClasificacionFragment : Fragment() {
 
         setupPlayers()
         setupTournaments()
+        //setupPlayerList(jugadoresPuntuacionMap)
+        mostrarClasificacion(jugadoresPuntuacionMap)
 
         return view
     }
@@ -82,55 +85,93 @@ class ClasificacionFragment : Fragment() {
                     }
                     setupExecuted=true
                     //saveData(jugadores)
-                    setupPlayerList(jugadores)
+                    //setupPlayerList(jugadores)
                 }
             }
         }
     }
 
     private fun setupTournaments() {
+        val tournamentsCollectionRef = db.collection("clasificacionMovimiento")
 
-        //CoroutineScope(Dispatchers.IO).launch {
-            val tournamentsCollectionRef = db.collection("clasificacionMovimiento")
+        tournamentsCollectionRef.get().addOnSuccessListener { tournamentSnapshots ->
 
-            tournamentsCollectionRef.get().addOnSuccessListener {
-                for (documentSnapshot in it) {
-                    val torneoId = documentSnapshot.id
-                    val jugadoresPuntuacion = documentSnapshot.data["jugadores"] as? List<HashMap<String, Serializable>>
+            for (tournamentSnapshot in tournamentSnapshots) {
+                val jugadoresPuntuacion = tournamentSnapshot.data["jugadores"] as? List<HashMap<String, Serializable>>
 
-                    if (jugadoresPuntuacion != null) {
-                        for (jugadorDatos in jugadoresPuntuacion) {
-                            val nombre = jugadorDatos["nombre"] as? String
-                            val puntuacion = jugadorDatos["puntuacion"] as? String
-                            // Utiliza los datos obtenidos (torneoId, nombre, puntuacion) como desees
-                            Log.i("GABR", "Torneo: $torneoId, Nombre: $nombre, Puntuación: $puntuacion")
+                jugadoresPuntuacion?.forEach { jugadorDatos ->
+                    val nombre = jugadorDatos["nombre"] as? String
+                    val puntuacion = jugadorDatos["puntuacion"] as? String
 
-                        }
+                    Log.i("GAB",tournamentSnapshot.id+" puntuacion : "+jugadorDatos["nombre"].toString()+ jugadorDatos["puntuacion"])
+
+                    if (nombre != null && puntuacion != null) {
+                        val totalPuntuacion = jugadoresPuntuacionMap[nombre] ?: 0
+                        jugadoresPuntuacionMap[nombre] = totalPuntuacion + puntuacion.toInt()
+
                     }
                 }
             }
-       //}
 
+            for ((nombre, puntuacion) in jugadoresPuntuacionMap) {
+                Log.i("GAB", "Nombre: $nombre, Puntuación Total: $puntuacion")
+            }
+        }
     }
 
-    private fun setupPlayerList(jugadores: MutableList<Jugador>) {
+
+    private fun setupPlayerList(jugadores: MutableMap<String, Int>) {
         val container = binding.playerContainer
 
 
         // Obtén la lista de jugadores (por ejemplo, desde Firestore)
         //val jugadoresRank = jugadores
 
-        for (i in jugadores.indices) {
-            val jugador = jugadores[i]
-            Log.i("GAB",jugadores[i].nombre)
+//        for (i in jugadores.indices) {
+//            val jugador = jugadores[i]
+//            Log.i("GAB",jugadores[i].nombre)
+//
+//            // Inflar el diseño de elemento de lista
+            val itemBinding = ItemPlayerBinding.inflate(layoutInflater, container, false)
+//
+//            // Obtener las referencias a las vistas del elemento
+//            itemBinding.Rank.text = (i + 1).toString()
+//            itemBinding.nombre.text = jugador.nombre
+//            itemBinding.puntos.text = jugador.puntuacion.toString()
+//
+//            // Agregar el elemento al contenedor de vista
 
-            // Inflar el diseño de elemento de lista
+//        }
+    jugadores.forEach{
+
+        itemBinding.nombre.text = it.key
+        itemBinding.puntos.text = it.value.toString()
+
+        Log.i("GAB", "-->"+it.key + it.value.toString())
+
+    }
+        container.addView(itemBinding.root)
+
+    }
+
+    private fun mostrarClasificacion(jugadores: Map<String, Int>) {
+        val container = binding.playerContainer
+
+        container.removeAllViews() // Limpiar los elementos anteriores
+
+        // Ordenar los jugadores por puntuación descendente
+        val jugadoresOrdenados = jugadores.toList().sortedByDescending { (_, puntuacion) -> puntuacion }
+
+        for (i in jugadoresOrdenados.indices) {
+            val (nombre, puntuacion) = jugadoresOrdenados[i]
+
+            // Inflar el diseño de elemento de la clasificación
             val itemBinding = ItemPlayerBinding.inflate(layoutInflater, container, false)
 
             // Obtener las referencias a las vistas del elemento
             itemBinding.Rank.text = (i + 1).toString()
-            itemBinding.nombre.text = jugador.nombre
-            itemBinding.puntos.text = jugador.puntuacion.toString()
+            itemBinding.nombre.text = nombre
+            itemBinding.puntos.text = puntuacion.toString()
 
             // Agregar el elemento al contenedor de vista
             container.addView(itemBinding.root)
