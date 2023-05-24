@@ -40,8 +40,8 @@ class ClasificacionFragment : Fragment() {
         val view = binding.root
 
 
-    setupPlayers()
-
+        setupPlayers()
+        setupTournaments()
 
         return view
     }
@@ -52,11 +52,11 @@ class ClasificacionFragment : Fragment() {
         for (jugador in jugadores) {
             val datosJugador = hashMapOf<String, Serializable>(
                 "nombre" to jugador.nombre,
-                "puntuacion" to 0
+                "puntuacion" to "10"
             )
             jugadoresPuntuacion.add(datosJugador)
         }
-        db.collection("clasificacionMovimiento").document("TORNEO 3").set(
+        db.collection("clasificacionMovimiento").document("TORNEO 2").set(
             hashMapOf("jugadores" to jugadoresPuntuacion)
         ).addOnSuccessListener {
             Log.i("GAB","datos guardados")
@@ -67,7 +67,7 @@ class ClasificacionFragment : Fragment() {
     private fun setupPlayers() {
 
         CoroutineScope(Dispatchers.IO).launch {
-            val jugadoresCollectionRef = FirebaseFirestore.getInstance().collection("jugadores")
+            val jugadoresCollectionRef = db.collection("jugadores")
 
             jugadoresCollectionRef.get().addOnSuccessListener {
                 val jugadores = mutableListOf<Jugador>()
@@ -77,14 +77,39 @@ class ClasificacionFragment : Fragment() {
                         if(jugador!=null){
 
                             jugadores.add(jugador)
+
                         }
                     }
                     setupExecuted=true
-                    saveData(jugadores)
+                    //saveData(jugadores)
                     setupPlayerList(jugadores)
                 }
             }
         }
+    }
+
+    private fun setupTournaments() {
+
+        //CoroutineScope(Dispatchers.IO).launch {
+            val tournamentsCollectionRef = db.collection("clasificacionMovimiento")
+
+            tournamentsCollectionRef.get().addOnSuccessListener {
+                for (documentSnapshot in it) {
+                    val torneoId = documentSnapshot.id
+                    val jugadoresPuntuacion = documentSnapshot.data["jugadores"] as? List<HashMap<String, Serializable>>
+
+                    if (jugadoresPuntuacion != null) {
+                        for (jugadorDatos in jugadoresPuntuacion) {
+                            val nombre = jugadorDatos["nombre"] as? String
+                            val puntuacion = jugadorDatos["puntuacion"] as? String
+                            // Utiliza los datos obtenidos (torneoId, nombre, puntuacion) como desees
+                            Log.i("GABR", "Torneo: $torneoId, Nombre: $nombre, Puntuación: $puntuacion")
+
+                        }
+                    }
+                }
+            }
+       //}
 
     }
 
