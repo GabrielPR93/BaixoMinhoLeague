@@ -19,8 +19,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:showDividers="middle"
-        android:dividerHorizontal="@color/white"
-        android:dividerVertical="@color/white"
+        android:divider="@color/white"
         android:background="@color/blue"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

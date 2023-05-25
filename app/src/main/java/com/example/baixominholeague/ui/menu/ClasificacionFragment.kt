@@ -1,7 +1,9 @@
 package com.example.baixominholeague.ui.menu
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -35,6 +37,7 @@ class ClasificacionFragment : Fragment() {
         arguments?.let {
 
         }
+
     }
 
     override fun onCreateView(
@@ -44,77 +47,77 @@ class ClasificacionFragment : Fragment() {
         _binding = FragmentClasificacionBinding.inflate(inflater, container, false)
         val view = binding.root
 
-
         setupPlayers()
         setupTournaments()
-
-        torneoJugadoresMap.map {nombre ->
-            Log.i("GABRI", "))_> "+nombre.key)
-        }
-
-
+        mostrarTorneosEnTabla()
         return view
     }
 
+    private fun mostrarTorneosEnTabla() {
+        // Obtener la referencia al TableLayout en tu layout
+        val tableLayout = binding.tableLayout
 
+        // Agregar la fila de cabecera
+        val cabeceraRow = TableRow(requireContext())
+        cabeceraRow.addView(crearTextViewCabecera(" "))
+        cabeceraRow.addView(crearTextViewCabecera("  NOMBRE"))
 
-    private fun setupTable() {
-        val headerRow = TableRow(requireContext())
-
-        // Crear y configurar las celdas de la cabecera
-        val positionHeaderCell = TextView(requireContext())
-        positionHeaderCell.text = "Posición"
-        positionHeaderCell.setPadding(5, 5, 5, 5)
-        headerRow.addView(positionHeaderCell)
-
-        val nombresTorneos = torneoJugadoresMap.keys.toList()
-
-        val tournamentHeaders = nombresTorneos.map { nombreTorneo ->
-            val headerCell = TextView(requireContext())
-            headerCell.text = nombreTorneo
-            headerCell.setPadding(5, 5, 5, 5)
-            headerCell
+        // Agregar las celdas para los nombres de torneos
+        for ((nombreTorneo, _) in torneoJugadoresMap) {
+            cabeceraRow.addView(crearTextViewCabecera(nombreTorneo))
         }
-        tournamentHeaders.forEach { headerRow.addView(it) }
+        cabeceraRow.addView(crearTextViewCabecera("TOTAL"))
+        tableLayout.addView(cabeceraRow)
+        val jugadoresOrdenados = jugadoresPuntuacionMap.toList().sortedByDescending { (_, puntuacion) -> puntuacion }
+//        for ((nombre,jugadoresMAp) in torneoJugadoresMap){
+//            for((nombre,puntuacion) in jugadoresMAp){
+//                Log.i("GAB","LAYOUT: "+nombre+puntuacion)
+//            }
+//        }
+        // Recorrer los jugadores y agregar las filas correspondientes
+        for ((index, jugador) in jugadoresOrdenados.withIndex()) {
+            val fila = TableRow(requireContext())
 
-        val totalPointsHeaderCell = TextView(requireContext())
-        totalPointsHeaderCell.text = "Puntos Totales"
-        totalPointsHeaderCell.setPadding(5, 5, 5, 5)
-        headerRow.addView(totalPointsHeaderCell)
+            // Agregar la celda para la posición
+            val posicionCell = crearTextViewCelda((index + 1).toString()+"º")
+            fila.addView(posicionCell)
 
-        // Agregar la fila de cabecera a la tabla
-        binding.tableLayout.addView(headerRow)
+            fila.addView(crearTextViewCeldaNombre(jugador.first))
 
-        for ((index, entry) in torneoJugadoresMap.entries.withIndex()) {
-            val (nombre, puntajesTorneo) = entry
-            val row = TableRow(requireContext())
-
-            // Crear y configurar las celdas para cada jugador
-            val playerNameCell = TextView(requireContext())
-            playerNameCell.text = nombre
-            playerNameCell.setPadding(5, 5, 5, 5)
-            row.addView(playerNameCell)
-
-            val tournamentPointsCells = nombresTorneos.map { nombreTorneo ->
-                val pointsCell = TextView(requireContext())
-                val puntosTorneo = puntajesTorneo[nombreTorneo] ?: 0
-                pointsCell.text = puntosTorneo.toString()
-                pointsCell.setPadding(5, 5, 5, 5)
-                pointsCell
+            // Agregar las celdas para las puntuaciones en cada torneo
+            for ((nombreTorneo, jugadoresMap) in torneoJugadoresMap) {
+                val puntuacion = jugadoresMap[jugador.first] ?: 0
+                fila.addView(crearTextViewCelda(puntuacion.toString()))
             }
-            tournamentPointsCells.forEach { row.addView(it) }
 
-            val totalPointsCell = TextView(requireContext())
-            val puntuacionTotal = puntajesTorneo.values.sum()
-            totalPointsCell.text = puntuacionTotal.toString()
-            totalPointsCell.setPadding(5, 5, 5, 5)
-            row.addView(totalPointsCell)
+         fila.addView(crearTextViewCelda(jugador.second.toString()))
 
-            // Agregar la fila a la tabla
-            binding.tableLayout.addView(row)
+            tableLayout.addView(fila)
         }
     }
 
+    private fun crearTextViewCabecera(texto: String): TextView {
+        val textView = TextView(requireContext())
+        textView.text = texto
+        textView.setBackgroundColor(Color.LTGRAY)
+        textView.setPadding(10, 10, 10, 10)
+        textView.gravity = Gravity.START // Alineación del texto al centro
+        return textView
+    }
+
+    private fun crearTextViewCelda(texto: String): TextView {
+        val textView = TextView(requireContext())
+        textView.text = texto
+        textView.setPadding(10, 10, 10, 10)
+        textView.gravity = Gravity.CENTER
+        return textView
+    }  private fun crearTextViewCeldaNombre(texto: String): TextView {
+        val textView = TextView(requireContext())
+        textView.text = texto
+        textView.setPadding(10, 10, 10, 10)
+        textView.gravity = Gravity.START
+        return textView
+    }
 
 
     private fun saveData(jugadores: MutableList<Jugador>) {
@@ -153,7 +156,6 @@ class ClasificacionFragment : Fragment() {
                     }
                     setupExecuted = true
                     //saveData(jugadores)
-                    //setupPlayerList(jugadores)
                 }
             }
         }
@@ -200,17 +202,22 @@ class ClasificacionFragment : Fragment() {
 //            for ((nombre, puntuacion) in jugadoresPuntuacionMap) {
 //                Log.i("GAB", "Nombre: $nombre, Puntuación Total: $puntuacion")
 //            }
-            val jugadores0rdenados =
+              var jugadores0rdenados =
                 jugadoresPuntuacionMap.toList().sortedByDescending { (_, puntuacion) -> puntuacion }
                     .toMap()
             for ((nombre, puntuacion) in jugadores0rdenados) {
-                Log.i("GAB", "Nombre: -->> $nombre, Puntuación Total: $puntuacion")
+                Log.i("GAB", "Nombre: --->> $nombre, Puntuación Total: $puntuacion")
             }
-            jugadoresPuntuacionMap.clear()
-            jugadoresPuntuacionMap.putAll(jugadores0rdenados)
+
+//            jugadoresPuntuacionMap.clear()
+//            jugadoresPuntuacionMap.putAll(jugadores0rdenados)
+
+
 
         }
-        setupTable()
+        //setupTable()
+
+        }
     }
 
 }
