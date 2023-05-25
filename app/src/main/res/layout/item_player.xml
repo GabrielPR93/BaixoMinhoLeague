@@ -8,30 +8,33 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/Rank"
-            android:text="Posición"
             android:layout_width="60dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_height="wrap_content"/>
+            android:layout_weight="1"
+            android:text="Posición" />
 
         <TextView
             android:id="@+id/nombre"
-            android:text="Nombre"
             android:layout_width="80dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_height="wrap_content"/>
+            android:layout_weight="1"
+            android:text="Nombre" />
 
         <TextView
             android:id="@+id/puntos"
-            android:text="Puntos"
             android:layout_width="80dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_height="wrap_content"/>
+            android:layout_weight="1"
+            android:text="Puntos" />
 
     </LinearLayout>
 

@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.TableRow
+import android.widget.TextView
 import com.example.baixominholeague.R
 import com.example.baixominholeague.data.Jugador
 import com.example.baixominholeague.databinding.FragmentClasificacionBinding
@@ -22,6 +24,9 @@ private val binding get() = _binding!!
 private var setupExecuted = false
 private val db = FirebaseFirestore.getInstance()
 private val jugadoresPuntuacionMap = mutableMapOf<String, Int>()
+private val torneoJugadoresMap = hashMapOf<String, HashMap<String, Int>>()
+
+
 class ClasificacionFragment : Fragment() {
 
 
@@ -30,24 +35,87 @@ class ClasificacionFragment : Fragment() {
         arguments?.let {
 
         }
-
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentClasificacionBinding.inflate(inflater,container,false)
+        _binding = FragmentClasificacionBinding.inflate(inflater, container, false)
         val view = binding.root
 
 
         setupPlayers()
         setupTournaments()
-        //setupPlayerList(jugadoresPuntuacionMap)
-        mostrarClasificacion(jugadoresPuntuacionMap)
+
+        torneoJugadoresMap.map {nombre ->
+            Log.i("GABRI", "))_> "+nombre.key)
+        }
+
 
         return view
     }
+
+
+
+    private fun setupTable() {
+        val headerRow = TableRow(requireContext())
+
+        // Crear y configurar las celdas de la cabecera
+        val positionHeaderCell = TextView(requireContext())
+        positionHeaderCell.text = "Posición"
+        positionHeaderCell.setPadding(5, 5, 5, 5)
+        headerRow.addView(positionHeaderCell)
+
+        val nombresTorneos = torneoJugadoresMap.keys.toList()
+
+        val tournamentHeaders = nombresTorneos.map { nombreTorneo ->
+            val headerCell = TextView(requireContext())
+            headerCell.text = nombreTorneo
+            headerCell.setPadding(5, 5, 5, 5)
+            headerCell
+        }
+        tournamentHeaders.forEach { headerRow.addView(it) }
+
+        val totalPointsHeaderCell = TextView(requireContext())
+        totalPointsHeaderCell.text = "Puntos Totales"
+        totalPointsHeaderCell.setPadding(5, 5, 5, 5)
+        headerRow.addView(totalPointsHeaderCell)
+
+        // Agregar la fila de cabecera a la tabla
+        binding.tableLayout.addView(headerRow)
+
+        for ((index, entry) in torneoJugadoresMap.entries.withIndex()) {
+            val (nombre, puntajesTorneo) = entry
+            val row = TableRow(requireContext())
+
+            // Crear y configurar las celdas para cada jugador
+            val playerNameCell = TextView(requireContext())
+            playerNameCell.text = nombre
+            playerNameCell.setPadding(5, 5, 5, 5)
+            row.addView(playerNameCell)
+
+            val tournamentPointsCells = nombresTorneos.map { nombreTorneo ->
+                val pointsCell = TextView(requireContext())
+                val puntosTorneo = puntajesTorneo[nombreTorneo] ?: 0
+                pointsCell.text = puntosTorneo.toString()
+                pointsCell.setPadding(5, 5, 5, 5)
+                pointsCell
+            }
+            tournamentPointsCells.forEach { row.addView(it) }
+
+            val totalPointsCell = TextView(requireContext())
+            val puntuacionTotal = puntajesTorneo.values.sum()
+            totalPointsCell.text = puntuacionTotal.toString()
+            totalPointsCell.setPadding(5, 5, 5, 5)
+            row.addView(totalPointsCell)
+
+            // Agregar la fila a la tabla
+            binding.tableLayout.addView(row)
+        }
+    }
+
+
 
     private fun saveData(jugadores: MutableList<Jugador>) {
         val jugadoresPuntuacion = mutableListOf<HashMap<String, Serializable>>()
@@ -62,7 +130,7 @@ class ClasificacionFragment : Fragment() {
         db.collection("clasificacionMovimiento").document("TORNEO 2").set(
             hashMapOf("jugadores" to jugadoresPuntuacion)
         ).addOnSuccessListener {
-            Log.i("GAB","datos guardados")
+            Log.i("GAB", "datos guardados")
         }
 
     }
@@ -74,16 +142,16 @@ class ClasificacionFragment : Fragment() {
 
             jugadoresCollectionRef.get().addOnSuccessListener {
                 val jugadores = mutableListOf<Jugador>()
-                if(!setupExecuted){
+                if (!setupExecuted) {
                     for (document in it) {
                         val jugador = document.toObject(Jugador::class.java)
-                        if(jugador!=null){
+                        if (jugador != null) {
 
                             jugadores.add(jugador)
 
                         }
                     }
-                    setupExecuted=true
+                    setupExecuted = true
                     //saveData(jugadores)
                     //setupPlayerList(jugadores)
                 }
@@ -97,84 +165,52 @@ class ClasificacionFragment : Fragment() {
         tournamentsCollectionRef.get().addOnSuccessListener { tournamentSnapshots ->
 
             for (tournamentSnapshot in tournamentSnapshots) {
-                val jugadoresPuntuacion = tournamentSnapshot.data["jugadores"] as? List<HashMap<String, Serializable>>
+                val jugadoresPuntuacion =
+                    tournamentSnapshot.data["jugadores"] as? List<HashMap<String, Serializable>>
 
                 jugadoresPuntuacion?.forEach { jugadorDatos ->
                     val nombre = jugadorDatos["nombre"] as? String
                     val puntuacion = jugadorDatos["puntuacion"] as? String
 
-                    Log.i("GAB",tournamentSnapshot.id+" puntuacion : "+jugadorDatos["nombre"].toString()+ jugadorDatos["puntuacion"])
+                    //Log.i("GAB",tournamentSnapshot.id+" puntuacion : "+jugadorDatos["nombre"].toString()+ jugadorDatos["puntuacion"])
 
                     if (nombre != null && puntuacion != null) {
                         val totalPuntuacion = jugadoresPuntuacionMap[nombre] ?: 0
                         jugadoresPuntuacionMap[nombre] = totalPuntuacion + puntuacion.toInt()
 
+                        //torneoJugadoresMap todos los datos
+                        val totalPuntuacionTorneos =
+                            torneoJugadoresMap.getOrDefault(tournamentSnapshot.id, hashMapOf())
+                        val jugadorPuntuacionMap = totalPuntuacionTorneos.getOrDefault(nombre, 0)
+
+                        totalPuntuacionTorneos[nombre] = jugadorPuntuacionMap + puntuacion.toInt()
+                        torneoJugadoresMap[tournamentSnapshot.id] = totalPuntuacionTorneos
+
                     }
+//                    for ((torneoId, jugadoresMap) in torneoJugadoresMap) {
+//                        println("ID del torneo: $torneoId")
+//                        for ((nombre, puntuacion) in jugadoresMap) {
+//                            println("Jugador:-> $nombre, Puntuación: $puntuacion")
+//                        }
+//                        println()
+//                    }
                 }
             }
-
-            for ((nombre, puntuacion) in jugadoresPuntuacionMap) {
-                Log.i("GAB", "Nombre: $nombre, Puntuación Total: $puntuacion")
+//
+//            for ((nombre, puntuacion) in jugadoresPuntuacionMap) {
+//                Log.i("GAB", "Nombre: $nombre, Puntuación Total: $puntuacion")
+//            }
+            val jugadores0rdenados =
+                jugadoresPuntuacionMap.toList().sortedByDescending { (_, puntuacion) -> puntuacion }
+                    .toMap()
+            for ((nombre, puntuacion) in jugadores0rdenados) {
+                Log.i("GAB", "Nombre: -->> $nombre, Puntuación Total: $puntuacion")
             }
+            jugadoresPuntuacionMap.clear()
+            jugadoresPuntuacionMap.putAll(jugadores0rdenados)
+
         }
+        setupTable()
     }
 
-
-    private fun setupPlayerList(jugadores: MutableMap<String, Int>) {
-        val container = binding.playerContainer
-
-
-        // Obtén la lista de jugadores (por ejemplo, desde Firestore)
-        //val jugadoresRank = jugadores
-
-//        for (i in jugadores.indices) {
-//            val jugador = jugadores[i]
-//            Log.i("GAB",jugadores[i].nombre)
-//
-//            // Inflar el diseño de elemento de lista
-            val itemBinding = ItemPlayerBinding.inflate(layoutInflater, container, false)
-//
-//            // Obtener las referencias a las vistas del elemento
-//            itemBinding.Rank.text = (i + 1).toString()
-//            itemBinding.nombre.text = jugador.nombre
-//            itemBinding.puntos.text = jugador.puntuacion.toString()
-//
-//            // Agregar el elemento al contenedor de vista
-
-//        }
-    jugadores.forEach{
-
-        itemBinding.nombre.text = it.key
-        itemBinding.puntos.text = it.value.toString()
-
-        Log.i("GAB", "-->"+it.key + it.value.toString())
-
-    }
-        container.addView(itemBinding.root)
-
-    }
-
-    private fun mostrarClasificacion(jugadores: Map<String, Int>) {
-        val container = binding.playerContainer
-
-        container.removeAllViews() // Limpiar los elementos anteriores
-
-        // Ordenar los jugadores por puntuación descendente
-        val jugadoresOrdenados = jugadores.toList().sortedByDescending { (_, puntuacion) -> puntuacion }
-
-        for (i in jugadoresOrdenados.indices) {
-            val (nombre, puntuacion) = jugadoresOrdenados[i]
-
-            // Inflar el diseño de elemento de la clasificación
-            val itemBinding = ItemPlayerBinding.inflate(layoutInflater, container, false)
-
-            // Obtener las referencias a las vistas del elemento
-            itemBinding.Rank.text = (i + 1).toString()
-            itemBinding.nombre.text = nombre
-            itemBinding.puntos.text = puntuacion.toString()
-
-            // Agregar el elemento al contenedor de vista
-            container.addView(itemBinding.root)
-        }
-    }
 }
