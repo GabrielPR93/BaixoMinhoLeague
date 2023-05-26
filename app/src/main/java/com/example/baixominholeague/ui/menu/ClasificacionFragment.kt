@@ -1,6 +1,8 @@
 package com.example.baixominholeague.ui.menu
 
 import android.graphics.Color
+import android.graphics.Typeface
+import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
@@ -11,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TableRow
 import android.widget.TextView
+import androidx.core.view.isVisible
 import com.example.baixominholeague.R
 import com.example.baixominholeague.data.Jugador
 import com.example.baixominholeague.databinding.FragmentClasificacionBinding
@@ -25,9 +28,6 @@ private var _binding: FragmentClasificacionBinding? = null
 private val binding get() = _binding!!
 private var setupExecuted = false
 private val db = FirebaseFirestore.getInstance()
-private val jugadoresPuntuacionMap = mutableMapOf<String, Int>()
-private val torneoJugadoresMap = hashMapOf<String, HashMap<String, Int>>()
-
 
 class ClasificacionFragment : Fragment() {
 
@@ -49,48 +49,45 @@ class ClasificacionFragment : Fragment() {
 
         setupPlayers()
         setupTournaments()
-        mostrarTorneosEnTabla()
+
         return view
     }
 
-    private fun mostrarTorneosEnTabla() {
+    private fun mostrarTorneosEnTabla(jugadoresPuntuacionMap: MutableMap<String, Int>, torneoJugadoresMap: MutableMap<String, HashMap<String, Int>>,) {
         // Obtener la referencia al TableLayout en tu layout
         val tableLayout = binding.tableLayout
 
         // Agregar la fila de cabecera
         val cabeceraRow = TableRow(requireContext())
-        cabeceraRow.addView(crearTextViewCabecera(" "))
-        cabeceraRow.addView(crearTextViewCabecera("  NOMBRE"))
+        cabeceraRow.addView(crearTextViewCabecera(""))
+        cabeceraRow.addView(crearTextViewCabecera("NOMBRE"))
+        cabeceraRow.addView(crearTextViewCabecera("TOTAL"))
 
         // Agregar las celdas para los nombres de torneos
         for ((nombreTorneo, _) in torneoJugadoresMap) {
             cabeceraRow.addView(crearTextViewCabecera(nombreTorneo))
         }
-        cabeceraRow.addView(crearTextViewCabecera("TOTAL"))
+
         tableLayout.addView(cabeceraRow)
         val jugadoresOrdenados = jugadoresPuntuacionMap.toList().sortedByDescending { (_, puntuacion) -> puntuacion }
-//        for ((nombre,jugadoresMAp) in torneoJugadoresMap){
-//            for((nombre,puntuacion) in jugadoresMAp){
-//                Log.i("GAB","LAYOUT: "+nombre+puntuacion)
-//            }
-//        }
+
         // Recorrer los jugadores y agregar las filas correspondientes
         for ((index, jugador) in jugadoresOrdenados.withIndex()) {
             val fila = TableRow(requireContext())
 
             // Agregar la celda para la posición
-            val posicionCell = crearTextViewCelda((index + 1).toString()+"º")
+            val posicionCell = crearTextViewBold((index + 1).toString()+"º")
             fila.addView(posicionCell)
 
             fila.addView(crearTextViewCeldaNombre(jugador.first))
+
+            fila.addView(crearTextViewBold(jugador.second.toString()))
 
             // Agregar las celdas para las puntuaciones en cada torneo
             for ((nombreTorneo, jugadoresMap) in torneoJugadoresMap) {
                 val puntuacion = jugadoresMap[jugador.first] ?: 0
                 fila.addView(crearTextViewCelda(puntuacion.toString()))
             }
-
-         fila.addView(crearTextViewCelda(jugador.second.toString()))
 
             tableLayout.addView(fila)
         }
@@ -99,8 +96,9 @@ class ClasificacionFragment : Fragment() {
     private fun crearTextViewCabecera(texto: String): TextView {
         val textView = TextView(requireContext())
         textView.text = texto
+        textView.typeface = Typeface.DEFAULT_BOLD
         textView.setBackgroundColor(Color.LTGRAY)
-        textView.setPadding(10, 10, 10, 10)
+        textView.setPadding(30, 20, 30, 20)
         textView.gravity = Gravity.START // Alineación del texto al centro
         return textView
     }
@@ -108,29 +106,40 @@ class ClasificacionFragment : Fragment() {
     private fun crearTextViewCelda(texto: String): TextView {
         val textView = TextView(requireContext())
         textView.text = texto
-        textView.setPadding(10, 10, 10, 10)
+        textView.setPadding(20, 20, 20, 20)
         textView.gravity = Gravity.CENTER
         return textView
-    }  private fun crearTextViewCeldaNombre(texto: String): TextView {
+    }
+    private fun crearTextViewBold(texto: String): TextView {
         val textView = TextView(requireContext())
         textView.text = texto
-        textView.setPadding(10, 10, 10, 10)
+        textView.typeface = Typeface.DEFAULT_BOLD
+        textView.setPadding(20, 20, 40, 20)
+        textView.gravity = Gravity.CENTER
+        return textView
+    }
+    private fun crearTextViewCeldaNombre(texto: String): TextView {
+        val textView = TextView(requireContext())
+        textView.text = texto
+        textView.setPadding(20, 0, 20, 20)
         textView.gravity = Gravity.START
         return textView
     }
 
 
     private fun saveData(jugadores: MutableList<Jugador>) {
+        //Guarda la puntuacion de todos los jugadores
+
         val jugadoresPuntuacion = mutableListOf<HashMap<String, Serializable>>()
 
         for (jugador in jugadores) {
             val datosJugador = hashMapOf<String, Serializable>(
                 "nombre" to jugador.nombre,
-                "puntuacion" to "10"
+                "puntuacion" to "2"
             )
             jugadoresPuntuacion.add(datosJugador)
         }
-        db.collection("clasificacionMovimiento").document("TORNEO 2").set(
+        db.collection("clasificacionMovimiento").document("TORNEO 4").set(
             hashMapOf("jugadores" to jugadoresPuntuacion)
         ).addOnSuccessListener {
             Log.i("GAB", "datos guardados")
@@ -139,6 +148,7 @@ class ClasificacionFragment : Fragment() {
     }
 
     private fun setupPlayers() {
+        //Obtiene todos los jugadores
 
         CoroutineScope(Dispatchers.IO).launch {
             val jugadoresCollectionRef = db.collection("jugadores")
@@ -162,6 +172,10 @@ class ClasificacionFragment : Fragment() {
     }
 
     private fun setupTournaments() {
+        val jugadoresPuntuacionMap = mutableMapOf<String, Int>()
+        val torneoJugadoresMap = hashMapOf<String, HashMap<String, Int>>()
+        binding.ProgresBarClasi.isVisible=true
+
         val tournamentsCollectionRef = db.collection("clasificacionMovimiento")
 
         tournamentsCollectionRef.get().addOnSuccessListener { tournamentSnapshots ->
@@ -212,12 +226,10 @@ class ClasificacionFragment : Fragment() {
 //            jugadoresPuntuacionMap.clear()
 //            jugadoresPuntuacionMap.putAll(jugadores0rdenados)
 
-
+                mostrarTorneosEnTabla(jugadoresPuntuacionMap,torneoJugadoresMap)
+                binding.ProgresBarClasi.isVisible=false
 
         }
-        //setupTable()
 
         }
     }
-
-}
