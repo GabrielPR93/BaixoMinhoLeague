@@ -49,8 +49,28 @@ class ClasificacionFragment : Fragment() {
 
         setupPlayers()
         setupTournaments()
+        //savePosition()
 
         return view
+    }
+
+    //REVISAR QUE SOLO GUARDE 1 VEZ y DIFERENCIA DE NOMBRE DE DOCUMENTO
+    private fun savePosition(position:Int,name:String) {
+        val campoNuevo = hashMapOf(
+            "posicion" to position.toString()
+        )
+
+        val referencia = db.collection("jugadores")
+            .document(name)
+
+        referencia.update(campoNuevo as Map<String, Any>)
+            .addOnSuccessListener {
+                Log.i("Gabriel","Campo agregado correctamente")
+            }
+            .addOnFailureListener { exception ->
+                Log.i("Gabriel","Error al agregar el campo")
+            }
+
     }
 
     private fun mostrarTorneosEnTabla(jugadoresPuntuacionMap: MutableMap<String, Int>, torneoJugadoresMap: MutableMap<String, HashMap<String, Int>>,) {
@@ -82,6 +102,9 @@ class ClasificacionFragment : Fragment() {
             fila.addView(crearTextViewCeldaNombre(jugador.first))
 
             fila.addView(crearTextViewBold(jugador.second.toString()))
+
+            var nameSave = jugador.first.filter { !it.isWhitespace() }
+            savePosition((index+1),nameSave.trim())
 
             // Agregar las celdas para las puntuaciones en cada torneo
             for ((nombreTorneo, jugadoresMap) in torneoJugadoresMap) {
@@ -144,7 +167,6 @@ class ClasificacionFragment : Fragment() {
         ).addOnSuccessListener {
             Log.i("GAB", "datos guardados")
         }
-
     }
 
     private fun setupPlayers() {
