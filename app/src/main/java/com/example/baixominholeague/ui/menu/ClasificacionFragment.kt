@@ -1,5 +1,7 @@
 package com.example.baixominholeague.ui.menu
 
+import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Typeface
 import android.opengl.Visibility
@@ -13,6 +15,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TableRow
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.example.baixominholeague.R
 import com.example.baixominholeague.data.Jugador
@@ -97,11 +100,21 @@ class ClasificacionFragment : Fragment() {
 
             // Agregar la celda para la posición
             val posicionCell = crearTextViewBold((index + 1).toString()+"º")
+
+            if (index < 3) {
+                when (index) {
+                    0 -> fila.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.oro))
+                    1 -> fila.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.plata))
+                    2 -> fila.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.bronce))
+                }
+            }
+
             fila.addView(posicionCell)
 
             fila.addView(crearTextViewCeldaNombre(jugador.first))
 
             fila.addView(crearTextViewBold(jugador.second.toString()))
+
 
             var nameSave = jugador.first.filter { !it.isWhitespace() }
             savePosition((index+1),nameSave.trim())
@@ -120,7 +133,8 @@ class ClasificacionFragment : Fragment() {
         val textView = TextView(requireContext())
         textView.text = texto
         textView.typeface = Typeface.DEFAULT_BOLD
-        textView.setBackgroundColor(Color.LTGRAY)
+        textView.setTextColor(Color.WHITE)
+        textView.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.blue))
         textView.setPadding(30, 20, 30, 20)
         textView.gravity = Gravity.START // Alineación del texto al centro
         return textView
@@ -148,7 +162,6 @@ class ClasificacionFragment : Fragment() {
         textView.gravity = Gravity.START
         return textView
     }
-
 
     private fun saveData(jugadores: MutableList<Jugador>) {
         //Guarda la puntuacion de todos los jugadores

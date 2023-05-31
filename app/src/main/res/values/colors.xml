@@ -9,5 +9,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="blue">#6672FF</color>
     <color name="red">#CF3149</color>
+    <color name="oro">#dec773</color>
+    <color name="plata">#d4d5d5</color>
+    <color name="bronce">#ddad89</color>
 
 </resources>
