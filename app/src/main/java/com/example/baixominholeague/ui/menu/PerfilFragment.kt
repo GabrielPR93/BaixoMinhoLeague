@@ -5,10 +5,12 @@ import android.content.Intent
 import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 
@@ -67,9 +69,49 @@ class PerfilFragment : Fragment() {
         saveData()
         deleteData()
 
+
         logout()
 
         return view
+    }
+
+    private fun loadPositions(nombreJugadorBuscado: String) {
+        val collectionRef = db.collection("clasificacionMovimiento")
+        val separador = " ─────⌲ "
+        val stringBuilder = StringBuilder()
+
+        collectionRef.get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    val nombreDocumento = document.id
+                    val matrizJugadores = document.get("jugadores") as ArrayList<HashMap<String, Any>>
+
+                    for (jugador in matrizJugadores) {
+
+                        val nombreJugador = jugador["nombre"] as String
+                        val puntuacionJugador = jugador["puntuacion"] as String
+                        val puntuacionJugadorInt = puntuacionJugador.toInt()
+
+                        if (nombreJugador == nombreJugadorBuscado && puntuacionJugadorInt > 0) {
+                            // Hacer algo con el nombre del documento, nombre del jugador y su puntuación
+
+                            when(puntuacionJugadorInt){
+                                25 -> stringBuilder.append(nombreDocumento).append(separador).append(puntuacionJugador+" Puntos").append("   -   ").append("1ª Posición").appendLine().append("\n")
+                                18 -> stringBuilder.append(nombreDocumento).append(separador).append(puntuacionJugador+" Puntos").append("   -   ").append("2ª Posición").appendLine().append("\n")
+                                10 -> stringBuilder.append(nombreDocumento).append(separador).append(puntuacionJugador+" Puntos").append("   -   ").append("3ª Posición").appendLine().append("\n")
+                                else ->  stringBuilder.append(nombreDocumento).append(separador).append(puntuacionJugador+" Puntos").appendLine().append("\n")
+                            }
+                            Log.i("GABRI","Documento: $nombreDocumento, Nombre del jugador : $nombreJugador, PUntuacion : $puntuacionJugador")
+                        }
+                    }
+                    binding.textViewTorneos.text=stringBuilder.toString()
+                }
+            }
+            .addOnFailureListener { exception ->
+                // Manejar la excepción en caso de error
+            }
+
+
     }
 
     private fun setupUi() {
@@ -80,6 +122,9 @@ class PerfilFragment : Fragment() {
         binding.editTextTelefono.setText(telefono)
         binding.editTextLocalidad.setText(localidad)
         binding.editTextPosiciones.setText(posiciones)
+
+        //Cambiar y pasarle el correo
+        loadPositions("Gabriel")
 
     }
 
