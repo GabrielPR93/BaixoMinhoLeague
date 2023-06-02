@@ -142,6 +142,36 @@ class PerfilFragment : Fragment() {
 
     }
 
+    //TODO Revisar porque no cambia el nombre de jugador cuando lo actualizas en recyclerView y clasificacion
+    //Guarda el Alias como nombre en la colección jugadores
+    private fun saveNameJugadores() {
+
+        val collectionRef = db.collection("jugadores")
+        val alias = binding.editTextAlias.text.toString()
+
+        collectionRef.get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    val doc = document.id
+                    val correoJugador = document.getString("correo")
+                    val id = document.getLong("id")?.toInt()
+
+                    if(correoJugador.equals(correo)){
+                        if(!alias.isNullOrEmpty()){
+                            db.collection("jugadores").document(doc).set(
+                                hashMapOf( "nombre" to alias,
+                                    "id" to id,
+                                    "correo" to correo)
+                            )
+                        }
+                    }
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.i("GAB","Error al acceder")
+            }
+    }
+
     private fun saveData() {
         binding.save.setOnClickListener{
 
@@ -154,9 +184,13 @@ class PerfilFragment : Fragment() {
                 "id" to 0)
 
             )
+            saveNameJugadores()
             Toast.makeText(requireContext(),"Guardado correctamente",Toast.LENGTH_SHORT).show()
         }
     }
+
+
+
     private fun deleteData() {
         binding.delet.setOnClickListener{
             val alertDialog = AlertDialog.Builder(requireContext())
