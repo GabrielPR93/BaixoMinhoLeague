@@ -69,10 +69,28 @@ class PerfilFragment : Fragment() {
         saveData()
         deleteData()
 
-
         logout()
 
         return view
+    }
+
+    private fun loadEmail(correo: String) {
+        val collectionRef = db.collection("jugadores")
+
+        collectionRef.get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    val correoJugador = document.getString("correo")
+                    val nombreJugador = document.getString("nombre")
+
+                    if(correoJugador.equals(correo)){
+                        loadPositions(nombreJugador.toString())
+                    }
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.i("GAB","Error al acceder")
+            }
     }
 
     private fun loadPositions(nombreJugadorBuscado: String) {
@@ -93,7 +111,6 @@ class PerfilFragment : Fragment() {
                         val puntuacionJugadorInt = puntuacionJugador.toInt()
 
                         if (nombreJugador == nombreJugadorBuscado && puntuacionJugadorInt > 0) {
-                            // Hacer algo con el nombre del documento, nombre del jugador y su puntuación
 
                             when(puntuacionJugadorInt){
                                 25 -> stringBuilder.append(nombreDocumento).append(separador).append(puntuacionJugador+" Puntos").append("   -   ").append("1ª Posición").appendLine().append("\n")
@@ -108,10 +125,8 @@ class PerfilFragment : Fragment() {
                 }
             }
             .addOnFailureListener { exception ->
-                // Manejar la excepción en caso de error
+                Log.i("GAB","Error al acceder")
             }
-
-
     }
 
     private fun setupUi() {
@@ -123,8 +138,7 @@ class PerfilFragment : Fragment() {
         binding.editTextLocalidad.setText(localidad)
         binding.editTextPosiciones.setText(posiciones)
 
-        //Cambiar y pasarle el correo
-        loadPositions("Gabriel")
+        loadEmail(correo.toString())
 
     }
 
@@ -140,7 +154,6 @@ class PerfilFragment : Fragment() {
                 "id" to 0)
 
             )
-
             Toast.makeText(requireContext(),"Guardado correctamente",Toast.LENGTH_SHORT).show()
         }
     }
@@ -194,10 +207,8 @@ class PerfilFragment : Fragment() {
                 binding.editTextPosiciones.isEnabled = false
                 binding.editeTextEdicion.isVisible = false
             }
-
         }
     }
-
 
     private fun logout() {
         binding.buttomLogout.setOnClickListener {
@@ -213,14 +224,4 @@ class PerfilFragment : Fragment() {
         }
     }
 
-//    companion object {
-//
-//        @JvmStatic
-//        fun newInstance(param1: String) =
-//            PerfilFragment().apply {
-//                arguments = Bundle().apply {
-//                    putString("correo",correo)
-//                }
-//            }
-//    }
 }
