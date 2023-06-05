@@ -247,13 +247,26 @@ class PerfilFragment : Fragment() {
     private fun logout() {
         binding.buttomLogout.setOnClickListener {
             //Borramos datos de la sesión
-            val prefs = requireActivity().getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE).edit()
-            prefs.clear()
-            prefs.apply()
-            //Cerramos la sesión
-            FirebaseAuth.getInstance().signOut()
-            startActivity(Intent(activity,LoginActivity::class.java))
-            requireActivity().finish()
+
+            val alertDialog = AlertDialog.Builder(requireContext())
+                .setTitle("Cerrar Sesión")
+                .setMessage("¿Estás seguro de que deseas cerrar sesión?")
+                .setPositiveButton("Sí") { dialog, which ->
+
+                    val prefs = requireActivity().getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE).edit()
+                    prefs.clear()
+                    prefs.apply()
+                    //Cerramos la sesión
+                    FirebaseAuth.getInstance().signOut()
+                    startActivity(Intent(activity,LoginActivity::class.java))
+                    requireActivity().finish()
+
+                }
+                .setNegativeButton("No", null)
+                .create()
+
+            alertDialog.show()
+
 
         }
     }

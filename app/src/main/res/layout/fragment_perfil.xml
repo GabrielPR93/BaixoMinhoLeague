@@ -31,36 +31,43 @@
                     android:elevation="20dp">
 
                     <TextView
+                        android:id="@+id/cabeceraPerfil"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/blue"
+                        android:fontFamily="@font/titulos"
+                        android:gravity="center"
+                        android:paddingTop="12dp"
+                        android:paddingBottom="35dp"
+                        android:text="Perfil"
+                        android:textColor="@android:color/white"
+                        android:textSize="40sp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                    <TextView
                         android:id="@+id/editeTextEdicion"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:visibility="gone"
                         android:text="Modo Edición"
+                        android:textColor="@color/white"
                         android:fontFamily="@font/hurmebold"
                         android:textSize="16dp"
                         android:layout_marginBottom="10dp"
                         android:layout_marginStart="50dp"
-                        app:layout_constraintBottom_toTopOf="@+id/textViewPosition"
+                        app:layout_constraintBottom_toTopOf="@+id/imageViewProfile"
                         app:layout_constraintStart_toStartOf="parent"/>
-
-                    <TextView
-                        android:id="@+id/textViewPosition"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="1ª Posición"
-                        android:layout_marginTop="40dp"
-                        app:layout_constraintStart_toStartOf="@id/imageViewProfile"
-                        app:layout_constraintEnd_toEndOf="@id/imageViewProfile"
-                        app:layout_constraintTop_toTopOf="parent"/>
 
                     <ImageView
                         android:id="@+id/imageViewProfile"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/profile"
-                        app:layout_constraintTop_toBottomOf="@id/textViewPosition"
+                        app:layout_constraintTop_toBottomOf="@id/buttomLogout"
                         app:layout_constraintStart_toStartOf="parent"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="20dp"
                         android:layout_marginStart="10dp"/>
 
                     <EditText
@@ -71,6 +78,7 @@
                         android:enabled="false"
                         android:hint="'Alias'"
                         android:maxLength="15"
+                        android:layout_marginTop="40dp"
                         android:background="@color/white"
                         android:textColor="@color/black"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -235,6 +243,7 @@
         android:backgroundTint="@color/blue"
         android:layout_gravity="bottom"
         android:layout_marginEnd="15dp"
+        app:elevation="0dp"
         android:src="@drawable/edit_24" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
