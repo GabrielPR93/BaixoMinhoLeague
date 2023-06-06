@@ -52,6 +52,10 @@ class MainActivity : AppCompatActivity() {
 
         getDataBd() //Acceder a datos del usuario
         saveData()
+        //Cargar el fragment de Inicio al iniciar
+        if(savedInstanceState==null){
+            replaceFragment(InicioFragment())
+        }
 
         binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
 

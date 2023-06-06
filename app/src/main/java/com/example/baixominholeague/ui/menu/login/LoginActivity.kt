@@ -14,6 +14,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.baixominholeague.MainActivity
 import com.example.baixominholeague.R
 import com.example.baixominholeague.databinding.ActivityLoginBinding
+import com.example.baixominholeague.ui.menu.InicioFragment
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
