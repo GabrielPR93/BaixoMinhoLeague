@@ -75,7 +75,7 @@ class ClasificacionFragment : Fragment() {
             }
 
     }
-
+    //TODO modificar lo de guardar la posicion
     private fun mostrarTorneosEnTabla(jugadoresPuntuacionMap: MutableMap<String, Int>, torneoJugadoresMap: MutableMap<String, HashMap<String, Int>>,) {
         // Obtener la referencia al TableLayout en tu layout
         val tableLayout = binding.tableLayout
@@ -115,10 +115,6 @@ class ClasificacionFragment : Fragment() {
 
             fila.addView(crearTextViewBold(jugador.second.toString()))
 
-
-            var nameSave = jugador.first.filter { !it.isWhitespace() }
-            savePosition((index+1),nameSave.trim())
-
             // Agregar las celdas para las puntuaciones en cada torneo
             for ((nombreTorneo, jugadoresMap) in torneoJugadoresMap) {
                 val puntuacion = jugadoresMap[jugador.first] ?: 0
@@ -126,42 +122,12 @@ class ClasificacionFragment : Fragment() {
             }
 
             tableLayout.addView(fila)
+
+            var nameSave = jugador.first.filter { !it.isWhitespace() }
+            savePosition((index+1),nameSave.trim())
         }
     }
 
-    private fun crearTextViewCabecera(texto: String): TextView {
-        val textView = TextView(requireContext())
-        textView.text = texto
-        textView.typeface = Typeface.DEFAULT_BOLD
-        textView.setTextColor(Color.WHITE)
-        textView.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.blue))
-        textView.setPadding(30, 20, 30, 20)
-        textView.gravity = Gravity.START // Alineación del texto al centro
-        return textView
-    }
-
-    private fun crearTextViewCelda(texto: String): TextView {
-        val textView = TextView(requireContext())
-        textView.text = texto
-        textView.setPadding(20, 20, 20, 20)
-        textView.gravity = Gravity.CENTER
-        return textView
-    }
-    private fun crearTextViewBold(texto: String): TextView {
-        val textView = TextView(requireContext())
-        textView.text = texto
-        textView.typeface = Typeface.DEFAULT_BOLD
-        textView.setPadding(20, 20, 40, 20)
-        textView.gravity = Gravity.CENTER
-        return textView
-    }
-    private fun crearTextViewCeldaNombre(texto: String): TextView {
-        val textView = TextView(requireContext())
-        textView.text = texto
-        textView.setPadding(20, 0, 20, 20)
-        textView.gravity = Gravity.START
-        return textView
-    }
 
     private fun saveData(jugadores: MutableList<Jugador>) {
         //Guarda la puntuacion de todos los jugadores
@@ -184,8 +150,6 @@ class ClasificacionFragment : Fragment() {
 
     private fun setupPlayers() {
         //Obtiene todos los jugadores
-
-        CoroutineScope(Dispatchers.IO).launch {
             val jugadoresCollectionRef = db.collection("jugadores")
 
             jugadoresCollectionRef.get().addOnSuccessListener {
@@ -196,14 +160,12 @@ class ClasificacionFragment : Fragment() {
                         if (jugador != null) {
 
                             jugadores.add(jugador)
-
                         }
                     }
                     setupExecuted = true
                     //saveData(jugadores)
                 }
             }
-        }
     }
 
     private fun setupTournaments() {
@@ -264,7 +226,39 @@ class ClasificacionFragment : Fragment() {
                 mostrarTorneosEnTabla(jugadoresPuntuacionMap,torneoJugadoresMap)
                 binding.ProgresBarClasi.isVisible=false
 
+            }
         }
+    private fun crearTextViewCabecera(texto: String): TextView {
+        val textView = TextView(requireContext())
+        textView.text = texto
+        textView.typeface = Typeface.DEFAULT_BOLD
+        textView.setTextColor(Color.WHITE)
+        textView.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.blue))
+        textView.setPadding(30, 20, 30, 20)
+        textView.gravity = Gravity.START // Alineación del texto al centro
+        return textView
+    }
 
-        }
+    private fun crearTextViewCelda(texto: String): TextView {
+        val textView = TextView(requireContext())
+        textView.text = texto
+        textView.setPadding(20, 20, 20, 20)
+        textView.gravity = Gravity.CENTER
+        return textView
+    }
+    private fun crearTextViewBold(texto: String): TextView {
+        val textView = TextView(requireContext())
+        textView.text = texto
+        textView.typeface = Typeface.DEFAULT_BOLD
+        textView.setPadding(20, 20, 40, 20)
+        textView.gravity = Gravity.CENTER
+        return textView
+    }
+    private fun crearTextViewCeldaNombre(texto: String): TextView {
+        val textView = TextView(requireContext())
+        textView.text = texto
+        textView.setPadding(20, 0, 20, 20)
+        textView.gravity = Gravity.START
+        return textView
+    }
     }
