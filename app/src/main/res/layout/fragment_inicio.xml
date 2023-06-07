@@ -32,8 +32,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="60dp"
-        />
+        android:layout_marginTop="60dp" />
+
+    <TextView
+        android:id="@+id/textViewNombreTorneo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="25dp"
+        app:layout_constraintTop_toBottomOf="@id/cabeceraInicio"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 
 

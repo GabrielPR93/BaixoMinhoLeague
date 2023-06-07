@@ -3,27 +3,26 @@ package com.example.baixominholeague
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
-import android.content.Intent
-import android.content.SharedPreferences
 import android.graphics.Color
 import android.icu.util.Calendar
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
-import android.widget.CalendarView
 import android.widget.EditText
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.os.bundleOf
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
+import com.example.baixominholeague.data.Evento
 import com.example.baixominholeague.databinding.ActivityMainBinding
 import com.example.baixominholeague.ui.menu.ClasificacionFragment
 import com.example.baixominholeague.ui.menu.InicioFragment
 import com.example.baixominholeague.ui.menu.JugadoresFragment
 import com.example.baixominholeague.ui.menu.PerfilFragment
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
+import java.text.SimpleDateFormat
 
 
 class MainActivity : AppCompatActivity() {
@@ -31,6 +30,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val db = FirebaseFirestore.getInstance()
     private var fragmentPerfil = PerfilFragment()
+    //private var miFragmento = InicioFragment()
 
     private var correo: String? = null
     private var correoLogin: String? = null
@@ -63,6 +63,10 @@ class MainActivity : AppCompatActivity() {
 
         getDataBd() //Acceder a datos del usuario
         saveData()
+
+        //supportFragmentManager.beginTransaction().replace(R.id.frameContainer,miFragmento).commit()
+
+
         //Cargar el fragment de Inicio al iniciar
         if (savedInstanceState == null) {
             replaceFragment(InicioFragment())
@@ -85,6 +89,7 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
 
     private fun getDataBd() {
         db.collection("users").document(correo ?: correoLogin.orEmpty()).get()
@@ -208,8 +213,14 @@ class MainActivity : AppCompatActivity() {
         dialogBuilder.setView(container)
 
         dialogBuilder.setPositiveButton("Aceptar") { dialog, which ->
-            // Acciones a realizar al pulsar el botón "Aceptar"
-            // Por ejemplo, guardar los datos ingresados
+
+            val nombre = editTextNombre.text.toString()
+            val fecha = editTextFecha.text.toString()
+            val hora = editTextHora.text.toString()
+            val precio = editText.text.toString()
+
+            //miFragmento.mostrarDatos(nombre)
+            (correo?:correoLogin)?.let { saveEvent(nombre,fecha,hora,precio, it) }
         }
 
         dialogBuilder.setNegativeButton("Cancelar") { dialog, which ->
@@ -219,5 +230,27 @@ class MainActivity : AppCompatActivity() {
         val dialog = dialogBuilder.create()
         dialog.show()
     }
+
+    private fun saveEvent(nombre: String, fecha: String, hora: String, precio: String, correo: String) {
+
+        if (nombre.isNotEmpty() && fecha.isNotEmpty() && hora.isNotEmpty()) {
+            db.collection("eventos").document(nombre).set(
+                hashMapOf(
+                    "nombre" to nombre,
+                    "fecha" to fecha,
+                    "hora" to hora,
+                    "precio" to precio,
+                    "correo" to correo.orEmpty()
+                )
+            ).addOnSuccessListener {
+                Toast.makeText(this, "Guardado correctamente", Toast.LENGTH_SHORT).show()
+            }.addOnFailureListener { e ->
+                Toast.makeText(this, "Error al guardar: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            Toast.makeText(this, "El nombre del evento no puede estar vacío", Toast.LENGTH_SHORT).show()
+        }
+    }
+
 
 }
