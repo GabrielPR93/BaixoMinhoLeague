@@ -40,7 +40,6 @@ class ClasificacionFragment : Fragment() {
         arguments?.let {
 
         }
-
     }
 
     override fun onCreateView(
