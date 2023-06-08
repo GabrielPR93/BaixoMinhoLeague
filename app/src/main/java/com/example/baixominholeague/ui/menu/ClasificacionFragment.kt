@@ -20,7 +20,6 @@ import androidx.core.view.isVisible
 import com.example.baixominholeague.R
 import com.example.baixominholeague.data.Jugador
 import com.example.baixominholeague.databinding.FragmentClasificacionBinding
-import com.example.baixominholeague.databinding.ItemPlayerBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
