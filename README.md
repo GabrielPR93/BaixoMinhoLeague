@@ -5,11 +5,10 @@ Ejemplo: Futbolin,Billar,Tenis...
 
 >Librerías
 
-    - Firebase:
-                - Analytics
-                - Authenticación
-                - Firestore Database
-
+- Firebase:
+  - Analytics
+  - Authenticación
+  - Firestore Database
 
 
 [![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white&labelColor=101010)]()
