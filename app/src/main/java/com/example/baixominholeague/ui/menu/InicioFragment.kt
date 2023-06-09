@@ -1,16 +1,16 @@
 package com.example.baixominholeague.ui.menu
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ListView
-import android.widget.TextView
-import com.example.baixominholeague.EventoAdapter
-import com.example.baixominholeague.R
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.baixominholeague.data.Evento
+import com.example.baixominholeague.recyclerViewEventos.EventoAdapter
 import com.example.baixominholeague.databinding.FragmentInicioBinding
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -21,8 +21,7 @@ class InicioFragment : Fragment() {
     private val binding get() = _binding!!
     private val db = FirebaseFirestore.getInstance()
 
-    private lateinit var listView: ListView
-    private lateinit var adapter: ArrayAdapter<String>
+    private lateinit var eventoAdapter: EventoAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,8 +38,9 @@ class InicioFragment : Fragment() {
         _binding = FragmentInicioBinding.inflate(inflater,container,false)
         val view = binding.root
 
-        //adapter = EventoAdapter(this, R.layout.item_event) --> No pasar lista de eventos al adapter
-        binding.listView.adapter = adapter
+        eventoAdapter = EventoAdapter(emptyList())
+        binding.reyclerView.adapter = eventoAdapter
+        binding.reyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         getEventsOrderByDate()
 
@@ -53,40 +53,14 @@ class InicioFragment : Fragment() {
         val query = eventsCollection.orderBy("fecha")
 
         query.get().addOnSuccessListener { document ->
-            for (document in document){
-                val correo = document.get("correo")
-                val fecha = document.get("fecha")
-                val hora = document.get("hora")
-                val nombre = document.get("nombre")
-                val precio = document.get("precio")
+            val eventos = document.toObjects(Evento::class.java)
+           eventoAdapter.updateList(eventos)
 
-                println("Fecha: $fecha nombre: $nombre")
-
-            }
         }
             .addOnFailureListener{exception ->
                 println("Error al obtener los eventos: $exception")
             }
-
     }
 
-
-//    companion object {
-//
-//        private const val NOMBRE = "nombre"
-//        private const val FECHA = "fecha"
-//        private const val HORA = "hora"
-//        private const val PRECIO = "precio"
-//        @JvmStatic
-//        fun newInstance(nombre: String, fecha: String,hora: String, precio: String) =
-//            InicioFragment().apply {
-//                arguments = Bundle().apply {
-//                    putString(NOMBRE, nombre)
-//                    putString(FECHA, fecha)
-//                    putString(HORA, hora)
-//                    putString(PRECIO, precio)
-//                }
-//            }
-//    }
 }
 

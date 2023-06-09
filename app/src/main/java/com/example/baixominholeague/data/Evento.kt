@@ -1,9 +1,14 @@
 package com.example.baixominholeague.data
 
-data class Evento(
-    val correo: String,
-    val fecha: String,
-    val hora: String,
-    val nombre: String,
-    val precio: String
-)
+class Evento{
+    var correo: String? = null
+    var fecha: String? = null
+    var hora: String? = null
+    var nombre: String? = null
+    var precio: String? = null
+
+    constructor() {
+
+    }
+}
+

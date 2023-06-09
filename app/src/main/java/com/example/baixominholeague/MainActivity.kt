@@ -217,7 +217,7 @@ class MainActivity : AppCompatActivity() {
             val nombre = editTextNombre.text.toString()
             val fecha = editTextFecha.text.toString()
             val hora = editTextHora.text.toString()
-            val precio = editText.text.toString()+ " €"
+            val precio = editText.text.toString()
 
             //miFragmento.mostrarDatos(nombre)
             (correo?:correoLogin)?.let { saveEvent(nombre,fecha,hora,precio, it) }
