@@ -5,6 +5,7 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.graphics.Color
 import android.icu.util.Calendar
+import android.icu.util.TimeZone
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
@@ -22,7 +23,9 @@ import com.example.baixominholeague.ui.menu.InicioFragment
 import com.example.baixominholeague.ui.menu.JugadoresFragment
 import com.example.baixominholeague.ui.menu.PerfilFragment
 import com.google.firebase.firestore.FirebaseFirestore
+import java.sql.Timestamp
 import java.text.SimpleDateFormat
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -234,11 +237,14 @@ class MainActivity : AppCompatActivity() {
     private fun saveEvent(nombre: String, fecha: String, hora: String, precio: String, correo: String) {
 
         if (nombre.isNotEmpty() && fecha.isNotEmpty() && hora.isNotEmpty()) {
+            val dateTimeString = "$fecha $hora"
+            val format = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+            val date = format.parse(dateTimeString)
+            val timestamp = Timestamp(date.time)
             db.collection("eventos").document(nombre).set(
                 hashMapOf(
                     "nombre" to nombre,
-                    "fecha" to fecha,
-                    "hora" to hora,
+                    "fecha" to timestamp,
                     "precio" to precio,
                     "correo" to correo.orEmpty()
                 )

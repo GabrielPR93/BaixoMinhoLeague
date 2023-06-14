@@ -30,25 +30,6 @@
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
-            android:id="@+id/tvSeparator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" - "
-            android:layout_marginStart="5dp"
-            app:layout_constraintStart_toEndOf="@id/tvFecha"
-            app:layout_constraintTop_toTopOf="@id/tvFecha"/>
-
-        <TextView
-            android:id="@+id/tvHora"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="16:00"
-            android:layout_marginStart="5dp"
-            android:fontFamily="@font/hurmegeometricsans4"
-            app:layout_constraintStart_toEndOf="@id/tvSeparator"
-            app:layout_constraintTop_toTopOf="@id/tvFecha"/>
-
-        <TextView
             android:id="@+id/tvEventName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

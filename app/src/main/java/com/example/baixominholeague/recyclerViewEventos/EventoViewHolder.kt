@@ -1,19 +1,19 @@
 package com.example.baixominholeague.recyclerViewEventos
 
+import android.icu.text.SimpleDateFormat
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.example.baixominholeague.data.Evento
-import com.example.baixominholeague.data.Jugador
 import com.example.baixominholeague.databinding.ItemEventBinding
-import com.example.baixominholeague.databinding.ItemJugadorBinding
+import java.util.*
 
 class EventoViewHolder(view: View): RecyclerView.ViewHolder(view) {
 
     private val binding = ItemEventBinding.bind(view)
 
     fun bind(evento: Evento) {
-        binding.tvFecha.setText(evento.fecha)
-        binding.tvHora.setText(evento.hora)
+
+        binding.tvFecha.setText(SimpleDateFormat("dd/MM/yyyy - HH:mm", Locale.getDefault()) .format(evento.fecha)+" h")
         binding.tvEventName.setText(evento.nombre)
         binding.tvPrecio.setText("Inscripción:")
         if(evento.precio.isNullOrEmpty()){
