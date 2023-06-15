@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val db = FirebaseFirestore.getInstance()
     private var fragmentPerfil = PerfilFragment()
-    //private var miFragmento = InicioFragment()
+    private var fragmentInicio = InicioFragment()
 
     private var correo: String? = null
     private var correoLogin: String? = null
@@ -67,18 +67,20 @@ class MainActivity : AppCompatActivity() {
         getDataBd() //Acceder a datos del usuario
         saveData()
 
-        //supportFragmentManager.beginTransaction().replace(R.id.frameContainer,miFragmento).commit()
-
+        // Pasar el correo al fragment Inicio
+        val args = Bundle()
+        args.putString(CLAVE_CORREO, correo?.toString() ?: correoLogin.toString())
+        fragmentInicio.arguments = args
 
         //Cargar el fragment de Inicio al iniciar
         if (savedInstanceState == null) {
-            replaceFragment(InicioFragment())
+            replaceFragment(fragmentInicio)
         }
 
         binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
 
             when (item.itemId) {
-                R.id.home -> replaceFragment(InicioFragment())
+                R.id.home -> replaceFragment(fragmentInicio)
                 R.id.Buscar -> replaceFragment(JugadoresFragment())
                 R.id.clasificacion -> replaceFragment(ClasificacionFragment())
                 R.id.perfil -> replaceFragment(fragmentPerfil)
@@ -90,7 +92,6 @@ class MainActivity : AppCompatActivity() {
         binding.floatinButton.setOnClickListener {
             showDialogChampionship()
         }
-
     }
 
 
@@ -134,8 +135,8 @@ class MainActivity : AppCompatActivity() {
 
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.frameContainer, fragment)
-        fragmentTransaction.commit()
+            .replace(R.id.frameContainer, fragment)
+            .commit()
 
     }
 
@@ -224,6 +225,8 @@ class MainActivity : AppCompatActivity() {
 
             //miFragmento.mostrarDatos(nombre)
             (correo?:correoLogin)?.let { saveEvent(nombre,fecha,hora,precio, it) }
+
+            replaceFragment(fragmentInicio)
         }
 
         dialogBuilder.setNegativeButton("Cancelar") { dialog, which ->

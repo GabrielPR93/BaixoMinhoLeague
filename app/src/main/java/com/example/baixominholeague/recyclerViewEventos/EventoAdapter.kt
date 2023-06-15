@@ -9,6 +9,8 @@ import com.example.baixominholeague.data.Evento
 
 class EventoAdapter(private var eventos: List<Evento>) : RecyclerView.Adapter<EventoViewHolder>() {
 
+
+
     fun updateList(eventos: List<Evento>){
         this.eventos=eventos
         notifyDataSetChanged()
@@ -25,7 +27,7 @@ class EventoAdapter(private var eventos: List<Evento>) : RecyclerView.Adapter<Ev
 
     override fun onBindViewHolder(holder: EventoViewHolder, position: Int) {
        holder.bind(eventos[position])
+
+
     }
-
-
 }

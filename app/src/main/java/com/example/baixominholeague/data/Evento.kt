@@ -9,6 +9,7 @@ class Evento{
     var hora: String? = null
     var nombre: String? = null
     var precio: String? = null
+    var mostrarBotonCancelar: Boolean = false
 
     constructor() {
 

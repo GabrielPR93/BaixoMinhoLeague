@@ -29,6 +29,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
+        <ImageButton
+            android:id="@+id/btnCancel"
+            android:src="@drawable/cancel_24"
+            android:visibility="gone"
+            android:backgroundTint="@color/bronce"
+            android:layout_width="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_height="wrap_content"/>
+
         <TextView
             android:id="@+id/tvEventName"
             android:layout_width="wrap_content"
