@@ -120,7 +120,6 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-
     }
 
     private fun saveData() {
@@ -223,16 +222,14 @@ class MainActivity : AppCompatActivity() {
             val hora = editTextHora.text.toString()
             val precio = editText.text.toString()
 
-            //miFragmento.mostrarDatos(nombre)
-            //(correo?:correoLogin)?.let { saveEvent(nombre,fecha,hora,precio, it) }
+
             (correo ?: correoLogin)?.let {
                 saveEvent(nombre, fecha, hora, precio, it)
 
+                fragmentInicio.getEventsOrderByDate()
                 replaceFragment(fragmentInicio)
 
             }
-
-
         }
 
         dialogBuilder.setNegativeButton("Cancelar") { dialog, which ->
@@ -260,6 +257,7 @@ class MainActivity : AppCompatActivity() {
             ).addOnSuccessListener {
                 //replaceFragment(fragmentInicio)
                 Toast.makeText(this, "Guardado correctamente", Toast.LENGTH_SHORT).show()
+
             }.addOnFailureListener { e ->
                 Toast.makeText(this, "Error al guardar: ${e.message}", Toast.LENGTH_SHORT).show()
             }

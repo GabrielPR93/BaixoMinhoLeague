@@ -55,7 +55,7 @@ class InicioFragment : Fragment() {
         return view
     }
 
-    private fun getEventsOrderByDate() {
+     fun getEventsOrderByDate() {
 
         val eventsCollection = db.collection("eventos")
         val query = eventsCollection.orderBy("fecha", Query.Direction.ASCENDING)
@@ -73,22 +73,26 @@ class InicioFragment : Fragment() {
             .addOnFailureListener{exception ->
                 println("Error al obtener los eventos: $exception")
             }
-
     }
     private fun eliminarEvento(evento: Evento) {
         val alertDialog = AlertDialog.Builder(requireContext())
             .setTitle("Confirmar eliminación")
             .setMessage("¿Estás seguro de que deseas borrar el evento?")
             .setPositiveButton("Sí") { dialog, which ->
-
-                evento.nombre?.let { db.collection("eventos").document(it).delete() }
-
+                evento.nombre?.let { nombreEvento ->
+                    db.collection("eventos").document(nombreEvento).delete()
+                        .addOnSuccessListener {
+                            getEventsOrderByDate()
+                        }
+                        .addOnFailureListener { exception ->
+                            println("Error al eliminar el evento: $exception")
+                        }
+                }
             }
             .setNegativeButton("No", null)
             .create()
 
         alertDialog.show()
-
     }
 
 }

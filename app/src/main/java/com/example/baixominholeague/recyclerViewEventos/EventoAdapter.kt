@@ -29,5 +29,7 @@ class EventoAdapter(private var eventos: List<Evento>, private val eliminarEvent
        holder.bind(eventos[position])
 
 
+
     }
+
 }
