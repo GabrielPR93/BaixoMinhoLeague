@@ -46,6 +46,7 @@ class InicioFragment : Fragment() {
         _binding = FragmentInicioBinding.inflate(inflater,container,false)
         val view = binding.root
 
+        binding.progresBarEvents.visibility=View.VISIBLE
         eventoAdapter = EventoAdapter(emptyList(),::eliminarEvento)
         binding.reyclerView.adapter = eventoAdapter
         binding.reyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -67,6 +68,7 @@ class InicioFragment : Fragment() {
             for (evento in eventos){
                 if(evento.correo.equals(correo)){
                     evento.mostrarBotonCancelar = true
+                    binding.progresBarEvents.visibility=View.GONE
                 }
             }
         }
