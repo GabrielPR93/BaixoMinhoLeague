@@ -10,10 +10,12 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.baixominholeague.MainActivity
 import com.example.baixominholeague.MainActivity.Companion.CLAVE_CORREO
+import com.example.baixominholeague.R
 import com.example.baixominholeague.data.Evento
 import com.example.baixominholeague.recyclerViewEventos.EventoAdapter
 import com.example.baixominholeague.databinding.FragmentInicioBinding
 import com.example.baixominholeague.recyclerViewJugadores.JugadorAdapter
+import com.google.android.gms.dynamic.SupportFragmentWrapper
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.protobuf.Empty
@@ -44,14 +46,11 @@ class InicioFragment : Fragment() {
         _binding = FragmentInicioBinding.inflate(inflater,container,false)
         val view = binding.root
 
-        //adapter = JugadorAdapter(jugadores){idJugador -> navigateToDetailPlayer(idJugador) }
-        eventoAdapter = EventoAdapter(emptyList())
+        eventoAdapter = EventoAdapter(emptyList(),::eliminarEvento)
         binding.reyclerView.adapter = eventoAdapter
         binding.reyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         getEventsOrderByDate()
-
-
 
         return view
     }
@@ -76,7 +75,21 @@ class InicioFragment : Fragment() {
             }
 
     }
+    private fun eliminarEvento(evento: Evento) {
+        val alertDialog = AlertDialog.Builder(requireContext())
+            .setTitle("Confirmar eliminación")
+            .setMessage("¿Estás seguro de que deseas borrar el evento?")
+            .setPositiveButton("Sí") { dialog, which ->
 
+                evento.nombre?.let { db.collection("eventos").document(it).delete() }
+
+            }
+            .setNegativeButton("No", null)
+            .create()
+
+        alertDialog.show()
+
+    }
 
 }
 

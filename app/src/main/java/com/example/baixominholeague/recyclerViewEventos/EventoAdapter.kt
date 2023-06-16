@@ -7,8 +7,7 @@ import com.example.baixominholeague.R
 import com.example.baixominholeague.data.Evento
 
 
-class EventoAdapter(private var eventos: List<Evento>) : RecyclerView.Adapter<EventoViewHolder>() {
-
+class EventoAdapter(private var eventos: List<Evento>, private val eliminarEvento: (Evento) -> Unit) : RecyclerView.Adapter<EventoViewHolder>() {
 
 
     fun updateList(eventos: List<Evento>){
@@ -18,7 +17,8 @@ class EventoAdapter(private var eventos: List<Evento>) : RecyclerView.Adapter<Ev
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventoViewHolder {
-        return EventoViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_event, parent, false))
+        return EventoViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_event, parent, false),eliminarEvento)
+
     }
 
     override fun getItemCount(): Int {

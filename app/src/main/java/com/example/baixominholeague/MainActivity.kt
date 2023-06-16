@@ -70,11 +70,11 @@ class MainActivity : AppCompatActivity() {
         // Pasar el correo al fragment Inicio
         val args = Bundle()
         args.putString(CLAVE_CORREO, correo?.toString() ?: correoLogin.toString())
-        fragmentInicio.arguments = args
 
         //Cargar el fragment de Inicio al iniciar
         if (savedInstanceState == null) {
             replaceFragment(fragmentInicio)
+            fragmentInicio?.arguments = args
         }
 
         binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
@@ -224,9 +224,15 @@ class MainActivity : AppCompatActivity() {
             val precio = editText.text.toString()
 
             //miFragmento.mostrarDatos(nombre)
-            (correo?:correoLogin)?.let { saveEvent(nombre,fecha,hora,precio, it) }
+            //(correo?:correoLogin)?.let { saveEvent(nombre,fecha,hora,precio, it) }
+            (correo ?: correoLogin)?.let {
+                saveEvent(nombre, fecha, hora, precio, it)
 
-            replaceFragment(fragmentInicio)
+                replaceFragment(fragmentInicio)
+
+            }
+
+
         }
 
         dialogBuilder.setNegativeButton("Cancelar") { dialog, which ->
@@ -252,6 +258,7 @@ class MainActivity : AppCompatActivity() {
                     "correo" to correo.orEmpty()
                 )
             ).addOnSuccessListener {
+                //replaceFragment(fragmentInicio)
                 Toast.makeText(this, "Guardado correctamente", Toast.LENGTH_SHORT).show()
             }.addOnFailureListener { e ->
                 Toast.makeText(this, "Error al guardar: ${e.message}", Toast.LENGTH_SHORT).show()
@@ -260,6 +267,4 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "El nombre del evento no puede estar vacío", Toast.LENGTH_SHORT).show()
         }
     }
-
-
 }
