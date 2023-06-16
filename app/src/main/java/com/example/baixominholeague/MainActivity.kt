@@ -188,6 +188,7 @@ class MainActivity : AppCompatActivity() {
                 calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DAY_OF_MONTH)
             )
+            datePickerDialog.datePicker.minDate=Calendar.getInstance().timeInMillis
             datePickerDialog.show()
         }
 
@@ -262,7 +263,7 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Error al guardar: ${e.message}", Toast.LENGTH_SHORT).show()
             }
         } else {
-            Toast.makeText(this, "El nombre del evento no puede estar vacío", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "El nombre, fecha y hora del evento no pueden estar vacíos", Toast.LENGTH_SHORT).show()
         }
     }
 }

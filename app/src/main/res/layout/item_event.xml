@@ -8,8 +8,7 @@
     android:layout_marginEnd="5dp"
     android:layout_marginBottom="10dp"
     android:layout_marginTop="5dp"
-    android:background="#1B0E0E0E"
-    android:backgroundTint="@color/bronce"
+    app:cardBackgroundColor="@color/blue2"
     android:gravity="center_vertical"
     app:cardCornerRadius="20dp"
     android:padding="10dp">
@@ -33,7 +32,7 @@
             android:id="@+id/btnCancel"
             android:src="@drawable/cancel_24"
             android:visibility="gone"
-            android:backgroundTint="@color/bronce"
+            android:backgroundTint="@color/blue2"
             android:layout_width="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
