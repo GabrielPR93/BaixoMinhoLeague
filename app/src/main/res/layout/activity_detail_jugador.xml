@@ -6,12 +6,156 @@
     android:layout_height="match_parent"
     tools:context=".DetailJugador">
 
-    <TextView
-        android:id="@+id/textViewNombreDetail"
+    <View
+        android:id="@+id/viewCabecera"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
+        android:background="@color/blue"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewDetailJugador"
+        android:layout_width="match_parent"
+        android:layout_marginTop="150dp"
+        android:layout_height="match_parent"
+        android:elevation="10dp"
+        android:background="@drawable/background_player"
+        app:cardCornerRadius="30dp"
+        app:layout_constraintTop_toBottomOf="@+id/viewCabecera"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <View
+                android:layout_width="110dp"
+                android:layout_height="3dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="5dp"
+                android:background="#720E0F10"
+                android:gravity="center_horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
+                android:id="@+id/tvAlias"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Alias"
+                android:textSize="25dp"
+                android:fontFamily="@font/hurmegeometricsans4"
+                android:layout_marginTop="62dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
+                android:id="@+id/tvNombre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
+                android:fontFamily="@font/hurmegeometricsans4"
+                android:textSize="15dp"
+                android:drawableStart="@drawable/outline_person_24"
+                android:drawablePadding="10dp"
+                android:layout_marginStart="50dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvAlias"
+                tools:text="Nombre" />
+
+            <TextView
+                android:id="@+id/tvTelefono"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/hurmegeometricsans4"
+                android:textSize="15dp"
+                android:drawableStart="@drawable/phone_android_24"
+                android:drawablePadding="10dp"
+                android:layout_marginStart="50dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvNombre"
+                tools:text="Teléfono" />
+
+            <TextView
+                android:id="@+id/tvCorreo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/hurmegeometricsans4"
+                android:textSize="15dp"
+                android:drawableStart="@drawable/outline_email_24"
+                android:drawablePadding="10dp"
+                android:layout_marginStart="50dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTelefono"
+                tools:text="Correo" />
+
+            <TextView
+                android:id="@+id/tvLocalidad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/hurmegeometricsans4"
+                android:textSize="15dp"
+                android:drawableStart="@drawable/location_on_24"
+                android:drawablePadding="10dp"
+                android:layout_marginStart="50dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvCorreo"
+                tools:text="Localidad" />
+
+            <TextView
+                android:id="@+id/tvPosiciones"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/hurmegeometricsans4"
+                android:textSize="15dp"
+                android:drawableStart="@drawable/posiciones"
+                android:drawablePadding="10dp"
+                android:layout_marginStart="50dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvLocalidad"
+                tools:text="Posiciones" />
+
+            <TextView
+                android:id="@+id/tvTituloTorneos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:drawableStart="@drawable/copa"
+                android:drawablePadding="10dp"
+                android:fontFamily="@font/hurmegeometricsans4"
+                android:textSize="15dp"
+                android:layout_marginStart="50dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvPosiciones"
+                tools:text="Torneos Disputados :" />
+
+            <TextView
+                android:id="@+id/tvTorneosDisputados"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:drawablePadding="10dp"
+                android:fontFamily="@font/hurmegeometricsans4"
+                android:textSize="15dp"
+                android:layout_marginStart="145dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTituloTorneos"
+                tools:text="● Torneo 1" />
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -30,7 +30,6 @@ class InicioFragment : Fragment() {
     private lateinit var eventoAdapter: EventoAdapter
     private var correo: String? = null
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -96,6 +95,5 @@ class InicioFragment : Fragment() {
 
         alertDialog.show()
     }
-
 }
 
