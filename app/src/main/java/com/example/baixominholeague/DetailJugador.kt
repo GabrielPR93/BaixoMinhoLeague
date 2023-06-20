@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import com.example.baixominholeague.databinding.ActivityDetailJugadorBinding
 import com.example.baixominholeague.databinding.ActivityMainBinding
+import com.example.baixominholeague.ui.menu.PerfilFragment
 import com.google.firebase.firestore.FirebaseFirestore
 
 class DetailJugador : AppCompatActivity() {
@@ -33,11 +34,14 @@ class DetailJugador : AppCompatActivity() {
 
             for (player in document) {
                 var correo = player.getString("correo")
+                var nombre = player.getString("nombre")
                 var id = player.getLong("id")?.toInt()
 
                 if(playerId==id){
-                    if (correo != null) {
+                    if (correo != null && nombre!=null) {
                         getDataEmail(correo)
+                        loadPositions(nombre)
+
                     }
                 }
             }
@@ -81,5 +85,40 @@ class DetailJugador : AppCompatActivity() {
         binding.tvCorreo.setText(correo)
         binding.tvLocalidad.setText(localidad)
         binding.tvPosiciones.setText(posiciones)
+    }
+
+    private fun loadPositions(nombreJugadorBuscado: String) {
+        val collectionRef = db.collection("clasificacionMovimiento")
+        val stringBuilder = StringBuilder()
+        val separador = "◈ "
+
+        collectionRef.get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    val nombreDocumento = document.id
+                    val matrizJugadores = document.get("jugadores") as ArrayList<HashMap<String, Any>>
+
+                    for (jugador in matrizJugadores) {
+
+                        val nombreJugador = jugador["nombre"] as String
+                        val puntuacionJugador = jugador["puntuacion"] as String
+                        val puntuacionJugadorInt = puntuacionJugador.toInt()
+
+                        if (nombreJugador == nombreJugadorBuscado && puntuacionJugadorInt > 0) {
+
+                            when(puntuacionJugadorInt){
+                                25 -> stringBuilder.append(separador).append(nombreDocumento).append("  -  ").append("1ª Posición").appendLine().append("\n")
+                                18 -> stringBuilder.append(separador).append(nombreDocumento).append("  -  ").append("2ª Posición").appendLine().append("\n")
+                                10 -> stringBuilder.append(separador).append(nombreDocumento).append("  -  ").append("3ª Posición").appendLine().append("\n")
+                                else ->  stringBuilder.append(separador).append(nombreDocumento).appendLine().append("\n")
+                            }
+                        }
+                    }
+                    binding.tvTorneosDisputados.text=stringBuilder.toString()
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.i("GAB","Error al acceder")
+            }
     }
 }

@@ -144,7 +144,7 @@
                 android:layout_marginStart="50dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvPosiciones"
-                tools:text="Torneos Disputados :" />
+                android:text="Torneos Disputados :" />
 
             <TextView
                 android:id="@+id/tvTorneosDisputados"
@@ -154,7 +154,8 @@
                 android:drawablePadding="10dp"
                 android:fontFamily="@font/hurmegeometricsans4"
                 android:textSize="15dp"
-                android:layout_marginStart="145dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginEnd="30dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvTituloTorneos"
                 tools:text="● Torneo 1" />
