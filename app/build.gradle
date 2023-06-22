@@ -51,6 +51,7 @@ dependencies {
 
     //corrutinas
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
+    implementation 'com.google.android.gms:play-services-cast-framework:21.3.0'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
@@ -67,8 +68,12 @@ dependencies {
     //Firestore
     implementation 'com.google.firebase:firebase-firestore-ktx:24.6.1'
 
-    //Menu
-    //implementation 'com.github.capur16:ArcMenu:v1.0.3'
+    //Storage
+    implementation 'com.google.firebase:firebase-storage:20.2.1'
+    //imagenes
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
+
 }
 
 // Allow read/write access on all documents to any user signed in to the application

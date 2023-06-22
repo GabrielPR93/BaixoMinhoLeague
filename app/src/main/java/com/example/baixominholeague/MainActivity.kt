@@ -1,11 +1,16 @@
 package com.example.baixominholeague
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.icu.util.Calendar
 import android.icu.util.TimeZone
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
@@ -14,7 +19,9 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.baixominholeague.data.Evento
 import com.example.baixominholeague.databinding.ActivityMainBinding
@@ -44,6 +51,9 @@ class MainActivity : AppCompatActivity() {
     private var posiciones: String? = null
     private var args: Bundle? = null
 
+    private val REQUEST_CODE_PERMISSIONS = 101
+    private val requiredPermissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+
     companion object {
         const val CLAVE_CORREO = "correo"
         const val CLAVE_ALIAS = "alias"
@@ -59,6 +69,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.bottomNavigation.setBackground(null);
+
+        if (!arePermissionsGranted()) {
+            requestPermissions()
+        }
 
         val intent = intent
         correo = intent.getStringExtra("email")
@@ -90,11 +104,42 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.floatinButton.setOnClickListener {
-            showDialogChampionship()
+           showDialogChampionship()
+
         }
+
     }
 
+     fun arePermissionsGranted(): Boolean {
+        for (permission in requiredPermissions) {
+            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                return false
+            }
+        }
+        return true
+    }
 
+     fun requestPermissions() {
+        ActivityCompat.requestPermissions(this, requiredPermissions, REQUEST_CODE_PERMISSIONS)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_CODE_PERMISSIONS) {
+            var allPermissionsGranted = true
+            for (result in grantResults) {
+                if (result != PackageManager.PERMISSION_GRANTED) {
+                    allPermissionsGranted = false
+                    break
+                }
+            }
+            if (allPermissionsGranted) {
+                // Los permisos fueron concedidos
+            } else {
+                // Los permisos no fueron concedidos
+            }
+        }
+    }
     private fun getDataBd() {
         db.collection("users").document(correo ?: correoLogin.orEmpty()).get()
             .addOnCompleteListener {
