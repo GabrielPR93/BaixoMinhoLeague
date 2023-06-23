@@ -3,27 +3,19 @@ package com.example.baixominholeague.ui.menu
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.Manifest
-import android.content.pm.PackageManager
-import android.opengl.Visibility
-import android.os.Build
+import android.graphics.Color
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageSwitcher
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 
 import androidx.core.view.isVisible
+import com.example.baixominholeague.CircleTransformation
 import com.example.baixominholeague.MainActivity
 import com.example.baixominholeague.MainActivity.Companion.CLAVE_ALIAS
 import com.example.baixominholeague.R
@@ -34,12 +26,12 @@ import com.example.baixominholeague.MainActivity.Companion.CLAVE_NOMBRE
 import com.example.baixominholeague.MainActivity.Companion.CLAVE_POSICIONES
 import com.example.baixominholeague.MainActivity.Companion.CLAVE_TELEFONO
 import com.example.baixominholeague.ui.menu.login.LoginActivity
-import com.google.android.gms.cast.framework.media.ImagePicker
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.collection.LLRBNode
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import com.squareup.picasso.Picasso
 
 class PerfilFragment : Fragment() {
 
@@ -79,8 +71,8 @@ class PerfilFragment : Fragment() {
 
         binding.btnSelectImage.setOnClickListener {
             val mainActivity = requireActivity() as MainActivity
+            launchImagePicker()
             if (mainActivity.arePermissionsGranted()) {
-                launchImagePicker()
                 Log.i("GAB", "Los permisos están concedidos")
             } else {
                 mainActivity.requestPermissions()
@@ -109,6 +101,7 @@ class PerfilFragment : Fragment() {
             val imageUri = data.data
         Log.i("GAB", "LA URIIIIII"+imageUri)
             // Aquí puedes guardar la imagen en Firebase Storage o realizar otras operaciones necesarias con la URI de la imagen seleccionada
+           Picasso.get().load(imageUri).transform(CircleTransformation(requireContext(),25,Color.WHITE)).into(binding.imageViewProfile)
         }
     }
 

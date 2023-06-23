@@ -65,6 +65,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/profile"
+                        android:scaleType="centerCrop"
                         app:layout_constraintTop_toBottomOf="@id/buttomLogout"
                         app:layout_constraintStart_toStartOf="parent"
                         android:layout_marginTop="20dp"
@@ -168,6 +169,7 @@
                         android:hint="Localidad"
                         android:textSize="14dp"
                         android:layout_marginEnd="7dp"
+                        android:layout_marginTop="40dp"
                         android:drawablePadding="3dp"
                         android:maxLength="20"
                         android:textColor="@color/black"
@@ -175,13 +177,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintStart_toStartOf="@id/imageViewProfile"
-                        app:layout_constraintTop_toBottomOf="@id/imageViewProfile"/>
+                        app:layout_constraintTop_toBottomOf="@id/textViewCorreo"/>
 
                     <EditText
                         android:id="@+id/editTextPosiciones"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
+                        android:layout_marginTop="40dp"
                         android:background="@color/white"
                         android:enabled="false"
                         android:fontFamily="@font/hurme_light"
@@ -191,7 +194,7 @@
                         android:maxLength="25"
                         app:layout_constraintBottom_toBottomOf="@+id/editTextLocalidad"
                         app:layout_constraintStart_toEndOf="@id/editTextLocalidad"
-                        app:layout_constraintTop_toBottomOf="@id/imageViewProfile" />
+                        app:layout_constraintTop_toBottomOf="@id/textViewCorreo" />
 
                     <View
                         android:layout_width="match_parent"
