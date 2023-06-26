@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -13,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.net.toUri
 
 import androidx.core.view.isVisible
 import com.example.baixominholeague.CircleTransformation
@@ -21,6 +23,7 @@ import com.example.baixominholeague.MainActivity.Companion.CLAVE_ALIAS
 import com.example.baixominholeague.R
 import com.example.baixominholeague.databinding.FragmentPerfilBinding
 import com.example.baixominholeague.MainActivity.Companion.CLAVE_CORREO
+import com.example.baixominholeague.MainActivity.Companion.CLAVE_FOTO
 import com.example.baixominholeague.MainActivity.Companion.CLAVE_LOCALIDAD
 import com.example.baixominholeague.MainActivity.Companion.CLAVE_NOMBRE
 import com.example.baixominholeague.MainActivity.Companion.CLAVE_POSICIONES
@@ -32,6 +35,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
+import java.net.URI
 
 class PerfilFragment : Fragment() {
 
@@ -43,9 +47,12 @@ class PerfilFragment : Fragment() {
     private var telefono: String? = null
     private var localidad: String? = null
     private var posiciones: String? = null
+    private var foto: String? = null
     private val db = FirebaseFirestore.getInstance()
 
     private val REQUEST_CODE_IMAGE_PICKER = 102
+    private var selectedImageUri: String? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +64,7 @@ class PerfilFragment : Fragment() {
             telefono = it.getString(CLAVE_TELEFONO)
             localidad = it.getString(CLAVE_LOCALIDAD)
             posiciones = it. getString(CLAVE_POSICIONES)
+            foto= it.getString(CLAVE_FOTO)
 
         }
     }
@@ -98,10 +106,28 @@ class PerfilFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE_IMAGE_PICKER && resultCode == Activity.RESULT_OK && data != null) {
-            val imageUri = data.data
-        Log.i("GAB", "LA URIIIIII"+imageUri)
-            // Aquí puedes guardar la imagen en Firebase Storage o realizar otras operaciones necesarias con la URI de la imagen seleccionada
-           Picasso.get().load(imageUri).transform(CircleTransformation(requireContext(),25,Color.WHITE)).into(binding.imageViewProfile)
+            selectedImageUri = data.data.toString()
+            uploadImageToFirebaseStorage(selectedImageUri!!)
+            // Aquí puedes guardar la imagen en Firebase Storage
+           Picasso.get().load(Uri.parse(selectedImageUri)).transform(CircleTransformation(requireContext(),25,Color.WHITE)).into(binding.imageViewProfile)
+        }
+    }
+    private fun uploadImageToFirebaseStorage(imageUri: String) {
+        val storageRef = FirebaseStorage.getInstance().reference
+        val imageFileName = "profile_image.jpg"
+        val imageRef = storageRef.child(imageFileName)
+
+        val uploadTask = imageRef.putFile(Uri.parse(imageUri))
+        uploadTask.addOnSuccessListener { taskSnapshot ->
+            // La imagen se cargó exitosamente en Firebase Storage
+            // Ahora puedes obtener la URL de descarga de la imagen y guardarla en Firebase Firestore
+            imageRef.downloadUrl.addOnSuccessListener { uri ->
+                selectedImageUri = uri.toString()
+                // Guardar la URL de descarga de la imagen en Firebase Firestore
+                db.collection("users").document(correo.orEmpty()).update("foto", selectedImageUri)
+            }
+        }.addOnFailureListener { exception ->
+            Log.e("PerfilFragment", "Error al cargar la imagen en Firebase Storage: ${exception.message}")
         }
     }
 
@@ -169,6 +195,16 @@ class PerfilFragment : Fragment() {
         binding.editTextLocalidad.setText(localidad)
         binding.editTextPosiciones.setText(posiciones)
 
+//        Log.i("GABRI",foto.toString())
+        if(foto!=null){
+            val imageUri = Uri.parse(foto)
+            Picasso.get().load(imageUri).transform(CircleTransformation(requireContext(),25,Color.WHITE)).into(binding.imageViewProfile)
+        }
+
+//        if(selectedImageUri!=null){
+//            Picasso.get().load(selectedImageUri).transform(CircleTransformation(requireContext(),25,Color.WHITE)).into(binding.imageViewProfile)
+//        }
+
         loadEmail(correo.toString())
 
     }
@@ -182,14 +218,13 @@ class PerfilFragment : Fragment() {
                 "telefono" to binding.editTextTelefono.text.toString(),
                 "localidad" to binding.editTextLocalidad.text.toString(),
                 "posiciones" to binding.editTextPosiciones.text.toString(),
+                "foto" to selectedImageUri.toString(),
                 "id" to 0)
 
             )
             Toast.makeText(requireContext(),"Guardado correctamente",Toast.LENGTH_SHORT).show()
         }
     }
-
-
 
     private fun deleteData() {
         binding.delet.setOnClickListener{
@@ -220,6 +255,7 @@ class PerfilFragment : Fragment() {
                 binding.delet.show()
                 binding.buttomMenuEdit.setImageResource(R.drawable.edit_off_24)
 
+                binding.btnSelectImage.isVisible = true
                 binding.editTextAlias.isEnabled = true
                 binding.editTextNombre.isEnabled = true
                 binding.editTextTelefono.isEnabled = true
@@ -234,6 +270,7 @@ class PerfilFragment : Fragment() {
                 binding.editeTextEdicion.isVisible = false
                 binding.buttomMenuEdit.setImageResource(R.drawable.edit_24)
 
+                binding.btnSelectImage.isVisible= false
                 binding.editTextAlias.isEnabled = false
                 binding.editTextNombre.isEnabled = false
                 binding.editTextTelefono.isEnabled = false

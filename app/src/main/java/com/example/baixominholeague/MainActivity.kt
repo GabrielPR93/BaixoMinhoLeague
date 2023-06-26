@@ -46,6 +46,7 @@ class MainActivity : AppCompatActivity() {
     private var correoLogin: String? = null
     private var alias: String? = null
     private var nombre: String? = null
+    private var foto: String? = null
     private var telefono: String? = null
     private var localidad: String? = null
     private var posiciones: String? = null
@@ -61,6 +62,7 @@ class MainActivity : AppCompatActivity() {
         const val CLAVE_TELEFONO = "telefono"
         const val CLAVE_LOCALIDAD = "localidad"
         const val CLAVE_POSICIONES = "posiciones"
+        const val CLAVE_FOTO = "foto"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -151,6 +153,7 @@ class MainActivity : AppCompatActivity() {
                         telefono = document.get("telefono") as String?
                         localidad = document.get("localidad") as String?
                         posiciones = document.get("posiciones") as String?
+                        foto = document.get("foto") as String?
 
                         args = Bundle().apply {
 
@@ -160,6 +163,7 @@ class MainActivity : AppCompatActivity() {
                             putString(CLAVE_TELEFONO, telefono?.toString())
                             putString(CLAVE_LOCALIDAD, localidad?.toString())
                             putString(CLAVE_POSICIONES, posiciones?.toString())
+                            putString(CLAVE_FOTO, foto?.toString())
                         }
                         fragmentPerfil.arguments = args
                     }
