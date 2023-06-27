@@ -73,15 +73,16 @@
 
                     <ImageButton
                         android:id="@+id/btnSelectImage"
-                        android:src="@drawable/ic_add"
-                        android:visibility="gone"
                         android:layout_width="wrap_content"
-                        android:background="@android:color/transparent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="160dp"
-                        android:layout_marginEnd="10dp"
+                        android:layout_marginTop="148dp"
+                        android:background="@drawable/background_button_add"
+                        android:src="@drawable/add"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="@id/imageViewProfile"
-                        app:layout_constraintTop_toTopOf="@id/imageViewProfile"/>
+                        app:layout_constraintHorizontal_bias="0.853"
+                        app:layout_constraintStart_toStartOf="@id/imageViewProfile"
+                        app:layout_constraintTop_toTopOf="@id/imageViewProfile" />
 
                     <EditText
                         android:id="@+id/editTextAlias"

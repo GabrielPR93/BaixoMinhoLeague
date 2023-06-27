@@ -76,7 +76,6 @@ class PerfilFragment : Fragment() {
         _binding = FragmentPerfilBinding.inflate(inflater,container,false)
         val view = binding.root
 
-
         binding.btnSelectImage.setOnClickListener {
             val mainActivity = requireActivity() as MainActivity
             launchImagePicker()
@@ -114,7 +113,7 @@ class PerfilFragment : Fragment() {
     }
     private fun uploadImageToFirebaseStorage(imageUri: String) {
         val storageRef = FirebaseStorage.getInstance().reference
-        val imageFileName = "profile_image.jpg"
+        val imageFileName = "profile_image_$correo.jpg"
         val imageRef = storageRef.child(imageFileName)
 
         val uploadTask = imageRef.putFile(Uri.parse(imageUri))
@@ -186,7 +185,7 @@ class PerfilFragment : Fragment() {
             }
     }
 
-    private fun setupUi() {
+     fun setupUi() {
 
         binding.textViewCorreo.text = correo
         binding.editTextAlias.setText(alias)
@@ -195,18 +194,12 @@ class PerfilFragment : Fragment() {
         binding.editTextLocalidad.setText(localidad)
         binding.editTextPosiciones.setText(posiciones)
 
-//        Log.i("GABRI",foto.toString())
         if(foto!=null){
             val imageUri = Uri.parse(foto)
             Picasso.get().load(imageUri).transform(CircleTransformation(requireContext(),25,Color.WHITE)).into(binding.imageViewProfile)
         }
 
-//        if(selectedImageUri!=null){
-//            Picasso.get().load(selectedImageUri).transform(CircleTransformation(requireContext(),25,Color.WHITE)).into(binding.imageViewProfile)
-//        }
-
         loadEmail(correo.toString())
-
     }
 
     private fun saveData() {
@@ -303,7 +296,6 @@ class PerfilFragment : Fragment() {
                 .create()
 
             alertDialog.show()
-
 
         }
     }
