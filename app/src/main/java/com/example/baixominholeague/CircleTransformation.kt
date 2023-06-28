@@ -19,27 +19,43 @@ class CircleTransformation(private val context: Context, val borderWidth: Int, p
         val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val displayMetrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(displayMetrics)
-        val size = (displayMetrics.widthPixels * 0.95).toInt() / 2
+        val maxSize = (displayMetrics.widthPixels * 0.95).toInt() / 2
 
-        if (size <= 0) {
+        if (maxSize <= 0) {
             return source
         }
 
-        val squaredBitmap = Bitmap.createScaledBitmap(source, size, size, false)
-        if (squaredBitmap !== source) {
+        val width = source.width
+        val height = source.height
+
+        val scaledWidth: Int
+        val scaledHeight: Int
+
+        if (width > height) {
+            val ratio = width.toFloat() / height.toFloat()
+            scaledWidth = maxSize
+            scaledHeight = (maxSize / ratio).toInt()
+        } else {
+            val ratio = height.toFloat() / width.toFloat()
+            scaledWidth = (maxSize / ratio).toInt()
+            scaledHeight = maxSize
+        }
+
+        val scaledBitmap = Bitmap.createScaledBitmap(source, scaledWidth, scaledHeight, true)
+        if (scaledBitmap !== source) {
             source.recycle()
         }
 
-        val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
+        val bitmap = Bitmap.createBitmap(maxSize, maxSize, Bitmap.Config.ARGB_8888)
 
         val canvas = Canvas(bitmap)
         canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
         val paint = Paint()
-        val shader = BitmapShader(squaredBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
+        val shader = BitmapShader(scaledBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
         paint.shader = shader
         paint.isAntiAlias = true
 
-        val radius = size / 2f
+        val radius = maxSize / 2f
         canvas.drawCircle(radius, radius, radius, paint)
 
         // Dibujar el borde circular
@@ -47,14 +63,15 @@ class CircleTransformation(private val context: Context, val borderWidth: Int, p
             val borderPaint = Paint()
             borderPaint.color = borderColor
             borderPaint.style = Paint.Style.STROKE
-            val borderWidthPx = ((borderWidth/2.5) * context.resources.displayMetrics.density).toInt()
+            val borderWidthPx = ((borderWidth / 2.5) * context.resources.displayMetrics.density).toInt()
             borderPaint.strokeWidth = borderWidthPx.toFloat()
             borderPaint.isAntiAlias = true
             canvas.drawCircle(radius, radius, radius - borderWidth / 2f, borderPaint)
         }
 
-        squaredBitmap.recycle()
+        scaledBitmap.recycle()
         return bitmap
     }
 }
+
 
