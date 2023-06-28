@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.DisplayMetrics
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -106,8 +107,10 @@ class PerfilFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE_IMAGE_PICKER && resultCode == Activity.RESULT_OK && data != null) {
             selectedImageUri = data.data.toString()
+            // Aquí sé guarda la imagen en Firebase Storage
             uploadImageToFirebaseStorage(selectedImageUri!!)
-            // Aquí puedes guardar la imagen en Firebase Storage
+            //foto=selectedImageUri
+
            Picasso.get().load(Uri.parse(selectedImageUri)).transform(CircleTransformation(requireContext(),25,Color.WHITE)).into(binding.imageViewProfile)
         }
     }
@@ -119,7 +122,7 @@ class PerfilFragment : Fragment() {
         val uploadTask = imageRef.putFile(Uri.parse(imageUri))
         uploadTask.addOnSuccessListener { taskSnapshot ->
             // La imagen se cargó exitosamente en Firebase Storage
-            // Ahora puedes obtener la URL de descarga de la imagen y guardarla en Firebase Firestore
+            // Ahora sé obtiene la URL de descarga de la imagen y sé guarda en Firebase Firestore
             imageRef.downloadUrl.addOnSuccessListener { uri ->
                 selectedImageUri = uri.toString()
                 // Guardar la URL de descarga de la imagen en Firebase Firestore
@@ -194,10 +197,14 @@ class PerfilFragment : Fragment() {
         binding.editTextLocalidad.setText(localidad)
         binding.editTextPosiciones.setText(posiciones)
 
-        if(foto!=null){
-            val imageUri = Uri.parse(foto)
-            Picasso.get().load(imageUri).transform(CircleTransformation(requireContext(),25,Color.WHITE)).into(binding.imageViewProfile)
-        }
+         if(selectedImageUri!=null){//Para que al cambiar la imagen se actualize (solo entra si se cambia la imagen)
+             val selectedImageUri = Uri.parse(selectedImageUri)
+             Picasso.get().load(selectedImageUri).transform(CircleTransformation(requireContext(),25,Color.WHITE)).into(binding.imageViewProfile)
+         }
+         else if(foto!=null){ //Cargar la imagen de perfil guardada
+             val imageUri = Uri.parse(foto)
+             Picasso.get().load(imageUri).transform(CircleTransformation(requireContext(),25,Color.WHITE)).into(binding.imageViewProfile)
+         }
 
         loadEmail(correo.toString())
     }
