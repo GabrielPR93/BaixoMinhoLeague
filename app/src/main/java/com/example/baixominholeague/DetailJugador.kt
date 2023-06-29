@@ -1,5 +1,7 @@
 package com.example.baixominholeague
 
+import android.graphics.Color
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +9,7 @@ import com.example.baixominholeague.databinding.ActivityDetailJugadorBinding
 import com.example.baixominholeague.databinding.ActivityMainBinding
 import com.example.baixominholeague.ui.menu.PerfilFragment
 import com.google.firebase.firestore.FirebaseFirestore
+import com.squareup.picasso.Picasso
 
 class DetailJugador : AppCompatActivity() {
     companion object {
@@ -63,9 +66,10 @@ class DetailJugador : AppCompatActivity() {
                         var localidad = document.getString("localidad")
                         var posiciones = document.getString("posiciones")
                         var telefono = document.getString("telefono")
+                        var foto = document.getString("foto")
 
-                        if(alias !=null && nombre!=null && localidad!=null && posiciones!=null && telefono!=null){
-                            setupUi(alias,nombre,telefono,correo,localidad,posiciones)
+                        if(alias !=null && nombre!=null && localidad!=null && posiciones!=null && telefono!=null && foto!=null){
+                            setupUi(alias,nombre,telefono,correo,localidad,posiciones,foto)
 
                         }
                     }
@@ -77,7 +81,7 @@ class DetailJugador : AppCompatActivity() {
 
     }
 
-    private fun setupUi(alias: String, nombre: String, telefono: String, correo: String, localidad: String, posiciones: String) {
+    private fun setupUi(alias: String, nombre: String, telefono: String, correo: String, localidad: String, posiciones: String, foto: String) {
 
         binding.tvAlias.setText(alias)
         binding.tvNombre.setText(nombre)
@@ -85,6 +89,12 @@ class DetailJugador : AppCompatActivity() {
         binding.tvCorreo.setText(correo)
         binding.tvLocalidad.setText(localidad)
         binding.tvPosiciones.setText(posiciones)
+        if(foto.isNotEmpty()){
+            Picasso.get().load(Uri.parse(foto)).transform(CircleTransformation(this,15,Color.WHITE)).into(binding.imageViewDetail)
+        }else{
+            binding.imageViewDetail.setImageResource(R.drawable.profile)
+
+        }
     }
 
     private fun loadPositions(nombreJugadorBuscado: String) {

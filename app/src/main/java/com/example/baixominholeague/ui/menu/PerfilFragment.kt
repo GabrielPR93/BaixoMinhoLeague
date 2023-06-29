@@ -109,7 +109,6 @@ class PerfilFragment : Fragment() {
             selectedImageUri = data.data.toString()
             // Aquí sé guarda la imagen en Firebase Storage
             uploadImageToFirebaseStorage(selectedImageUri!!)
-            //foto=selectedImageUri
 
            Picasso.get().load(Uri.parse(selectedImageUri)).transform(CircleTransformation(requireContext(),25,Color.WHITE)).into(binding.imageViewProfile)
         }
