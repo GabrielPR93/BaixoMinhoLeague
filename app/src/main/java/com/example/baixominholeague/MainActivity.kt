@@ -10,6 +10,7 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.icu.util.Calendar
 import android.icu.util.TimeZone
+import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -30,6 +31,8 @@ import com.example.baixominholeague.ui.menu.InicioFragment
 import com.example.baixominholeague.ui.menu.JugadoresFragment
 import com.example.baixominholeague.ui.menu.PerfilFragment
 import com.google.firebase.firestore.FirebaseFirestore
+import com.squareup.picasso.Callback
+import com.squareup.picasso.Picasso
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.*
@@ -93,6 +96,7 @@ class MainActivity : AppCompatActivity() {
             fragmentInicio?.arguments = args
         }
 
+
         binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
 
             when (item.itemId) {
@@ -112,7 +116,26 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-     fun arePermissionsGranted(): Boolean {
+    //Precarga de la imagen de perfil
+    private fun loadFoto(foto: String?) {
+        if(foto!=null){
+            val imageUri = Uri.parse(foto)
+            val picasso = Picasso.get()
+            picasso.load(imageUri).fetch(object : Callback {
+                override fun onSuccess() {
+                    // La imagen se ha precargado correctamente
+
+                }
+
+                override fun onError(e: Exception) {
+                    // Error al precargar la imagen
+                }
+            })
+        }
+
+    }
+
+    fun arePermissionsGranted(): Boolean {
         for (permission in requiredPermissions) {
             if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
                 return false
@@ -166,9 +189,12 @@ class MainActivity : AppCompatActivity() {
                             putString(CLAVE_FOTO, foto?.toString())
                         }
                         fragmentPerfil.arguments = args
+
+                        loadFoto(foto)
                     }
                 }
             }
+
     }
 
     private fun saveData() {

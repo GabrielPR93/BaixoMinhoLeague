@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
@@ -35,6 +36,7 @@ import com.google.firebase.database.collection.LLRBNode
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.Picasso
 import java.net.URI
 
@@ -54,6 +56,10 @@ class PerfilFragment : Fragment() {
     private val REQUEST_CODE_IMAGE_PICKER = 102
     private var selectedImageUri: String? = null
 
+    lateinit var imageViewPerfil: ImageView
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +74,7 @@ class PerfilFragment : Fragment() {
             foto= it.getString(CLAVE_FOTO)
 
         }
+
     }
 
     override fun onCreateView(
@@ -87,6 +94,7 @@ class PerfilFragment : Fragment() {
                 Log.i("GAB", "Los permisos no están concedidos")
             }
         }
+
         setupUi()
         showMenuEdit()
         saveData()

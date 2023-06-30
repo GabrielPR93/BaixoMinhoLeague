@@ -27,6 +27,10 @@ class DetailJugador : AppCompatActivity() {
 
         playerId = intent.getIntExtra(ID_PLAYER,-1)
         getData()
+
+        binding.btnBack.setOnClickListener {
+            onBackPressed()
+        }
     }
 
     private fun getData() {
