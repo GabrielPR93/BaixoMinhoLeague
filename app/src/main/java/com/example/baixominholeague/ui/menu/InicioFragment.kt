@@ -1,5 +1,6 @@
 package com.example.baixominholeague.ui.menu
 
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -55,26 +56,31 @@ class InicioFragment : Fragment() {
         return view
     }
 
-     fun getEventsOrderByDate() {
-
+    fun getEventsOrderByDate() {
         val eventsCollection = db.collection("eventos")
         val query = eventsCollection.orderBy("fecha", Query.Direction.ASCENDING)
 
+        val currentDate = Calendar.getInstance().time
+
         query.get().addOnSuccessListener { document ->
             val eventos = document.toObjects(Evento::class.java)
-           eventoAdapter.updateList(eventos)
+            val filteredEventos = eventos.filter { evento ->
+                evento.fecha!! >= currentDate
+            }
+            eventoAdapter.updateList(filteredEventos)
 
-            for (evento in eventos){
-                if(evento.correo.equals(correo)){
+            for (evento in filteredEventos) {
+                if (evento.correo.equals(correo)) {
                     evento.mostrarBotonCancelar = true
-                    binding.progresBarEvents.visibility=View.GONE
+                    binding.progresBarEvents.visibility = View.GONE
                 }
             }
         }
-            .addOnFailureListener{exception ->
+            .addOnFailureListener { exception ->
                 println("Error al obtener los eventos: $exception")
             }
     }
+
     private fun eliminarEvento(evento: Evento) {
         val alertDialog = AlertDialog.Builder(requireContext())
             .setTitle("Confirmar eliminación")

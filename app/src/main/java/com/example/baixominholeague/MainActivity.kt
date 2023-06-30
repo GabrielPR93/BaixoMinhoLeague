@@ -285,6 +285,7 @@ class MainActivity : AppCompatActivity() {
                 minute,
                 true
             )
+
             timePickerDialog.show()
         }
 
