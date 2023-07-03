@@ -73,38 +73,39 @@ class ClasificacionFragment : Fragment() {
             }
 
     }
-    //TODO modificar lo de guardar la posicion
-    private fun mostrarTorneosEnTabla(jugadoresPuntuacionMap: MutableMap<String, Int>, torneoJugadoresMap: MutableMap<String, HashMap<String, Int>>,) {
-        // Obtener la referencia al TableLayout en tu layout
+
+    private fun mostrarTorneosEnTabla(jugadoresPuntuacionMap: MutableMap<String, Int>, torneoJugadoresMap: MutableMap<String, HashMap<String, Int>>) {
         val tableLayout = binding.tableLayout
 
         // Agregar la fila de cabecera
         val cabeceraRow = TableRow(requireContext())
         cabeceraRow.addView(crearTextViewCabecera(""))
+        cabeceraRow.addView(crearTextViewCabecera(""))
         cabeceraRow.addView(crearTextViewCabecera("NOMBRE"))
         cabeceraRow.addView(crearTextViewCabecera("TOTAL"))
 
-        // Agregar las celdas para los nombres de torneos
+        // Agregar las celdas para los nombres de torneos en la cabecera
         for ((nombreTorneo, _) in torneoJugadoresMap) {
             cabeceraRow.addView(crearTextViewCabecera(nombreTorneo))
-        }
 
+        }
         tableLayout.addView(cabeceraRow)
-        val jugadoresOrdenados = jugadoresPuntuacionMap.toList().sortedByDescending { (_, puntuacion) -> puntuacion }
 
         // Recorrer los jugadores y agregar las filas correspondientes
-        for ((index, jugador) in jugadoresOrdenados.withIndex()) {
+        for ((index, jugador) in jugadoresPuntuacionMap.toList().sortedByDescending { (_, puntuacion) -> puntuacion }.withIndex()) {
             val fila = TableRow(requireContext())
 
+            val posicionCell2 = crearTextViewBold("")
+            fila.addView(posicionCell2)
             // Agregar la celda para la posición
-            val posicionCell = crearTextViewBold((index + 1).toString()+"º")
+            val posicionCell = crearTextViewBold((index + 1).toString() + "º")
 
-            if (index < 3) {
-                when (index) {
-                    0 -> fila.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.oro))
-                    1 -> fila.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.plata))
-                    2 -> fila.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.bronce))
-                }
+
+            when (index) {
+                0 -> posicionCell2.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.oro))
+                1 -> posicionCell2.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.plata))
+                2 -> posicionCell2.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.bronce))
+                else -> posicionCell2.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.blue2))
             }
 
             fila.addView(posicionCell)
@@ -120,10 +121,8 @@ class ClasificacionFragment : Fragment() {
             }
 
             tableLayout.addView(fila)
-
-            var nameSave = jugador.first.filter { !it.isWhitespace() }
-            savePosition((index+1),nameSave.trim())
         }
+
     }
 
 
@@ -182,8 +181,6 @@ class ClasificacionFragment : Fragment() {
                 jugadoresPuntuacion?.forEach { jugadorDatos ->
                     val nombre = jugadorDatos["nombre"] as? String
                     val puntuacion = jugadorDatos["puntuacion"] as? String
-
-                    //Log.i("GAB",tournamentSnapshot.id+" puntuacion : "+jugadorDatos["nombre"].toString()+ jugadorDatos["puntuacion"])
 
                     if (nombre != null && puntuacion != null) {
                         val totalPuntuacion = jugadoresPuntuacionMap[nombre] ?: 0
@@ -248,7 +245,7 @@ class ClasificacionFragment : Fragment() {
         val textView = TextView(requireContext())
         textView.text = texto
         textView.typeface = Typeface.DEFAULT_BOLD
-        textView.setPadding(20, 20, 40, 20)
+        textView.setPadding(10, 20, 20, 20)
         textView.gravity = Gravity.CENTER
         return textView
     }

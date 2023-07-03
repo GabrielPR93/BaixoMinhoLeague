@@ -10,6 +10,9 @@ import com.example.baixominholeague.databinding.ActivityMainBinding
 import com.example.baixominholeague.ui.menu.PerfilFragment
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class DetailJugador : AppCompatActivity() {
     companion object {
@@ -26,6 +29,7 @@ class DetailJugador : AppCompatActivity() {
         setContentView(binding.root)
 
         playerId = intent.getIntExtra(ID_PLAYER,-1)
+
         getData()
 
         binding.btnBack.setOnClickListener {
@@ -78,6 +82,7 @@ class DetailJugador : AppCompatActivity() {
                         }
                     }
                 }
+
             }
             .addOnFailureListener { exception ->
                 Log.i("GAB","Error al acceder")
@@ -93,12 +98,14 @@ class DetailJugador : AppCompatActivity() {
         binding.tvCorreo.setText(correo)
         binding.tvLocalidad.setText(localidad)
         binding.tvPosiciones.setText(posiciones)
+
         if(foto.isNotEmpty()){
             Picasso.get().load(Uri.parse(foto)).transform(CircleTransformation(this,15,Color.WHITE)).into(binding.imageViewDetail)
         }else{
             binding.imageViewDetail.setImageResource(R.drawable.profile)
 
         }
+
     }
 
     private fun loadPositions(nombreJugadorBuscado: String) {
