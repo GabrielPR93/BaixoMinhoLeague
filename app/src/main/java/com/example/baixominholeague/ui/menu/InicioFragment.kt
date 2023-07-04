@@ -72,9 +72,9 @@ class InicioFragment : Fragment() {
             for (evento in filteredEventos) {
                 if (evento.correo.equals(correo)) {
                     evento.mostrarBotonCancelar = true
-                    binding.progresBarEvents.visibility = View.GONE
                 }
             }
+            binding.progresBarEvents.visibility = View.GONE
         }
             .addOnFailureListener { exception ->
                 println("Error al obtener los eventos: $exception")

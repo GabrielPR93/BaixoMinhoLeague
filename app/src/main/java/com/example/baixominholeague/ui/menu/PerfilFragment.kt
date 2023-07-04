@@ -9,14 +9,13 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.DisplayMetrics
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
+
 
 import androidx.core.view.isVisible
 import com.example.baixominholeague.CircleTransformation
@@ -58,6 +57,10 @@ class PerfilFragment : Fragment() {
 
     lateinit var imageViewPerfil: ImageView
 
+    companion object {
+        const val CORREO_ADMIN = "admin@gmail.com"
+    }
+
 
 
 
@@ -84,6 +87,7 @@ class PerfilFragment : Fragment() {
         _binding = FragmentPerfilBinding.inflate(inflater,container,false)
         val view = binding.root
 
+
         binding.btnSelectImage.setOnClickListener {
             val mainActivity = requireActivity() as MainActivity
             launchImagePicker()
@@ -93,6 +97,9 @@ class PerfilFragment : Fragment() {
                 mainActivity.requestPermissions()
                 Log.i("GAB", "Los permisos no están concedidos")
             }
+        }
+        binding.btnAddPlayer.setOnClickListener{
+
         }
 
         setupUi()
@@ -104,6 +111,7 @@ class PerfilFragment : Fragment() {
 
         return view
     }
+
 
      fun launchImagePicker() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
@@ -204,6 +212,12 @@ class PerfilFragment : Fragment() {
         binding.editTextLocalidad.setText(localidad)
         binding.editTextPosiciones.setText(posiciones)
 
+         if(correo.equals(CORREO_ADMIN)){
+             binding.textViewTituloTorneos.isVisible=false
+             binding.btnAddPlayer.isVisible=true
+             binding.btnAddTournament.isVisible=true
+         }
+
          if(selectedImageUri!=null){//Para que al cambiar la imagen se actualize (solo entra si se cambia la imagen)
              val selectedImageUri = Uri.parse(selectedImageUri)
              Picasso.get().load(selectedImageUri).transform(CircleTransformation(requireContext(),25,Color.WHITE)).into(binding.imageViewProfile)
@@ -214,9 +228,11 @@ class PerfilFragment : Fragment() {
          }
 
         loadEmail(correo.toString())
+
     }
 
     private fun saveData() {
+
         binding.save.setOnClickListener{
 
             db.collection("users").document(correo.orEmpty()).set(
@@ -225,7 +241,6 @@ class PerfilFragment : Fragment() {
                 "telefono" to binding.editTextTelefono.text.toString(),
                 "localidad" to binding.editTextLocalidad.text.toString(),
                 "posiciones" to binding.editTextPosiciones.text.toString(),
-                "foto" to selectedImageUri.toString(),
                 "id" to 0)
 
             )

@@ -216,7 +216,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun showDialogChampionship() {
         val dialogBuilder = AlertDialog.Builder(this)
-        dialogBuilder.setTitle("Añadir Campeonato")
+        dialogBuilder.setTitle("Añadir Evento")
 
         val container = LinearLayout(this)
         container.orientation = LinearLayout.VERTICAL
