@@ -18,6 +18,7 @@ import androidx.core.net.toUri
 
 
 import androidx.core.view.isVisible
+import com.example.baixominholeague.AddPlayerAndTournament
 import com.example.baixominholeague.CircleTransformation
 import com.example.baixominholeague.MainActivity
 import com.example.baixominholeague.MainActivity.Companion.CLAVE_ALIAS
@@ -100,6 +101,7 @@ class PerfilFragment : Fragment() {
         }
         binding.btnAddPlayer.setOnClickListener{
 
+            startActivity(Intent(requireContext(),AddPlayerAndTournament::class.java))
         }
 
         setupUi()
@@ -215,7 +217,6 @@ class PerfilFragment : Fragment() {
          if(correo.equals(CORREO_ADMIN)){
              binding.textViewTituloTorneos.isVisible=false
              binding.btnAddPlayer.isVisible=true
-             binding.btnAddTournament.isVisible=true
          }
 
          if(selectedImageUri!=null){//Para que al cambiar la imagen se actualize (solo entra si se cambia la imagen)
