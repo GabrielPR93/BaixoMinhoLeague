@@ -1,5 +1,6 @@
 package com.example.baixominholeague
 
+import android.app.ActionBar.LayoutParams
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.text.InputType
 import android.text.method.DigitsKeyListener
 import android.util.Log
 import android.widget.*
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.baixominholeague.data.Jugador
 import com.example.baixominholeague.databinding.ActivityAddPlayerAndTournamentBinding
 import com.google.firebase.firestore.FirebaseFirestore
@@ -32,7 +34,6 @@ class AddPlayerAndTournament : AppCompatActivity() {
         binding.btnAddPlayer.setOnClickListener{
             saveNewPlayer()
         }
-
 
     }
 
@@ -69,9 +70,17 @@ class AddPlayerAndTournament : AppCompatActivity() {
             editText.layoutParams = editTextParams
             linearLayout.addView(editText)
 
-
             binding.linearLayoutPlayers.addView(linearLayout)
         }
+
+        val buttonLayoutParams = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT,ConstraintLayout.LayoutParams.WRAP_CONTENT)
+        val button = Button(this)
+        button.text = "Añadir Torneo"
+        button.setBackgroundResource(R.drawable.searchbackground)
+        button.layoutParams=buttonLayoutParams
+        button.layoutParams
+        binding.linearLayoutButton.addView(button)
+
     }
 
     // Extension function to convert dp to pixels
