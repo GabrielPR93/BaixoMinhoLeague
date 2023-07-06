@@ -1,9 +1,14 @@
 package com.example.baixominholeague
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.InputFilter
+import android.text.InputType
+import android.text.method.DigitsKeyListener
 import android.util.Log
-import android.widget.Toast
+import android.widget.*
+import com.example.baixominholeague.data.Jugador
 import com.example.baixominholeague.databinding.ActivityAddPlayerAndTournamentBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
@@ -20,13 +25,79 @@ class AddPlayerAndTournament : AppCompatActivity() {
         binding=ActivityAddPlayerAndTournamentBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupPlayers()
         binding.btnBackPerfil.setOnClickListener{
             onBackPressed()
         }
         binding.btnAddPlayer.setOnClickListener{
             saveNewPlayer()
         }
+
+
     }
+
+    private fun uiPlayers(jugadores: MutableList<Jugador>) {
+        val layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+
+        for (player in jugadores) {
+            val linearLayout = LinearLayout(this)
+            linearLayout.orientation = LinearLayout.HORIZONTAL
+            linearLayout.layoutParams = layoutParams
+
+            val nameTextView = TextView(this)
+            nameTextView.text = player.nombre
+            nameTextView.textSize = 16f
+            nameTextView.layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+            linearLayout.addView(nameTextView)
+
+            val checkBox = CheckBox(this)
+            linearLayout.addView(checkBox)
+
+            val editTextParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+            editTextParams.setMargins(25.dpToPx(), 0, 0, 0)
+
+            val editText = EditText(this)
+            editText.hint = "Puntuación"
+            editText.inputType=InputType.TYPE_CLASS_NUMBER
+            editText.keyListener = DigitsKeyListener.getInstance("0123456789")
+            editText.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(2))
+            editText.maxLines = 1
+            editText.setBackgroundColor(Color.WHITE)
+            editText.layoutParams = editTextParams
+            linearLayout.addView(editText)
+
+
+            binding.linearLayoutPlayers.addView(linearLayout)
+        }
+    }
+
+    // Extension function to convert dp to pixels
+    private fun Int.dpToPx(): Int {
+        val scale = resources.displayMetrics.density
+        return (this * scale + 0.5f).toInt()
+    }
+
+
+
+    private fun setupPlayers() {
+        //Obtiene todos los jugadores
+        val jugadoresCollectionRef = db.collection("jugadores")
+
+        jugadoresCollectionRef.get().addOnSuccessListener {
+            val jugadores = mutableListOf<Jugador>()
+                for (document in it) {
+                    val jugador = document.toObject(Jugador::class.java)
+                    if (jugador != null) {
+
+                        jugadores.add(jugador)
+                    }
+                }
+            uiPlayers(jugadores)
+            }
+        }
 
     private fun saveNewPlayer() {
         val jugadorRef = db.collection("counter").document("counter")
