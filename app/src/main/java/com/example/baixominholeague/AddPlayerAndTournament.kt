@@ -8,17 +8,23 @@ import android.text.InputFilter
 import android.text.InputType
 import android.text.method.DigitsKeyListener
 import android.util.Log
+import android.view.KeyEvent
+import android.view.View
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.baixominholeague.data.Jugador
 import com.example.baixominholeague.databinding.ActivityAddPlayerAndTournamentBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
+import java.io.Serializable
 import java.util.*
 
 class AddPlayerAndTournament : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddPlayerAndTournamentBinding
+    private val playerMatrix = mutableListOf<HashMap<String, Serializable>>()
+    private val playerScores = HashMap<CheckBox, EditText>()
+
     private val db = FirebaseFirestore.getInstance()
 
 
@@ -34,7 +40,24 @@ class AddPlayerAndTournament : AppCompatActivity() {
         binding.btnAddPlayer.setOnClickListener{
             saveNewPlayer()
         }
+        binding.btnAddTournament.setOnClickListener{
+            binding.linearLayoutPlayers.clearFocus()
+            saveTournament()
+        }
 
+
+    }
+
+    private fun saveTournament() {
+        val nameDocument = binding.tvAddTournament.text.toString().uppercase()
+
+        if(!nameDocument.isNullOrEmpty()){
+            db.collection("clasificacionMovimiento").document(nameDocument).set(
+                hashMapOf("jugadores" to playerMatrix)
+            ).addOnSuccessListener {
+                Toast.makeText(this,"Añadido correctamente",Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun uiPlayers(jugadores: MutableList<Jugador>) {
@@ -70,17 +93,29 @@ class AddPlayerAndTournament : AppCompatActivity() {
             editText.layoutParams = editTextParams
             linearLayout.addView(editText)
 
+            playerScores[checkBox] = editText
+
             binding.linearLayoutPlayers.addView(linearLayout)
+            //TODO revisar que al desclickar el checkbox se elimine la puntuacion y al añadir resete los componentes
+            //Guardar los valores
+            editText.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+                if (!hasFocus) {
+                    val playerName = player.nombre
+                    val playerScore = editText.text.toString()
+
+                    val playerData = HashMap<String, Serializable>()
+                    playerData["nombre"] = playerName
+                    playerData["puntuacion"] = playerScore
+
+                    if (checkBox.isChecked) {
+                        playerMatrix.add(playerData)
+                    } else {
+                        playerMatrix.remove(playerData)
+                    }
+                }
+            }
+
         }
-
-        val buttonLayoutParams = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT,ConstraintLayout.LayoutParams.WRAP_CONTENT)
-        val button = Button(this)
-        button.text = "Añadir Torneo"
-        button.setBackgroundResource(R.drawable.searchbackground)
-        button.layoutParams=buttonLayoutParams
-        button.layoutParams
-        binding.linearLayoutButton.addView(button)
-
     }
 
     // Extension function to convert dp to pixels
@@ -88,8 +123,6 @@ class AddPlayerAndTournament : AppCompatActivity() {
         val scale = resources.displayMetrics.density
         return (this * scale + 0.5f).toInt()
     }
-
-
 
     private fun setupPlayers() {
         //Obtiene todos los jugadores
