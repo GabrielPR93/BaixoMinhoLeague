@@ -14,8 +14,13 @@ import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.baixominholeague.data.Jugador
 import com.example.baixominholeague.databinding.ActivityAddPlayerAndTournamentBinding
+import com.example.baixominholeague.recyclerViewJugadores.JugadorAdapter
+import com.example.baixominholeague.ui.menu.JugadoresFragment
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.Serializable
 import java.util.*
 
@@ -24,7 +29,6 @@ class AddPlayerAndTournament : AppCompatActivity() {
     private lateinit var binding: ActivityAddPlayerAndTournamentBinding
     private val playerMatrix = mutableListOf<HashMap<String, Serializable>>()
     private val playerScores = HashMap<CheckBox, EditText>()
-
     private val db = FirebaseFirestore.getInstance()
 
 
@@ -39,13 +43,13 @@ class AddPlayerAndTournament : AppCompatActivity() {
         }
         binding.btnAddPlayer.setOnClickListener{
             saveNewPlayer()
+            //JugadoresFragment().setup()
         }
         binding.btnAddTournament.setOnClickListener{
             binding.linearLayoutPlayers.clearFocus()
             saveTournament()
+
         }
-
-
     }
 
     private fun saveTournament() {
@@ -56,9 +60,11 @@ class AddPlayerAndTournament : AppCompatActivity() {
                 hashMapOf("jugadores" to playerMatrix)
             ).addOnSuccessListener {
                 Toast.makeText(this,"Añadido correctamente",Toast.LENGTH_SHORT).show()
+
             }
-        }
+        }else{ Toast.makeText(this, "Error al guardar: Nombre de torneo necesario", Toast.LENGTH_SHORT).show()}
     }
+
 
     private fun uiPlayers(jugadores: MutableList<Jugador>) {
         val layoutParams = LinearLayout.LayoutParams(
@@ -96,25 +102,27 @@ class AddPlayerAndTournament : AppCompatActivity() {
             playerScores[checkBox] = editText
 
             binding.linearLayoutPlayers.addView(linearLayout)
-            //TODO revisar que al desclickar el checkbox se elimine la puntuacion y al añadir resete los componentes
+            //TODO al añadir resete los componentes
             //Guardar los valores
             editText.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
                 if (!hasFocus) {
                     val playerName = player.nombre
                     val playerScore = editText.text.toString()
 
-                    val playerData = HashMap<String, Serializable>()
-                    playerData["nombre"] = playerName
-                    playerData["puntuacion"] = playerScore
+                    if(!playerName.isNullOrEmpty() && !playerScore.isNullOrEmpty()){
+                        val playerData = HashMap<String, Serializable>()
+                        playerData["nombre"] = playerName
+                        playerData["puntuacion"] = playerScore
 
-                    if (checkBox.isChecked) {
-                        playerMatrix.add(playerData)
-                    } else {
-                        playerMatrix.remove(playerData)
+                        if (checkBox.isChecked) {
+                            playerMatrix.add(playerData)
+                        } else {
+                            playerMatrix.remove(playerData)
+                        }
+                        Log.i("GABRI","TAMAÑOOO: "+playerMatrix.size.toString())
                     }
                 }
             }
-
         }
     }
 
@@ -174,12 +182,12 @@ class AddPlayerAndTournament : AppCompatActivity() {
         }.addOnSuccessListener {
             // La transacción se completó exitosamente
             binding.editextAddNombrePlayer.setText("")
-            binding.editextAddNombrePlayer.clearFocus()
             binding.editextAddCorreoPlayer.setText("")
+            binding.editextAddNombrePlayer.clearFocus()
+
         }.addOnFailureListener { e ->
             Toast.makeText(this, "Error al guardar: ${e.message}", Toast.LENGTH_SHORT).show()
             Log.i("GABRI","${e.message}")
         }
     }
-
 }

@@ -108,7 +108,6 @@ class JugadoresFragment : Fragment() {
                     Log.e("Error", "Error al obtener los jugadores", exception)
                 }
         }
-
     }
 
     private fun navigateToDetailPlayer(id:Int){
