@@ -30,6 +30,7 @@ class AddPlayerAndTournament : AppCompatActivity() {
     private val playerMatrix = mutableListOf<HashMap<String, Serializable>>()
     private val playerScores = HashMap<CheckBox, EditText>()
     private val db = FirebaseFirestore.getInstance()
+    val jugadores = mutableListOf<Jugador>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,6 +61,11 @@ class AddPlayerAndTournament : AppCompatActivity() {
                 hashMapOf("jugadores" to playerMatrix)
             ).addOnSuccessListener {
                 Toast.makeText(this,"Añadido correctamente",Toast.LENGTH_SHORT).show()
+
+                binding.tvAddTournament.text=null
+                playerScores.values.forEach { editText -> editText.text = null  }
+                playerScores.keys.forEach { checkBox -> checkBox.isChecked = false  }
+                playerMatrix.clear()
 
             }
         }else{ Toast.makeText(this, "Error al guardar: Nombre de torneo necesario", Toast.LENGTH_SHORT).show()}
@@ -102,7 +108,6 @@ class AddPlayerAndTournament : AppCompatActivity() {
             playerScores[checkBox] = editText
 
             binding.linearLayoutPlayers.addView(linearLayout)
-            //TODO al añadir resete los componentes
             //Guardar los valores
             editText.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
                 if (!hasFocus) {
@@ -137,7 +142,7 @@ class AddPlayerAndTournament : AppCompatActivity() {
         val jugadoresCollectionRef = db.collection("jugadores")
 
         jugadoresCollectionRef.get().addOnSuccessListener {
-            val jugadores = mutableListOf<Jugador>()
+           // val jugadores = mutableListOf<Jugador>()
                 for (document in it) {
                     val jugador = document.toObject(Jugador::class.java)
                     if (jugador != null) {
@@ -148,7 +153,7 @@ class AddPlayerAndTournament : AppCompatActivity() {
             uiPlayers(jugadores)
             }
         }
-
+//Todo solucionar la actualizacion al añadir player
     private fun saveNewPlayer() {
         val jugadorRef = db.collection("counter").document("counter")
 
@@ -175,6 +180,9 @@ class AddPlayerAndTournament : AppCompatActivity() {
 
                 runOnUiThread {
                     Toast.makeText(this, "Guardado correctamente", Toast.LENGTH_SHORT).show()
+                    //jugadores.add(Jugador(id = 200,"ANTONIO",""))
+                   // uiPlayers(jugadores)
+
                 }
             }
 
