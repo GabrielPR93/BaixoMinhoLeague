@@ -54,7 +54,7 @@ class PerfilFragment : Fragment() {
     private val db = FirebaseFirestore.getInstance()
 
     private val REQUEST_CODE_IMAGE_PICKER = 102
-    private var selectedImageUri: String? = null
+    private var selectedImageUri: String? = ""
 
     lateinit var imageViewPerfil: ImageView
 
@@ -160,6 +160,7 @@ class PerfilFragment : Fragment() {
                     val nombreJugador = document.getString("nombre")
 
                     if(correoJugador.equals(correo)){
+
                         loadPositions(nombreJugador.toString())
                     }
                 }
@@ -219,13 +220,14 @@ class PerfilFragment : Fragment() {
              binding.btnAddPlayer.isVisible=true
          }
 
-         if(selectedImageUri!=null){//Para que al cambiar la imagen se actualize (solo entra si se cambia la imagen)
+         if(selectedImageUri!=""){//Para que al cambiar la imagen se actualize (solo entra si se cambia la imagen)
              val selectedImageUri = Uri.parse(selectedImageUri)
              Picasso.get().load(selectedImageUri).transform(CircleTransformation(requireContext(),25,Color.WHITE)).into(binding.imageViewProfile)
          }
          else if(foto!=null){ //Cargar la imagen de perfil guardada
              val imageUri = Uri.parse(foto)
              Picasso.get().load(imageUri).transform(CircleTransformation(requireContext(),25,Color.WHITE)).into(binding.imageViewProfile)
+
          }
 
         loadEmail(correo.toString())
@@ -233,7 +235,6 @@ class PerfilFragment : Fragment() {
     }
 
     private fun saveData() {
-
         binding.save.setOnClickListener{
 
             db.collection("users").document(correo.orEmpty()).set(
@@ -242,6 +243,7 @@ class PerfilFragment : Fragment() {
                 "telefono" to binding.editTextTelefono.text.toString(),
                 "localidad" to binding.editTextLocalidad.text.toString(),
                 "posiciones" to binding.editTextPosiciones.text.toString(),
+                "foto" to selectedImageUri,
                 "id" to 0)
 
             )

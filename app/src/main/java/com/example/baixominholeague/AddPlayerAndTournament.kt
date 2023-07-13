@@ -30,8 +30,7 @@ class AddPlayerAndTournament : AppCompatActivity() {
     private val playerMatrix = mutableListOf<HashMap<String, Serializable>>()
     private val playerScores = HashMap<CheckBox, EditText>()
     private val db = FirebaseFirestore.getInstance()
-    val jugadores = mutableListOf<Jugador>()
-
+    private val jugadores = mutableListOf<Jugador>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -180,8 +179,9 @@ class AddPlayerAndTournament : AppCompatActivity() {
 
                 runOnUiThread {
                     Toast.makeText(this, "Guardado correctamente", Toast.LENGTH_SHORT).show()
-                    //jugadores.add(Jugador(id = 200,"ANTONIO",""))
-                   // uiPlayers(jugadores)
+
+                    //jugadores.add(Jugador(jugadorId,nombreCapitalizado,correo))
+                    //uiPlayers(jugadores)
 
                 }
             }
