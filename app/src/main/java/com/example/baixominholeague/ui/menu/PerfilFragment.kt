@@ -206,7 +206,7 @@ class PerfilFragment : Fragment() {
             }
     }
 
-     fun setupUi() {
+    private fun setupUi() {
 
         binding.textViewCorreo.text = correo
         binding.editTextAlias.setText(alias)
@@ -221,12 +221,13 @@ class PerfilFragment : Fragment() {
          }
 
          if(selectedImageUri!=""){//Para que al cambiar la imagen se actualize (solo entra si se cambia la imagen)
-             val selectedImageUri = Uri.parse(selectedImageUri)
+             selectedImageUri = Uri.parse(selectedImageUri).toString()
              Picasso.get().load(selectedImageUri).transform(CircleTransformation(requireContext(),25,Color.WHITE)).into(binding.imageViewProfile)
          }
          else if(foto!=null){ //Cargar la imagen de perfil guardada
-             val imageUri = Uri.parse(foto)
-             Picasso.get().load(imageUri).transform(CircleTransformation(requireContext(),25,Color.WHITE)).into(binding.imageViewProfile)
+             //val imageUri = Uri.parse(foto)
+             selectedImageUri= Uri.parse(foto).toString()
+             Picasso.get().load(selectedImageUri).transform(CircleTransformation(requireContext(),25,Color.WHITE)).into(binding.imageViewProfile)
 
          }
 

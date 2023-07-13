@@ -99,13 +99,13 @@ class DetailJugador : AppCompatActivity() {
         binding.tvLocalidad.setText(localidad)
         binding.tvPosiciones.setText(posiciones)
 
-        if(foto.isNotEmpty()){
+        if(!foto.isNullOrEmpty()){
+            Log.i("GABRI","URIIII: ${Uri.parse(foto)}")
             Picasso.get().load(Uri.parse(foto)).transform(CircleTransformation(this,15,Color.WHITE)).into(binding.imageViewDetail)
         }else{
-            binding.imageViewDetail.setImageResource(R.drawable.profile)
+            Picasso.get().load(R.drawable.profile).transform(CircleTransformation(this,15,Color.WHITE)).into(binding.imageViewDetail)
 
         }
-
     }
 
     private fun loadPositions(nombreJugadorBuscado: String) {
