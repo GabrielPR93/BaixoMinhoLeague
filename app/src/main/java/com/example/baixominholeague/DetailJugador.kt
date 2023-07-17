@@ -1,5 +1,6 @@
 package com.example.baixominholeague
 
+import android.content.ContentResolver
 import android.graphics.Color
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -67,8 +68,10 @@ class DetailJugador : AppCompatActivity() {
 
         userCollection.get()
             .addOnSuccessListener { result ->
+                var documentExist = false
                 for (document in result) {
                     if(document.id==correo){
+                        documentExist = true
                         var alias = document.getString("alias")
                         var nombre = document.getString("nombre")
                         var localidad = document.getString("localidad")
@@ -81,8 +84,16 @@ class DetailJugador : AppCompatActivity() {
 
                         }
                     }
+                    if(!documentExist){
+                        val defaultFotoUri = Uri.parse(
+                            ContentResolver.SCHEME_ANDROID_RESOURCE +
+                                    "://" + resources.getResourcePackageName(R.drawable.profile) +
+                                    "/" + resources.getResourceTypeName(R.drawable.profile) +
+                                    "/" + resources.getResourceEntryName(R.drawable.profile)
+                        )
+                        setupUi("","","",correo ,"","",defaultFotoUri.toString())
+                    }
                 }
-
             }
             .addOnFailureListener { exception ->
                 Log.i("GAB","Error al acceder")
@@ -92,6 +103,9 @@ class DetailJugador : AppCompatActivity() {
 
     private fun setupUi(alias: String, nombre: String, telefono: String, correo: String, localidad: String, posiciones: String, foto: String) {
 
+        if(!foto.isNullOrEmpty()){
+            Picasso.get().load(Uri.parse(foto)).transform(CircleTransformation(this,25,Color.WHITE)).into(binding.imageViewDetail)
+        }
         binding.tvAlias.setText(alias)
         binding.tvNombre.setText(nombre)
         binding.tvTelefono.setText(telefono)
@@ -99,13 +113,6 @@ class DetailJugador : AppCompatActivity() {
         binding.tvLocalidad.setText(localidad)
         binding.tvPosiciones.setText(posiciones)
 
-        if(!foto.isNullOrEmpty()){
-            Log.i("GABRI","URIIII: ${Uri.parse(foto)}")
-            Picasso.get().load(Uri.parse(foto)).transform(CircleTransformation(this,15,Color.WHITE)).into(binding.imageViewDetail)
-        }else{
-            Picasso.get().load(R.drawable.profile).transform(CircleTransformation(this,15,Color.WHITE)).into(binding.imageViewDetail)
-
-        }
     }
 
     private fun loadPositions(nombreJugadorBuscado: String) {

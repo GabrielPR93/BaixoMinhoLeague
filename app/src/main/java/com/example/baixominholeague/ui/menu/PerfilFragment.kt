@@ -63,8 +63,6 @@ class PerfilFragment : Fragment() {
     }
 
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -195,7 +193,7 @@ class PerfilFragment : Fragment() {
                                 10 -> stringBuilder.append(nombreDocumento).append(separador).append(puntuacionJugador+" Puntos").append("   -   ").append("3ª Posición").appendLine().append("\n")
                                 else ->  stringBuilder.append(nombreDocumento).append(separador).append(puntuacionJugador+" Puntos").appendLine().append("\n")
                             }
-                            Log.i("GABRI","Documento: $nombreDocumento, Nombre del jugador : $nombreJugador, PUntuacion : $puntuacionJugador")
+                           // Log.i("GABRI","Documento: $nombreDocumento, Nombre del jugador : $nombreJugador, PUntuacion : $puntuacionJugador")
                         }
                     }
                     binding.textViewTorneos.text=stringBuilder.toString()
