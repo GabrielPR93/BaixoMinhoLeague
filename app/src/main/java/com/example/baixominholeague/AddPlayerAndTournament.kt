@@ -72,12 +72,15 @@ class AddPlayerAndTournament : AppCompatActivity() {
 
 
     private fun uiPlayers(jugadores: MutableList<Jugador>) {
+        binding.linearLayoutPlayers.removeAllViews()//eliminar la vista para actualizar
+
         val layoutParams = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
         )
 
         for (player in jugadores) {
+
             val linearLayout = LinearLayout(this)
             linearLayout.orientation = LinearLayout.HORIZONTAL
             linearLayout.layoutParams = layoutParams
@@ -141,7 +144,6 @@ class AddPlayerAndTournament : AppCompatActivity() {
         val jugadoresCollectionRef = db.collection("jugadores")
 
         jugadoresCollectionRef.get().addOnSuccessListener {
-           // val jugadores = mutableListOf<Jugador>()
                 for (document in it) {
                     val jugador = document.toObject(Jugador::class.java)
                     if (jugador != null) {
@@ -149,10 +151,11 @@ class AddPlayerAndTournament : AppCompatActivity() {
                         jugadores.add(jugador)
                     }
                 }
+            jugadores.sortBy { it.nombre }
             uiPlayers(jugadores)
             }
         }
-//Todo solucionar la actualizacion al añadir player
+
     private fun saveNewPlayer() {
         val jugadorRef = db.collection("counter").document("counter")
 
@@ -177,18 +180,17 @@ class AddPlayerAndTournament : AppCompatActivity() {
                 transaction.set(jugadoresCollection.document(nombreCapitalizado+jugadorId.toString()), jugadorData)
                 transaction.update(jugadorRef, "count", nextCount)
 
-                runOnUiThread {
-                    Toast.makeText(this, "Guardado correctamente", Toast.LENGTH_SHORT).show()
-
-                    //jugadores.add(Jugador(jugadorId,nombreCapitalizado,correo))
-                    //uiPlayers(jugadores)
-
+                jugadores.add(Jugador(jugadorId,nombreCapitalizado,correo))
+                jugadores.sortBy { it.nombre }
+                runOnUiThread{
+                    uiPlayers(jugadores)
                 }
             }
 
             null
         }.addOnSuccessListener {
             // La transacción se completó exitosamente
+            Toast.makeText(this, "Guardado correctamente", Toast.LENGTH_SHORT).show()
             binding.editextAddNombrePlayer.setText("")
             binding.editextAddCorreoPlayer.setText("")
             binding.editextAddNombrePlayer.clearFocus()
