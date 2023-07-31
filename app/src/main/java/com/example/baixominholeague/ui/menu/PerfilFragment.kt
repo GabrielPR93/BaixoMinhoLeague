@@ -222,11 +222,9 @@ class PerfilFragment : Fragment() {
              selectedImageUri = Uri.parse(selectedImageUri).toString()
              Picasso.get().load(selectedImageUri).transform(CircleTransformation(requireContext(),25,Color.WHITE)).into(binding.imageViewProfile)
          }
-         else if(foto!=null){ //Cargar la imagen de perfil guardada
-             //val imageUri = Uri.parse(foto)
+        else if(foto!=""){ //Cargar la imagen de perfil guardada
              selectedImageUri= Uri.parse(foto).toString()
              Picasso.get().load(selectedImageUri).transform(CircleTransformation(requireContext(),25,Color.WHITE)).into(binding.imageViewProfile)
-
          }
 
         loadEmail(correo.toString())
