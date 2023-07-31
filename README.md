@@ -9,6 +9,7 @@ Ejemplo: Futbolin,Billar,Tenis...
   - Analytics
   - Authenticación
   - Firestore Database
+  - Storage
 
 
 [![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white&labelColor=101010)]()
