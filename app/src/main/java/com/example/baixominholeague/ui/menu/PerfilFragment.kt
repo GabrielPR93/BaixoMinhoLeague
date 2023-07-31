@@ -214,8 +214,9 @@ class PerfilFragment : Fragment() {
         binding.editTextPosiciones.setText(posiciones)
 
          if(correo.equals(CORREO_ADMIN)){
-             binding.textViewTituloTorneos.isVisible=false
-             binding.btnAddPlayer.isVisible=true
+             binding.textViewTituloTorneos.visibility=View.GONE
+             binding.scrollTorneosDisputados.visibility=View.GONE
+             binding.btnAddPlayer.visibility=View.VISIBLE
          }
 
          if(selectedImageUri!=""){//Para que al cambiar la imagen se actualize (solo entra si se cambia la imagen)
