@@ -43,7 +43,6 @@ class AddPlayerAndTournament : AppCompatActivity() {
         }
         binding.btnAddPlayer.setOnClickListener{
             saveNewPlayer()
-            //JugadoresFragment().setup()
         }
         binding.btnAddTournament.setOnClickListener{
             binding.linearLayoutPlayers.clearFocus()

@@ -22,14 +22,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/imageViewDetail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+
+                        <ProgressBar
+                            android:id="@+id/ProgresBarImageView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:elevation="3dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/myCircleImageView"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/myCircleImageView" />
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/myCircleImageView"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:layout_marginTop="60dp"
+                        android:scaleType="centerCrop"
+                        app:shapeAppearanceOverlay="@style/CircleImageView"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/cardViewDetailJugador"/>
+
 
                 <ImageButton
                     android:id="@+id/btnBack"
@@ -47,6 +62,7 @@
         android:id="@+id/cardViewDetailJugador"
         android:layout_width="match_parent"
        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
         android:layout_height="wrap_content"
         android:elevation="10dp"
         android:background="@drawable/background_player"
@@ -54,9 +70,10 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         app:layout_goneMarginEnd="10dp"
-        app:layout_constraintTop_toBottomOf="@id/imageViewDetail"
+        app:layout_constraintTop_toBottomOf="@id/myCircleImageView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout

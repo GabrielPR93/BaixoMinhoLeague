@@ -6,6 +6,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.core.view.isVisible
 import com.example.baixominholeague.databinding.ActivityDetailJugadorBinding
 import com.example.baixominholeague.databinding.ActivityMainBinding
 import com.example.baixominholeague.ui.menu.PerfilFragment
@@ -104,7 +105,8 @@ class DetailJugador : AppCompatActivity() {
     private fun setupUi(alias: String, nombre: String, telefono: String, correo: String, localidad: String, posiciones: String, foto: String) {
 
         if(!foto.isNullOrEmpty()){
-            Picasso.get().load(Uri.parse(foto)).transform(CircleTransformation(this,25,Color.WHITE)).into(binding.imageViewDetail)
+            Picasso.get().load(Uri.parse(foto)).into(binding.myCircleImageView)
+            binding.ProgresBarImageView.isVisible=false
         }
         binding.tvAlias.setText(alias)
         binding.tvNombre.setText(nombre)
