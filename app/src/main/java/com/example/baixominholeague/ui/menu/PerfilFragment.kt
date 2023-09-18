@@ -30,7 +30,7 @@ import com.example.baixominholeague.MainActivity.Companion.CLAVE_LOCALIDAD
 import com.example.baixominholeague.MainActivity.Companion.CLAVE_NOMBRE
 import com.example.baixominholeague.MainActivity.Companion.CLAVE_POSICIONES
 import com.example.baixominholeague.MainActivity.Companion.CLAVE_TELEFONO
-import com.example.baixominholeague.ui.menu.login.LoginActivity
+import com.example.baixominholeague.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.collection.LLRBNode
 import com.google.firebase.firestore.FirebaseFirestore
@@ -318,7 +318,7 @@ class PerfilFragment : Fragment() {
                     prefs.apply()
                     //Cerramos la sesión
                     FirebaseAuth.getInstance().signOut()
-                    startActivity(Intent(activity,LoginActivity::class.java))
+                    startActivity(Intent(activity, LoginActivity::class.java))
                     requireActivity().finish()
 
                 }

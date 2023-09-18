@@ -1,34 +1,27 @@
 package com.example.baixominholeague
 
 import android.Manifest
-import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.icu.util.Calendar
-import android.icu.util.TimeZone
 import android.net.Uri
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.example.baixominholeague.data.Evento
 import com.example.baixominholeague.databinding.ActivityMainBinding
 import com.example.baixominholeague.ui.menu.ClasificacionFragment
-import com.example.baixominholeague.ui.menu.InicioFragment
-import com.example.baixominholeague.ui.menu.JugadoresFragment
+import com.example.baixominholeague.ui.menu.Inicio.InicioFragment
+import com.example.baixominholeague.ui.menu.Jugadores.JugadoresFragment
 import com.example.baixominholeague.ui.menu.PerfilFragment
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Callback
@@ -310,8 +303,8 @@ class MainActivity : AppCompatActivity() {
             (correo ?: correoLogin)?.let {
                 saveEvent(nombre, fecha, hora, precio,ubicacion ,it)
 
-                fragmentInicio.getEventsOrderByDate()
-                replaceFragment(fragmentInicio)
+                //fragmentInicio.getEventsOrderByDate()
+                //replaceFragment(fragmentInicio)
 
             }
         }
@@ -324,30 +317,52 @@ class MainActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    private fun saveEvent(nombre: String, fecha: String, hora: String, precio: String,ubicacion: String ,correo: String) {
+    private fun saveEvent(nombre: String, fecha: String, hora: String, precio: String, ubicacion: String, correo: String) {
 
         if (nombre.isNotEmpty() && fecha.isNotEmpty() && hora.isNotEmpty() && ubicacion.isNotEmpty()) {
             val dateTimeString = "$fecha $hora"
             val format = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
             val date = format.parse(dateTimeString)
             val timestamp = Timestamp(date.time)
-            db.collection("eventos").document(nombre).set(
-                hashMapOf(
-                    "nombre" to nombre,
-                    "fecha" to timestamp,
-                    "precio" to precio,
-                    "ubicacion" to ubicacion,
-                    "correo" to correo.orEmpty()
-                )
-            ).addOnSuccessListener {
-                //replaceFragment(fragmentInicio)
-                Toast.makeText(this, "Guardado correctamente", Toast.LENGTH_SHORT).show()
 
-            }.addOnFailureListener { e ->
-                Toast.makeText(this, "Error al guardar: ${e.message}", Toast.LENGTH_SHORT).show()
-            }
+            db.collection("eventos")
+                .document(nombre.lowercase())
+                .get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val document =task.result
+                        if(document != null && document.exists()){
+
+                            Toast.makeText(this, "Ya existe un evento con ese nombre", Toast.LENGTH_SHORT).show()
+
+                        }else{
+                            db.collection("eventos").document(nombre.lowercase()).set(
+                                hashMapOf(
+                                    "nombre" to nombre.uppercase(),
+                                    "fecha" to timestamp,
+                                    "precio" to precio,
+                                    "ubicacion" to ubicacion,
+                                    "correo" to correo.orEmpty()
+                                )
+                            ).addOnSuccessListener {
+                                Toast.makeText(this, "Guardado correctamente", Toast.LENGTH_SHORT).show()
+                                fragmentInicio.updateEventList()
+                            }.addOnFailureListener { e ->
+                                Toast.makeText(this, "Error al guardar: ${e.message}", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+
+                    } else {
+                        Toast.makeText(this, "Error en la consulta", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Error al verificar el nombre del evento: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
         } else {
             Toast.makeText(this, "El nombre, fecha y hora del evento no pueden estar vacíos", Toast.LENGTH_SHORT).show()
         }
     }
+
+
 }

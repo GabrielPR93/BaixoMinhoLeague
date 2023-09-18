@@ -15,13 +15,16 @@
         android:theme="@style/Theme.BaixoMinhoLeagueSinActionBar"
         tools:targetApi="31">
         <activity
+            android:name=".ui.menu.Inicio.DetailEvent"
+            android:exported="false" />
+        <activity
             android:name=".AddPlayerAndTournament"
             android:exported="false" />
         <activity
-            android:name=".DetailJugador"
+            android:name=".ui.menu.Jugadores.DetailJugador"
             android:exported="false" />
         <activity
-            android:name=".ui.menu.login.LoginActivity"
+            android:name=".login.LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.BaixoMinhoLeagueStartingSinActionBar">
             <intent-filter>
@@ -31,7 +34,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.menu.login.RegisterActivity"
+            android:name=".login.RegisterActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

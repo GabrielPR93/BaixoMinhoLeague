@@ -1,6 +1,5 @@
 package com.example.baixominholeague
 
-import android.app.ActionBar.LayoutParams
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,19 +7,11 @@ import android.text.InputFilter
 import android.text.InputType
 import android.text.method.DigitsKeyListener
 import android.util.Log
-import android.view.KeyEvent
 import android.view.View
 import android.widget.*
-import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.baixominholeague.data.Jugador
 import com.example.baixominholeague.databinding.ActivityAddPlayerAndTournamentBinding
-import com.example.baixominholeague.recyclerViewJugadores.JugadorAdapter
-import com.example.baixominholeague.ui.menu.JugadoresFragment
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.SetOptions
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.io.Serializable
 import java.util.*
 

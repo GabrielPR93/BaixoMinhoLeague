@@ -1,4 +1,4 @@
-package com.example.baixominholeague.ui.menu
+package com.example.baixominholeague.ui.menu.Jugadores
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,15 +10,11 @@ import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.baixominholeague.DetailJugador
-import com.example.baixominholeague.DetailJugador.Companion.ID_PLAYER
-import com.example.baixominholeague.R
+import com.example.baixominholeague.ui.menu.Jugadores.DetailJugador.Companion.ID_PLAYER
 import com.example.baixominholeague.data.Jugador
 import com.example.baixominholeague.databinding.FragmentJugadoresBinding
-import com.example.baixominholeague.databinding.FragmentPerfilBinding
 import com.example.baixominholeague.recyclerViewJugadores.JugadorAdapter
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -45,7 +41,7 @@ class JugadoresFragment : Fragment() {
         _binding = FragmentJugadoresBinding.inflate(inflater,container,false)
         val view = binding.root
 
-        adapter = JugadorAdapter(jugadores){idJugador -> navigateToDetailPlayer(idJugador) }
+        adapter = JugadorAdapter(jugadores){ idJugador -> navigateToDetailPlayer(idJugador) }
 
         setup()
         searchPlayer()
@@ -92,7 +88,7 @@ class JugadoresFragment : Fragment() {
                             val jugador = document.toObject(Jugador::class.java)
                             jugadores.add(jugador)
                         }
-                        setupExecuted=true
+                        setupExecuted =true
                     }
                     Log.i("GAB", jugadores.size.toString())
                     // Configura el RecyclerView y el adaptador
@@ -110,7 +106,7 @@ class JugadoresFragment : Fragment() {
     }
 
     private fun navigateToDetailPlayer(id:Int){
-        val intent= Intent(requireContext(),DetailJugador::class.java)
+        val intent= Intent(requireContext(), DetailJugador::class.java)
         intent.putExtra(ID_PLAYER,id)
         startActivity(intent)
     }

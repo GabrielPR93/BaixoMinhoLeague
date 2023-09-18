@@ -1,20 +1,15 @@
-package com.example.baixominholeague
+package com.example.baixominholeague.ui.menu.Jugadores
 
 import android.content.ContentResolver
-import android.graphics.Color
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.core.view.isVisible
+import com.example.baixominholeague.R
 import com.example.baixominholeague.databinding.ActivityDetailJugadorBinding
-import com.example.baixominholeague.databinding.ActivityMainBinding
-import com.example.baixominholeague.ui.menu.PerfilFragment
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class DetailJugador : AppCompatActivity() {
     companion object {

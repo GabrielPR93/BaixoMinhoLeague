@@ -12,19 +12,20 @@ class EventoViewHolder(view: View, private val eliminarEvento: (Evento) -> Unit)
 
     private val binding = ItemEventBinding.bind(view)
 
-    fun bind(evento: Evento) {
+    fun bind(evento: Evento, onItemSelected:(String) -> Unit) {
 
         binding.tvFecha.setText(SimpleDateFormat("dd/MM/yyyy - HH:mm", Locale.getDefault()) .format(evento.fecha)+" h")
         binding.tvEventName.setText(evento.nombre)
         binding.tvPrecio.setText("Inscripción:")
+        binding.tvCorreo.setText(evento.correo)
+        binding.tvPubli.setText("Publicado por:")
+        binding.tvUbicacion.setText(evento.ubicacion)
+
         if(evento.precio.isNullOrEmpty()){
             binding.tvInscripcion.setText("Gratis")
         }else{
             binding.tvInscripcion.setText(evento.precio+" €")
         }
-        binding.tvCorreo.setText(evento.correo)
-        binding.tvPubli.setText("Publicado por:")
-        binding.tvUbicacion.setText(evento.ubicacion)
 
         if(evento.mostrarBotonCancelar){
             binding.btnCancel.visibility = View.VISIBLE
@@ -34,5 +35,7 @@ class EventoViewHolder(view: View, private val eliminarEvento: (Evento) -> Unit)
         }else{
             binding.btnCancel.visibility = View.GONE
         }
+
+        binding.root.setOnClickListener{ evento.nombre?.let { it -> onItemSelected(it) }}
     }
 }

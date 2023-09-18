@@ -1,4 +1,4 @@
-package com.example.baixominholeague.ui.menu.login
+package com.example.baixominholeague.login
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -19,7 +19,7 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.buttomBackLogin.setOnClickListener {
-            startActivity(Intent(this,LoginActivity::class.java))
+            startActivity(Intent(this, LoginActivity::class.java))
             finish()
         }
 

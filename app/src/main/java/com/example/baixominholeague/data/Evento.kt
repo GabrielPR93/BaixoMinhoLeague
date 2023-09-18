@@ -4,7 +4,6 @@ import java.sql.Timestamp
 import java.util.Date
 
 class Evento{
-    var id: Int? = null
     var correo: String? = null
     var fecha: Date? = null
     var hora: String? = null
