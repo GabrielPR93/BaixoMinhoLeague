@@ -36,7 +36,6 @@ class JugadoresFragment : Fragment() {
         arguments?.let {
 
         }
-
     }
 
     override fun onCreateView(

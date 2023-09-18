@@ -234,6 +234,12 @@ class MainActivity : AppCompatActivity() {
         editText.hint = "Precio"
         container.addView(editText)
 
+        val editTextUbicacion = EditText(this)
+        editTextUbicacion.hint = "Ubicación"
+        editTextUbicacion.setPadding(30, 50, 30, 30)
+        editTextUbicacion.setBackgroundColor(Color.WHITE)
+        container.addView(editTextUbicacion)
+
         val editTextFecha = EditText(this)
         editTextFecha.hint = "Seleccione una fecha"
         editTextFecha.setPadding(30,50,30,30)
@@ -298,10 +304,11 @@ class MainActivity : AppCompatActivity() {
             val fecha = editTextFecha.text.toString()
             val hora = editTextHora.text.toString()
             val precio = editText.text.toString()
+            val ubicacion = editTextUbicacion.text.toString()
 
 
             (correo ?: correoLogin)?.let {
-                saveEvent(nombre, fecha, hora, precio, it)
+                saveEvent(nombre, fecha, hora, precio,ubicacion ,it)
 
                 fragmentInicio.getEventsOrderByDate()
                 replaceFragment(fragmentInicio)
@@ -317,9 +324,9 @@ class MainActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    private fun saveEvent(nombre: String, fecha: String, hora: String, precio: String, correo: String) {
+    private fun saveEvent(nombre: String, fecha: String, hora: String, precio: String,ubicacion: String ,correo: String) {
 
-        if (nombre.isNotEmpty() && fecha.isNotEmpty() && hora.isNotEmpty()) {
+        if (nombre.isNotEmpty() && fecha.isNotEmpty() && hora.isNotEmpty() && ubicacion.isNotEmpty()) {
             val dateTimeString = "$fecha $hora"
             val format = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
             val date = format.parse(dateTimeString)
@@ -329,6 +336,7 @@ class MainActivity : AppCompatActivity() {
                     "nombre" to nombre,
                     "fecha" to timestamp,
                     "precio" to precio,
+                    "ubicacion" to ubicacion,
                     "correo" to correo.orEmpty()
                 )
             ).addOnSuccessListener {

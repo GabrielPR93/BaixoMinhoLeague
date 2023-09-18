@@ -24,6 +24,7 @@ class EventoViewHolder(view: View, private val eliminarEvento: (Evento) -> Unit)
         }
         binding.tvCorreo.setText(evento.correo)
         binding.tvPubli.setText("Publicado por:")
+        binding.tvUbicacion.setText(evento.ubicacion)
 
         if(evento.mostrarBotonCancelar){
             binding.btnCancel.visibility = View.VISIBLE
