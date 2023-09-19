@@ -20,12 +20,7 @@ class EventoViewHolder(view: View, private val eliminarEvento: (Evento) -> Unit)
         binding.tvCorreo.setText(evento.correo)
         binding.tvPubli.setText("Publicado por:")
         binding.tvUbicacion.setText(evento.ubicacion)
-
-        if(evento.precio.isNullOrEmpty()){
-            binding.tvInscripcion.setText("Gratis")
-        }else{
-            binding.tvInscripcion.setText(evento.precio+" €")
-        }
+        binding.tvInscripcion.setText(evento.precio)
 
         if(evento.mostrarBotonCancelar){
             binding.btnCancel.visibility = View.VISIBLE

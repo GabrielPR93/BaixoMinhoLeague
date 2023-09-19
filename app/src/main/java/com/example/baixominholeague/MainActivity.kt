@@ -303,9 +303,6 @@ class MainActivity : AppCompatActivity() {
             (correo ?: correoLogin)?.let {
                 saveEvent(nombre, fecha, hora, precio,ubicacion ,it)
 
-                //fragmentInicio.getEventsOrderByDate()
-                //replaceFragment(fragmentInicio)
-
             }
         }
 
@@ -318,6 +315,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun saveEvent(nombre: String, fecha: String, hora: String, precio: String, ubicacion: String, correo: String) {
+
+        val precioFinal = if (precio.isNullOrEmpty()) "Gratis" else "$precio €"
+
 
         if (nombre.isNotEmpty() && fecha.isNotEmpty() && hora.isNotEmpty() && ubicacion.isNotEmpty()) {
             val dateTimeString = "$fecha $hora"
@@ -340,29 +340,32 @@ class MainActivity : AppCompatActivity() {
                                 hashMapOf(
                                     "nombre" to nombre.uppercase(),
                                     "fecha" to timestamp,
-                                    "precio" to precio,
+                                    "precio" to precioFinal,
                                     "ubicacion" to ubicacion,
                                     "correo" to correo.orEmpty()
                                 )
                             ).addOnSuccessListener {
-                                Toast.makeText(this, "Guardado correctamente", Toast.LENGTH_SHORT).show()
+                               showToast("Guardado correctamente")
                                 fragmentInicio.updateEventList()
                             }.addOnFailureListener { e ->
-                                Toast.makeText(this, "Error al guardar: ${e.message}", Toast.LENGTH_SHORT).show()
+                                showToast("Error al guardar: ${e.message}")
                             }
                         }
 
                     } else {
-                        Toast.makeText(this, "Error en la consulta", Toast.LENGTH_SHORT).show()
+                        showToast("Error en la consulta")
                     }
                 }
                 .addOnFailureListener { e ->
-                    Toast.makeText(this, "Error al verificar el nombre del evento: ${e.message}", Toast.LENGTH_SHORT).show()
+                   showToast("Error al verificar el nombre del evento: ${e.message}")
                 }
         } else {
-            Toast.makeText(this, "El nombre, fecha y hora del evento no pueden estar vacíos", Toast.LENGTH_SHORT).show()
+            showToast("El nombre, fecha y hora del evento no pueden estar vacíos")
         }
     }
 
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
 
 }
