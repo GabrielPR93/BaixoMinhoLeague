@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/stBlue"
+    android:background="@color/blue2"
     tools:context=".ui.menu.Inicio.DetailEvent">
 
     <ScrollView
@@ -27,7 +27,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/back"
-                    android:backgroundTint="@color/stBlue"
+                    android:backgroundTint="@color/blue2"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="20dp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -38,6 +38,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Evento"
+                    android:textSize="18dp"
+                    android:textColor="@color/white"
                     android:layout_marginStart="20dp"
                     app:layout_constraintBottom_toBottomOf="@id/imageButtonBack"
                     app:layout_constraintStart_toEndOf="@id/imageButtonBack"
@@ -72,7 +74,7 @@
                             android:paddingStart="10dp"
                             android:paddingEnd="10dp"
                             android:layout_marginTop="10dp"
-                            android:fontFamily="@font/hurmegeometricsans4"
+                            android:fontFamily="@font/hurmebold"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent"/>
@@ -141,13 +143,13 @@
                         <TextView
                             android:id="@+id/tvInscripcion"
                             android:text="Inscripción:"
-                            android:textSize="15dp"
+                            android:textSize="16dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="40dp"
                             android:layout_marginTop="40dp"
                             android:paddingEnd="5dp"
-                            android:fontFamily="@font/hurmegeometricsans4"
+                            android:fontFamily="@font/hurmebold"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tvUbicacion" />
 
@@ -167,12 +169,12 @@
                         <TextView
                             android:id="@+id/tvTituloDescripcion"
                             android:text="Descripción"
-                            android:textSize="15dp"
+                            android:textSize="16dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:paddingEnd="5dp"
-                            android:fontFamily="@font/hurmegeometricsans4"
+                            android:fontFamily="@font/hurmebold"
                             app:layout_constraintTop_toBottomOf="@id/tvInscripcion"
                             app:layout_constraintStart_toStartOf="@id/tvInscripcion"/>
 
@@ -190,32 +192,55 @@
                             app:layout_constraintStart_toStartOf="@id/tvInscripcion"
                             app:layout_constraintEnd_toEndOf="parent"/>
 
-                        <LinearLayout
-                            android:id="@+id/linearLayoutButtons"
+                        <TextView
+                            android:id="@+id/tvTituloPublicado"
+                            android:text="Publicado por:"
+                            android:textSize="16dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="50dp"
-                            android:layout_marginBottom="20dp"
+                            android:layout_marginTop="10dp"
+                            android:paddingEnd="5dp"
+                            android:fontFamily="@font/hurmebold"
                             app:layout_constraintTop_toBottomOf="@id/tvDescripcion"
-                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintStart_toStartOf="@id/tvInscripcion"/>
+
+                        <TextView
+                            android:id="@+id/tvCorreoPublicado"
+                            tools:text="gabri@hotmail.com"
+                            android:textSize="15dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingEnd="5dp"
+                            android:layout_marginStart="10dp"
+                            android:fontFamily="@font/hurmegeometricsans4"
+                            app:layout_constraintTop_toTopOf="@id/tvTituloPublicado"
+                            app:layout_constraintStart_toEndOf="@id/tvTituloPublicado"/>
+
+
+                        <Button
+                            android:id="@+id/btnParticipar"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Asistiré"
+                            android:layout_marginStart="40dp"
+                            android:layout_marginEnd="40dp"
+                            android:layout_marginTop="60dp"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent">
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tvTituloPublicado" />
 
-                            <Button
-                                android:id="@+id/buttonNoParticipo"
-                                android:text="No Participo"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
-                            <Button
-                                android:id="@+id/buttonParticipo"
-                                android:text="Participo"
-                                android:layout_marginStart="30dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
-                        </LinearLayout>
-
-
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/textButton"
+                            android:text="0 Participantes"
+                            android:textAllCaps="false"
+                            android:textColor="@color/black"
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:fontFamily="@font/hurmegeometricsans4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintStart_toStartOf="@id/btnParticipar"
+                            app:layout_constraintEnd_toEndOf="@id/btnParticipar"
+                            app:layout_constraintTop_toBottomOf="@id/btnParticipar"/>
 
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
