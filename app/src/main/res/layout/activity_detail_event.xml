@@ -56,6 +56,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/imageButtonBack"
@@ -73,7 +74,7 @@
                             android:textSize="20dp"
                             android:paddingStart="10dp"
                             android:paddingEnd="10dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="25dp"
                             android:fontFamily="@font/hurmebold"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -81,9 +82,9 @@
 
                         <ImageView
                             android:id="@+id/imageViewEvent"
-                            android:layout_width="200dp"
-                            android:layout_height="200dp"
-                            android:layout_marginTop="15dp"
+                            android:layout_width="250dp"
+                            android:layout_height="300dp"
+                            android:layout_marginTop="25dp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tvTituloEvent"
@@ -103,6 +104,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:drawableStart="@drawable/calendar"
+                            android:gravity="center"
                             android:fontFamily="@font/hurmegeometricsans4"
                             android:drawablePadding="10dp"
                             app:layout_constraintEnd_toEndOf="@+id/imageViewEvent"
@@ -114,9 +116,10 @@
                             android:id="@+id/tvHoraEvent"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
+                            android:layout_marginStart="30dp"
                             android:drawableStart="@drawable/watch"
                             android:drawablePadding="10dp"
+                            android:gravity="center"
                             android:fontFamily="@font/hurmegeometricsans4"
                             app:layout_constraintBottom_toBottomOf="@+id/tvFechaEvent"
                             app:layout_constraintStart_toEndOf="@id/tvFechaEvent"
@@ -131,6 +134,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
                             android:layout_marginTop="10dp"
+                            android:gravity="center"
                             android:drawableStart="@drawable/location_on_24"
                             android:drawablePadding="10dp"
                             android:paddingEnd="5dp"
@@ -140,18 +144,47 @@
                             app:layout_constraintEnd_toEndOf="@id/lineralayoutFecha"
                             tools:text="A Guarda" />
 
+
+
+<!--                        <TextView-->
+<!--                            android:id="@+id/tvTituloDescripcion"-->
+<!--                            android:text="Descripción"-->
+<!--                            android:textSize="16dp"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="40dp"-->
+<!--                            android:layout_marginTop="40dp"-->
+<!--                            android:paddingEnd="5dp"-->
+<!--                            android:fontFamily="@font/hurmebold"-->
+<!--                            app:layout_constraintTop_toBottomOf="@id/tvUbicacion"-->
+<!--                            app:layout_constraintStart_toStartOf="parent"/>-->
+
+                        <TextView
+                            android:id="@+id/tvDescripcion"
+                            tools:text="Esto seria la descripcion del Evento en cuestion con todos sus respectivos datos "
+                            android:textSize="15dp"
+                            android:lineSpacingMultiplier="1.5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="40dp"
+                            android:layout_marginStart="40dp"
+                            android:paddingEnd="5dp"
+                            android:fontFamily="@font/hurmegeometricsans4"
+                            app:layout_constraintTop_toBottomOf="@id/tvUbicacion"
+                            app:layout_constraintStart_toStartOf="@id/tvInscripcion"
+                            app:layout_constraintEnd_toEndOf="parent"/>
+
                         <TextView
                             android:id="@+id/tvInscripcion"
                             android:text="Inscripción:"
                             android:textSize="16dp"
+                            android:layout_marginTop="20dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="40dp"
-                            android:layout_marginTop="40dp"
                             android:paddingEnd="5dp"
                             android:fontFamily="@font/hurmebold"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tvUbicacion" />
+                            app:layout_constraintStart_toStartOf="@id/tvDescripcion"
+                            app:layout_constraintTop_toBottomOf="@id/tvDescripcion" />
 
                         <TextView
                             android:id="@+id/tvPrecio"
@@ -167,32 +200,6 @@
                             app:layout_constraintTop_toTopOf="@id/tvInscripcion" />
 
                         <TextView
-                            android:id="@+id/tvTituloDescripcion"
-                            android:text="Descripción"
-                            android:textSize="16dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:paddingEnd="5dp"
-                            android:fontFamily="@font/hurmebold"
-                            app:layout_constraintTop_toBottomOf="@id/tvInscripcion"
-                            app:layout_constraintStart_toStartOf="@id/tvInscripcion"/>
-
-                        <TextView
-                            android:id="@+id/tvDescripcion"
-                            tools:text="Esto seria la descripcion del Evento en cuestion con todos sus respectivos datos "
-                            android:textSize="15dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginStart="40dp"
-                            android:paddingEnd="5dp"
-                            android:fontFamily="@font/hurmegeometricsans4"
-                            app:layout_constraintTop_toBottomOf="@id/tvTituloDescripcion"
-                            app:layout_constraintStart_toStartOf="@id/tvInscripcion"
-                            app:layout_constraintEnd_toEndOf="parent"/>
-
-                        <TextView
                             android:id="@+id/tvTituloPublicado"
                             android:text="Publicado por:"
                             android:textSize="16dp"
@@ -201,7 +208,7 @@
                             android:layout_marginTop="10dp"
                             android:paddingEnd="5dp"
                             android:fontFamily="@font/hurmebold"
-                            app:layout_constraintTop_toBottomOf="@id/tvDescripcion"
+                            app:layout_constraintTop_toBottomOf="@id/tvInscripcion"
                             app:layout_constraintStart_toStartOf="@id/tvInscripcion"/>
 
                         <TextView
