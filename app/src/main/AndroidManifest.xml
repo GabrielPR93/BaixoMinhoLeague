@@ -15,6 +15,9 @@
         android:theme="@style/Theme.BaixoMinhoLeagueSinActionBar"
         tools:targetApi="31">
         <activity
+            android:name=".NuevoEvento"
+            android:exported="false" />
+        <activity
             android:name=".ui.menu.Inicio.DetailEvent"
             android:exported="false" />
         <activity

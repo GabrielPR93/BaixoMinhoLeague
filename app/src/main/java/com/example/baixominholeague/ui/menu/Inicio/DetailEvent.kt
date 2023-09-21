@@ -1,10 +1,13 @@
 package com.example.baixominholeague.ui.menu.Inicio
 
+import android.content.Context
 import android.icu.text.SimpleDateFormat
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.core.content.ContextCompat
+import com.example.baixominholeague.R
 import com.example.baixominholeague.databinding.ActivityDetailEventBinding
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
@@ -27,12 +30,16 @@ class DetailEvent : AppCompatActivity() {
         setContentView(binding.root)
 
         val nameEvent = intent.getStringExtra(NAME_EVENT)
-        Log.i("GAbri","$nameEvent")
         binding.tvTituloEvent.setText(nameEvent)
 
         if (nameEvent != null) {
             getDetailEvent(nameEvent)
         }
+
+        binding.btnParticipar.setOnClickListener { binding.btnParticipar.setBackgroundColor(ContextCompat.getColor(this,
+            R.color.teal_200)) }
+
+        binding.imageButtonBack.setOnClickListener { onBackPressed() }
     }
     private fun getDetailEvent(nameEvent: String){
         val collectionRef = db.collection("eventos")
@@ -71,6 +78,5 @@ class DetailEvent : AppCompatActivity() {
         binding.tvDescripcion.setText(descripcion)
         Picasso.get().load(Uri.parse(imagen)).into(binding.imageViewEvent)
     }
-
 
 }

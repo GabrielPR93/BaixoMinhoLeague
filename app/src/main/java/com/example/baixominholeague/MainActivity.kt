@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.icu.util.Calendar
@@ -20,6 +21,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.baixominholeague.databinding.ActivityMainBinding
 import com.example.baixominholeague.ui.menu.ClasificacionFragment
+import com.example.baixominholeague.ui.menu.Inicio.DetailEvent
 import com.example.baixominholeague.ui.menu.Inicio.InicioFragment
 import com.example.baixominholeague.ui.menu.Jugadores.JugadoresFragment
 import com.example.baixominholeague.ui.menu.PerfilFragment
@@ -103,10 +105,18 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.floatinButton.setOnClickListener {
-           showDialogChampionship()
+          // showDialogChampionship()
+            (correo ?: correoLogin)?.let {
+                navigateToNewEvent(it)
 
+            }
         }
 
+    }
+    private fun navigateToNewEvent(email:String){
+        val intent= Intent(this, NuevoEvento::class.java)
+        intent.putExtra(NuevoEvento.EMAIL_PUBLICADOR,email)
+        startActivity(intent)
     }
 
     //Precarga de la imagen de perfil

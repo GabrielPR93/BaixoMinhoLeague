@@ -14,11 +14,9 @@ class EventoViewHolder(view: View, private val eliminarEvento: (Evento) -> Unit)
 
     fun bind(evento: Evento, onItemSelected:(String) -> Unit) {
 
-        binding.tvFecha.setText(SimpleDateFormat("dd/MM/yyyy - HH:mm", Locale.getDefault()) .format(evento.fecha)+" h")
+        binding.tvFecha.setText(SimpleDateFormat("dd/MM/yyyy - HH:mm", Locale.getDefault()) .format(evento.fecha)+" H")
         binding.tvEventName.setText(evento.nombre)
         binding.tvPrecio.setText("Inscripción:")
-        binding.tvCorreo.setText(evento.correo)
-        binding.tvPubli.setText("Publicado por:")
         binding.tvUbicacion.setText(evento.ubicacion)
         binding.tvInscripcion.setText(evento.precio)
 
