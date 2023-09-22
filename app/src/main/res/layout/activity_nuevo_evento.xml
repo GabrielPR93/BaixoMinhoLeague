@@ -53,7 +53,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:elevation="20dp"
-                    app:cardBackgroundColor="@color/blanco_azul"
+                    app:cardBackgroundColor="@color/blanco_gris"
                     app:cardCornerRadius="30dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
@@ -69,16 +69,17 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:id="@+id/tvNombreDescripcion"
+                            android:id="@+id/tvNombre"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Nombre y Descripción"
+                            android:text="Nombre Torneo"
                             android:textSize="16dp"
                             android:fontFamily="@font/hurmebold"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="20dp"
                             android:layout_marginStart="30dp"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"/>
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintBottom_toTopOf="@id/cardViewNombreDescripcion"/>
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/cardViewNombreDescripcion"
@@ -88,12 +89,11 @@
                             app:cardCornerRadius="30dp"
                             android:layout_marginStart="10dp"
                             android:layout_marginEnd="10dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="20dp"
                             android:layout_marginBottom="10dp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tvNombreDescripcion"
-                            app:layout_constraintBottom_toBottomOf="parent">
+                            app:layout_constraintTop_toBottomOf="@id/tvNombre">
 
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
@@ -104,43 +104,236 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     style="@style/EditTextWhiteBackground"
-                                    android:hint="Ingrese nombre del torneo"
+                                    android:hint="Ingrese Nombre del torneo"
                                     android:layout_marginStart="20dp"
                                     android:layout_marginEnd="20dp"
                                     android:layout_marginTop="10dp"
+                                    android:layout_marginBottom="10dp"
                                     app:layout_constraintTop_toTopOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"/>
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                        </androidx.cardview.widget.CardView>
+                        <TextView
+                            android:id="@+id/tvFechaHora"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Fecha/Hora y Ubicacion"
+                            android:textSize="16dp"
+                            android:fontFamily="@font/hurmebold"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginStart="30dp"
+                            app:layout_constraintTop_toBottomOf="@id/cardViewNombreDescripcion"
+                            app:layout_constraintStart_toStartOf="parent"/>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cardViewFechaHora"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:elevation="30dp"
+                            app:cardCornerRadius="30dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tvFechaHora">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <EditText
+                                    android:id="@+id/etFecha"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    style="@style/EditTextWhiteBackground"
+                                    android:hint="Añadir Fecha"
+                                    android:layout_marginStart="20dp"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginEnd="20dp"
+                                    android:layout_marginBottom="10dp"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent" />
+
+                                <EditText
+                                    android:id="@+id/etHora"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    style="@style/EditTextWhiteBackground"
+                                    android:hint="Añadir Hora"
+                                    android:layout_marginStart="20dp"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginEnd="20dp"
+                                    android:layout_marginBottom="10dp"
+                                    app:layout_constraintTop_toBottomOf="@id/etFecha"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent" />
+
+                                <EditText
+                                    android:id="@+id/etUbicacion"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    style="@style/EditTextWhiteBackground"
+                                    android:hint="Añadir Ubicacion"
+                                    android:layout_marginStart="20dp"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginEnd="20dp"
+                                    android:layout_marginBottom="10dp"
+                                    app:layout_constraintTop_toBottomOf="@id/etHora"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <TextView
+                            android:id="@+id/tvPrecioDescripcion"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Precio y Descripción"
+                            android:textSize="16dp"
+                            android:fontFamily="@font/hurmebold"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginStart="30dp"
+                            app:layout_constraintTop_toBottomOf="@id/cardViewFechaHora"
+                            app:layout_constraintStart_toStartOf="parent"/>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cardViewPrecioDescripcion"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:elevation="30dp"
+                            app:cardCornerRadius="30dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tvPrecioDescripcion">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <EditText
+                                    android:id="@+id/etPrecio"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    style="@style/EditTextWhiteBackground"
+                                    android:hint="Añadir Precio"
+                                    android:inputType="number"
+                                    android:layout_marginStart="20dp"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginEnd="20dp"
+                                    android:layout_marginBottom="10dp"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent" />
 
                                 <EditText
                                     android:id="@+id/etDescripcion"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     style="@style/EditTextWhiteBackground"
-                                    android:hint="Añadir descripción (opcional)*"
+                                    android:hint="Añadir Descripción (opcional)*"
                                     android:layout_marginStart="20dp"
                                     android:layout_marginTop="10dp"
                                     android:layout_marginEnd="20dp"
                                     android:layout_marginBottom="10dp"
-                                    app:layout_constraintTop_toBottomOf="@id/etNombreNewEvent"
+                                    app:layout_constraintTop_toBottomOf="@id/etPrecio"
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintBottom_toBottomOf="parent"/>
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <TextView
+                            android:id="@+id/tvTituloImagen"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Cartel Torneo"
+                            android:textSize="16dp"
+                            android:fontFamily="@font/hurmebold"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginStart="30dp"
+                            app:layout_constraintTop_toBottomOf="@id/cardViewPrecioDescripcion"
+                            app:layout_constraintStart_toStartOf="parent"/>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cardViewImagen"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:elevation="30dp"
+                            app:cardCornerRadius="30dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="20dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tvTituloImagen">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/tvImagen"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    style="@style/EditTextWhiteBackground"
+                                    android:hint="Añadir Imagen (opcional)"
+                                    android:inputType="number"
+                                    android:layout_marginStart="20dp"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginEnd="20dp"
+                                    android:layout_marginBottom="10dp"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                                <ImageButton
+                                    android:id="@+id/btnImagen"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@color/white"
+                                    android:src="@drawable/baseline_wallpaper_24"
+                                    app:layout_constraintStart_toEndOf="@id/tvImagen"
+                                    app:layout_constraintTop_toTopOf="@id/tvImagen"
+                                    app:layout_constraintBottom_toBottomOf="@id/tvImagen"
+                                    app:layout_constraintEnd_toEndOf="parent"/>
+
                             </androidx.constraintlayout.widget.ConstraintLayout>
                         </androidx.cardview.widget.CardView>
 
+                        <Button
+                            android:id="@+id/btnSaveTorneo"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:backgroundTint="@color/teal_200"
+                            android:text="Guardar Torneo"
+                            android:layout_marginBottom="-6dp"
+                            android:layout_marginTop="40dp"
+                            app:layout_constraintTop_toBottomOf="@id/cardViewImagen"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"/>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
                 </androidx.cardview.widget.CardView>
-
-
             </androidx.constraintlayout.widget.ConstraintLayout>
-
         </LinearLayout>
-
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
