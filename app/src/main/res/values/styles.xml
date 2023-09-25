@@ -18,4 +18,19 @@
         <item name="android:textSize">16.5dp</item>
     </style>
 
+    <style name="TextViewError">
+        <item name="android:textColor">@color/red</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="fontFamily">@font/hurmegeometricsans4</item>
+        <item name="android:textSize">14dp</item>
+    </style>
+
+    <style name="TextViewIconError">
+        <item name="android:textColor">@color/red</item>
+        <item name="android:text">*</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="fontFamily">@font/hurmegeometricsans4</item>
+    </style>
+
 </resources>
