@@ -132,15 +132,17 @@
 
                         <TextView
                             android:id="@+id/tvErrorName"
-                            android:text="Nombre del torneo no puede estar vacío *"
+                            android:text="* El nombre del torneo no puede estar vacío"
                             style="@style/TextViewError"
                             android:visibility="gone"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="20dp"
+                            android:layout_marginEnd="10dp"
                             app:layout_constraintTop_toBottomOf="@id/cardViewNombre"
                             app:layout_constraintStart_toStartOf="@id/cardViewNombre"
-                            app:layout_constraintBottom_toTopOf="@id/tvFechaHora" />
+                            app:layout_constraintBottom_toTopOf="@id/tvFechaHora"
+                            app:layout_constraintEnd_toEndOf="@id/cardViewNombre"/>
 
                         <TextView
                             android:id="@+id/tvFechaHora"
@@ -251,15 +253,18 @@
 
                         <TextView
                             android:id="@+id/tvErrorFecha"
-                            android:text="Fecha/Hora y Ubicación no pueden estar vacíos *"
                             style="@style/TextViewError"
-                            android:visibility="gone"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="20dp"
-                            app:layout_constraintTop_toBottomOf="@id/cardViewFechaHora"
+                            android:layout_marginEnd="10dp"
+                            android:text="* Fecha/Hora y Ubicación no pueden estar vacíos"
+                            android:visibility="gone"
+                            app:layout_constraintBottom_toTopOf="@id/tvPrecioDescripcion"
+                            app:layout_constraintEnd_toEndOf="@id/cardViewFechaHora"
                             app:layout_constraintStart_toStartOf="@id/cardViewFechaHora"
-                            app:layout_constraintBottom_toTopOf="@id/tvPrecioDescripcion" />
+                            app:layout_constraintTop_toBottomOf="@id/cardViewFechaHora" />
+
                         <TextView
                             android:id="@+id/tvPrecioDescripcion"
                             android:layout_width="wrap_content"
@@ -320,7 +325,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     style="@style/EditTextWhiteBackground"
-                                    android:hint="Añadir Descripción (opcional)*"
+                                    android:hint="Añadir Descripción (opcional)"
                                     android:layout_marginStart="20dp"
                                     android:layout_marginTop="10dp"
                                     android:layout_marginEnd="20dp"
@@ -337,15 +342,17 @@
 
                         <TextView
                             android:id="@+id/tvErrorPrecio"
-                            android:text="El precio no puede estar vacío *"
+                            android:text="* El precio no puede estar vacío"
                             style="@style/TextViewError"
                             android:visibility="gone"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
                             android:layout_marginStart="20dp"
                             app:layout_constraintTop_toBottomOf="@id/cardViewPrecioDescripcion"
                             app:layout_constraintStart_toStartOf="@id/cardViewPrecioDescripcion"
-                            app:layout_constraintBottom_toTopOf="@id/tvTituloImagen" />
+                            app:layout_constraintBottom_toTopOf="@id/tvTituloImagen"
+                            app:layout_constraintEnd_toEndOf="@id/cardViewPrecioDescripcion"/>
 
                         <TextView
                             android:id="@+id/tvTituloImagen"
@@ -394,7 +401,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     style="@style/EditTextWhiteBackground"
-                                    android:hint="Añadir Imagen (opcional)*"
+                                    android:hint="Añadir Imagen (opcional)"
                                     android:ellipsize="marquee"
                                     android:layout_marginStart="20dp"
                                     android:layout_marginTop="12dp"

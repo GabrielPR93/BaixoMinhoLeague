@@ -17,6 +17,7 @@ import android.text.InputFilter
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import com.example.baixominholeague.databinding.ActivityNuevoEventoBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -49,7 +50,60 @@ class NuevoEvento : AppCompatActivity() {
         precio()
         binding.btnImagen.setOnClickListener { selectImageEvent() }
         binding.btnDeleteImage.setOnClickListener { deleteRutaImagen() }
+        binding.btnSaveTorneo.setOnClickListener { saveNewTorneo() }
     }
+
+    private fun saveNewTorneo(){
+        if(validarCampos()){
+            //Se guarda
+        }else{
+            Toast.makeText(this, "Por favor, complete todos los campos requeridos.", Toast.LENGTH_SHORT).show()}
+    }
+    private fun validarCampos(): Boolean {
+        var camposValidos = true
+
+        val nombre = binding.etNombreNewEvent.text.toString()
+        val fecha = binding.etFecha.text.toString()
+        val hora = binding.etHora.text.toString()
+        val precio = binding.etPrecio.text.toString()
+        val ubicacion = binding.etUbicacion.text.toString()
+
+        if (nombre.isEmpty()) {
+            camposValidos = false
+            binding.tvNombreError.visibility = View.VISIBLE
+            binding.tvErrorName.visibility = View.VISIBLE
+        } else {
+            binding.tvNombreError.visibility = View.GONE
+            binding.tvErrorName.visibility = View.GONE
+        }
+
+        if (fecha.isEmpty() || hora.isEmpty() || ubicacion.isEmpty()) {
+            camposValidos = false
+            binding.tvFechaError.visibility = if (fecha.isEmpty()) View.VISIBLE else View.GONE
+            binding.tvHoraError.visibility = if (hora.isEmpty()) View.VISIBLE else View.GONE
+            binding.tvUbicacionError.visibility = if (ubicacion.isEmpty()) View.VISIBLE else View.GONE
+            binding.tvErrorFecha.setText("* Al menos uno de los campos fecha, hora o ubicación está vacío")
+            binding.tvErrorFecha.visibility = View.VISIBLE
+        } else {
+            //Todo ver porque fallan los if individuales
+            //binding.tvErrorFecha.visibility = View.GONE
+            binding.tvFechaError.visibility = View.GONE
+            binding.tvHoraError.visibility = View.GONE
+            binding.tvUbicacionError.visibility = View.GONE
+            binding.tvErrorFecha.visibility = View.GONE
+        }
+
+        if (precio.isEmpty()) {
+            camposValidos = false
+            binding.tvPrecioError.visibility = View.VISIBLE
+            binding.tvErrorPrecio.visibility = View.VISIBLE
+        } else {
+            binding.tvPrecioError.visibility = View.GONE
+            binding.tvErrorPrecio.visibility = View.GONE
+        }
+        return camposValidos
+    }
+
 
     private fun showDatePicker(){
 
