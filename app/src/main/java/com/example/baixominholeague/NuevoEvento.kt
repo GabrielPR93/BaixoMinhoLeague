@@ -8,6 +8,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.icu.util.Calendar
 import android.net.Uri
+import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
@@ -15,6 +16,7 @@ import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
 import android.util.Log
+import android.view.View
 import com.example.baixominholeague.databinding.ActivityNuevoEventoBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -46,6 +48,7 @@ class NuevoEvento : AppCompatActivity() {
         binding.etHora.setOnClickListener { showTimePicker() }
         precio()
         binding.btnImagen.setOnClickListener { selectImageEvent() }
+        binding.btnDeleteImage.setOnClickListener { deleteRutaImagen() }
     }
 
     private fun showDatePicker(){
@@ -108,12 +111,18 @@ class NuevoEvento : AppCompatActivity() {
                         binding.etPrecio.setText("Gratis")
 
                 } else {
-                    //isZeroSelected = false // Restablece la bandera si se ingresa un valor diferente de "0"
+
                     binding.etPrecio.filters = arrayOf(InputFilter.LengthFilter(3))
+
                 }
                    binding.etPrecio.setSelection(binding.etPrecio.text.length)
             }
         })
+    }
+
+    private fun deleteRutaImagen(){
+        binding.tvImagen.setText("")
+        binding.btnDeleteImage.visibility=View.GONE
     }
 
     private fun selectImageEvent(){
@@ -133,7 +142,10 @@ class NuevoEvento : AppCompatActivity() {
             //uploadImageToFirebaseStorage(selectedImageUri!!)
 
             binding.tvImagen.setText(selectedImageUri.toString())
-            Log.i("Gabri","$selectedImageUri")
+            binding.btnDeleteImage.visibility= View.VISIBLE
+
         }
     }
+
+
 }
