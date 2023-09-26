@@ -22,6 +22,9 @@ import com.example.baixominholeague.databinding.ActivityNuevoEventoBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
+import java.sql.Timestamp
+import java.text.SimpleDateFormat
+import java.util.*
 
 class NuevoEvento : AppCompatActivity() {
     companion object {
@@ -32,11 +35,14 @@ class NuevoEvento : AppCompatActivity() {
 
     private val REQUEST_CODE_IMAGE_PICKER = 102
     private var selectedImageUri: String? = ""
+    private var correo:String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityNuevoEventoBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        correo = intent.getStringExtra(EMAIL_PUBLICADOR)
 
         setupUI()
 
@@ -54,6 +60,7 @@ class NuevoEvento : AppCompatActivity() {
     }
 
     private fun saveNewTorneo(){
+        binding.linearLayout.clearFocus()
         if(validarCampos()){
             //Se guarda
         }else{
@@ -84,9 +91,8 @@ class NuevoEvento : AppCompatActivity() {
             binding.tvUbicacionError.visibility = if (ubicacion.isEmpty()) View.VISIBLE else View.GONE
             binding.tvErrorFecha.setText("* Al menos uno de los campos fecha, hora o ubicación está vacío")
             binding.tvErrorFecha.visibility = View.VISIBLE
+
         } else {
-            //Todo ver porque fallan los if individuales
-            //binding.tvErrorFecha.visibility = View.GONE
             binding.tvFechaError.visibility = View.GONE
             binding.tvHoraError.visibility = View.GONE
             binding.tvUbicacionError.visibility = View.GONE
@@ -164,8 +170,8 @@ class NuevoEvento : AppCompatActivity() {
                     binding.etPrecio.filters = arrayOf(InputFilter.LengthFilter(6))
                         binding.etPrecio.setText("Gratis")
 
-                } else {
-
+                } else if(text.equals("Grati")) {
+                    binding.etPrecio.setText("")
                     binding.etPrecio.filters = arrayOf(InputFilter.LengthFilter(3))
 
                 }
@@ -201,5 +207,53 @@ class NuevoEvento : AppCompatActivity() {
         }
     }
 
+    private fun uploadImageToFirebaseStorage(imageUri: String) {
+
+        val nombre = binding.etNombreNewEvent.text.toString().lowercase()
+        val nombreGuardar = nombre.replace(" ","_")
+
+        val storageRef = FirebaseStorage.getInstance().reference
+        val imageFileName = "image_$nombreGuardar.jpg"
+        val imageRef = storageRef.child(imageFileName)
+
+        val uploadTask = imageRef.putFile(Uri.parse(imageUri))
+        uploadTask.addOnSuccessListener { taskSnapshot ->
+            // La imagen se cargó exitosamente en Firebase Storage
+            // Ahora sé obtiene la URL de descarga de la imagen y sé guarda en Firebase Firestore
+            imageRef.downloadUrl.addOnSuccessListener { uri ->
+                selectedImageUri = uri.toString()
+                // Guardar la URL de descarga de la imagen en Firebase Firestore
+                db.collection("eventos").document(nombre.orEmpty()).update("foto", selectedImageUri)
+            }
+        }.addOnFailureListener { exception ->
+            Log.e("NuevoEvento", "Error al cargar la imagen en Firebase Storage: ${exception.message}")
+        }
+    }
+    private fun saveData(correo: String) {
+
+        var fecha = binding.etFecha.text.toString()
+        var hora = binding.etHora.text.toString()
+        val dateTimeString = "$fecha $hora"
+        val format = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+        val date = format.parse(dateTimeString)
+        val timestamp = Timestamp(date.time)
+        val nombre = binding.etNombreNewEvent.text.toString().lowercase()
+
+        binding.btnSaveTorneo.setOnClickListener{
+
+            db.collection("eventos").document(nombre).set(
+                hashMapOf("correo" to correo,
+                    "nombre" to binding.etNombreNewEvent.text.toString(),
+                    "descripcion" to binding.etDescripcion.text.toString(),
+                    "fecha" to timestamp,
+                    "ubicacion" to binding.etUbicacion.text.toString(),
+                    "precio" to binding.etPrecio.text.toString(),
+                    "imagen" to selectedImageUri
+                    )
+
+            )
+            Toast.makeText(this,"Guardado correctamente",Toast.LENGTH_SHORT).show()
+        }
+    }
 
 }
