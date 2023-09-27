@@ -1,6 +1,7 @@
 package com.example.baixominholeague
 
 import android.Manifest
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
@@ -15,6 +16,8 @@ import android.text.InputType
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -40,6 +43,9 @@ class MainActivity : AppCompatActivity() {
     private var fragmentPerfil = PerfilFragment()
     private var fragmentInicio = InicioFragment()
 
+    private val REQUEST_ADD_EVENT = 200
+    private val REQUEST_CODE_PERMISSIONS = 101
+
     private var correo: String? = null
     private var correoLogin: String? = null
     private var alias: String? = null
@@ -48,10 +54,12 @@ class MainActivity : AppCompatActivity() {
     private var telefono: String? = null
     private var localidad: String? = null
     private var posiciones: String? = null
-    private var args: Bundle? = null
 
-    private val REQUEST_CODE_PERMISSIONS = 101
+    private var args: Bundle? = null
     private val requiredPermissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+
+    private lateinit var addEventLauncher: ActivityResultLauncher<Intent>
+
 
     companion object {
         const val CLAVE_CORREO = "correo"
@@ -105,23 +113,38 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.floatinButton.setOnClickListener {
-          // showDialogChampionship()
             (correo ?: correoLogin)?.let {
                 navigateToNewEvent(it)
 
             }
         }
 
+        updateNewEvent()
+
     }
-    private fun navigateToNewEvent(email:String){
-        val intent= Intent(this, NuevoEvento::class.java)
-        intent.putExtra(NuevoEvento.EMAIL_PUBLICADOR,email)
-        startActivity(intent)
+
+    //Actualiza los eventos despues de añadir uno nuevo
+    private fun updateNewEvent() {
+        addEventLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+
+                fragmentInicio.updateEventList()
+            }
+        }
     }
+
+    private fun navigateToNewEvent(email: String) {
+        val intent = Intent(this, NuevoEvento::class.java)
+        intent.putExtra(NuevoEvento.EMAIL_PUBLICADOR, email)
+        addEventLauncher.launch(intent)
+    }
+
 
     //Precarga de la imagen de perfil
     private fun loadFoto(foto: String?) {
-        if(foto!=null){
+        if (foto != null) {
             val imageUri = Uri.parse(foto)
             val picasso = Picasso.get()
             picasso.load(imageUri).fetch(object : Callback {
@@ -135,23 +158,30 @@ class MainActivity : AppCompatActivity() {
                 }
             })
         }
-
     }
 
     fun arePermissionsGranted(): Boolean {
         for (permission in requiredPermissions) {
-            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    permission
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
                 return false
             }
         }
         return true
     }
 
-     fun requestPermissions() {
+    fun requestPermissions() {
         ActivityCompat.requestPermissions(this, requiredPermissions, REQUEST_CODE_PERMISSIONS)
     }
 
-        override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
             var allPermissionsGranted = true
@@ -168,6 +198,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun getDataBd() {
         db.collection("users").document(correo ?: correoLogin.orEmpty()).get()
             .addOnCompleteListener {
@@ -215,167 +246,6 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.frameContainer, fragment)
             .commit()
 
-    }
-
-    private fun showDialogChampionship() {
-        val dialogBuilder = AlertDialog.Builder(this)
-        dialogBuilder.setTitle("Añadir Evento")
-
-        val container = LinearLayout(this)
-        container.orientation = LinearLayout.VERTICAL
-
-        val editTextNombre = EditText(this)
-        editTextNombre.hint = "Ingrese nombre de campeonato"
-        editTextNombre.setPadding(30, 50, 30, 30)
-        editTextNombre.setBackgroundColor(Color.WHITE)
-        container.addView(editTextNombre)
-
-        val editText = EditText(this)
-        editText.inputType = InputType.TYPE_CLASS_NUMBER
-        editText.setPadding(30, 50, 30, 30)
-        editText.setBackgroundColor(Color.WHITE)
-        editText.hint = "Precio"
-        container.addView(editText)
-
-        val editTextUbicacion = EditText(this)
-        editTextUbicacion.hint = "Ubicación"
-        editTextUbicacion.setPadding(30, 50, 30, 30)
-        editTextUbicacion.setBackgroundColor(Color.WHITE)
-        container.addView(editTextUbicacion)
-
-        val editTextFecha = EditText(this)
-        editTextFecha.hint = "Seleccione una fecha"
-        editTextFecha.setPadding(30,50,30,30)
-        editTextFecha.setBackgroundColor(Color.WHITE)
-        editTextFecha.isFocusable = false
-        container.addView(editTextFecha)
-
-        val editTextHora = EditText(this)
-        editTextHora.hint = "Seleccione una hora"
-        editTextHora.setPadding(30,50,30,30)
-        editTextHora.setBackgroundColor(Color.WHITE)
-        editTextHora.isFocusable = false
-        container.addView(editTextHora)
-
-        // Agregar DatePicker al contenedor
-        val calendar = Calendar.getInstance()
-        val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-            val selectedDate = "$dayOfMonth/${monthOfYear + 1}/$year"
-            editTextFecha.setText(selectedDate)
-        }
-
-        editTextFecha.setOnClickListener {
-            val datePickerDialog = DatePickerDialog(
-                this,
-                dateSetListener,
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
-            )
-            datePickerDialog.datePicker.minDate=Calendar.getInstance().timeInMillis
-            datePickerDialog.show()
-        }
-
-        //Timepicker
-        val timeSetListener = TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
-            val selectedTime = String.format("%02d:%02d", hourOfDay, minute)
-            editTextHora.setText(selectedTime)
-        }
-
-        editTextHora.setOnClickListener {
-            val currentTime = Calendar.getInstance()
-            val hour = currentTime.get(Calendar.HOUR_OF_DAY)
-            val minute = currentTime.get(Calendar.MINUTE)
-
-            val timePickerDialog = TimePickerDialog(
-                this,
-                timeSetListener,
-                hour,
-                minute,
-                true
-            )
-
-            timePickerDialog.show()
-        }
-
-
-        dialogBuilder.setView(container)
-
-        dialogBuilder.setPositiveButton("Aceptar") { dialog, which ->
-
-            val nombre = editTextNombre.text.toString()
-            val fecha = editTextFecha.text.toString()
-            val hora = editTextHora.text.toString()
-            val precio = editText.text.toString()
-            val ubicacion = editTextUbicacion.text.toString()
-
-
-            (correo ?: correoLogin)?.let {
-                saveEvent(nombre, fecha, hora, precio,ubicacion ,it)
-
-            }
-        }
-
-        dialogBuilder.setNegativeButton("Cancelar") { dialog, which ->
-
-        }
-
-        val dialog = dialogBuilder.create()
-        dialog.show()
-    }
-
-    private fun saveEvent(nombre: String, fecha: String, hora: String, precio: String, ubicacion: String, correo: String) {
-
-        val precioFinal = if (precio.isNullOrEmpty()) "Gratis" else "$precio €"
-
-
-        if (nombre.isNotEmpty() && fecha.isNotEmpty() && hora.isNotEmpty() && ubicacion.isNotEmpty()) {
-            val dateTimeString = "$fecha $hora"
-            val format = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
-            val date = format.parse(dateTimeString)
-            val timestamp = Timestamp(date.time)
-
-            db.collection("eventos")
-                .document(nombre.lowercase())
-                .get()
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        val document =task.result
-                        if(document != null && document.exists()){
-
-                            Toast.makeText(this, "Ya existe un evento con ese nombre", Toast.LENGTH_SHORT).show()
-
-                        }else{
-                            db.collection("eventos").document(nombre.lowercase()).set(
-                                hashMapOf(
-                                    "nombre" to nombre.uppercase(),
-                                    "fecha" to timestamp,
-                                    "precio" to precioFinal,
-                                    "ubicacion" to ubicacion,
-                                    "correo" to correo.orEmpty()
-                                )
-                            ).addOnSuccessListener {
-                               showToast("Guardado correctamente")
-                                fragmentInicio.updateEventList()
-                            }.addOnFailureListener { e ->
-                                showToast("Error al guardar: ${e.message}")
-                            }
-                        }
-
-                    } else {
-                        showToast("Error en la consulta")
-                    }
-                }
-                .addOnFailureListener { e ->
-                   showToast("Error al verificar el nombre del evento: ${e.message}")
-                }
-        } else {
-            showToast("El nombre, fecha y hora del evento no pueden estar vacíos")
-        }
-    }
-
-    private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
 }
