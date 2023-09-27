@@ -90,30 +90,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Bar troya"
+            android:layout_marginBottom="10dp"
             android:fontFamily="@font/hurmegeometricsans4"
             android:layout_marginStart="5dp"
             app:layout_constraintTop_toTopOf="@id/tituloubicacion"
-            app:layout_constraintStart_toEndOf="@id/tituloubicacion"/>
+            app:layout_constraintStart_toEndOf="@id/tituloubicacion"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <TextView
-            android:id="@+id/tvPubli"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/hurmegeometricsans4"
-            tools:text="Publicado por :"
-            android:paddingBottom="10dp"
-            android:layout_marginTop="5dp"
-            app:layout_constraintStart_toStartOf="@id/tituloubicacion"
-            app:layout_constraintTop_toBottomOf="@id/tituloubicacion"/>
 
-        <TextView
-            android:id="@+id/tvCorreo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="gabriel@gmail.com"
-            android:fontFamily="@font/hurmegeometricsans4"
-            android:layout_marginStart="5dp"
-            app:layout_constraintTop_toTopOf="@id/tvPubli"
-            app:layout_constraintStart_toEndOf="@id/tvPubli"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

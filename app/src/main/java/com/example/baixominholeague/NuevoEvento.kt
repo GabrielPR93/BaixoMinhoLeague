@@ -220,34 +220,9 @@ class NuevoEvento : AppCompatActivity() {
         }
     }
 
-    private fun uploadImageToFirebaseStorage(imageUri: String) {
-
-        val nombre = binding.etNombreNewEvent.text.toString().lowercase()
-        val nombreGuardar = nombre.replace(" ", "_")
-
-        val storageRef = FirebaseStorage.getInstance().reference
-        val imageFileName = "image_$nombreGuardar.jpg"
-        val imageRef = storageRef.child(imageFileName)
-
-        val uploadTask = imageRef.putFile(Uri.parse(imageUri))
-        uploadTask.addOnSuccessListener { taskSnapshot ->
-            // La imagen se cargó exitosamente en Firebase Storage
-            // Ahora sé obtiene la URL de descarga de la imagen y sé guarda en Firebase Firestore
-            imageRef.downloadUrl.addOnSuccessListener { uri ->
-                selectedImageUri = uri.toString()
-                // Guardar la URL de descarga de la imagen en Firebase Firestore
-                db.collection("eventos").document(nombre.orEmpty()).update("foto", selectedImageUri)
-            }
-        }.addOnFailureListener { exception ->
-            Log.e(
-                "NuevoEvento",
-                "Error al cargar la imagen en Firebase Storage: ${exception.message}"
-            )
-        }
-    }
-
     private fun saveData(correo: String?) {
         val nombre = binding.etNombreNewEvent.text.toString().lowercase()
+        val precio = binding.etPrecio.text.toString()
         binding.progresBar.visibility = View.VISIBLE
 
         val eventosRef = db.collection("eventos")
@@ -259,15 +234,15 @@ class NuevoEvento : AppCompatActivity() {
                     // No existe un documento con el mismo nombre, puedes guardarlo
                     val evento = hashMapOf(
                         "correo" to correo,
-                        "nombre" to binding.etNombreNewEvent.text.toString(),
-                        "descripcion" to binding.etDescripcion.text.toString(),
+                        "nombre" to binding.etNombreNewEvent.text.toString().uppercase(),
+                        "descripcion" to binding.etDescripcion.text.toString().trim(),
                         "fecha" to getTimestampFromDateAndTime(
                             binding.etFecha.text.toString(),
                             binding.etHora.text.toString()
                         ),
                         "ubicacion" to binding.etUbicacion.text.toString(),
                         "imagen" to "",
-                        "precio" to binding.etPrecio.text.toString()
+                        "precio" to  if(precio != "Gratis") "$precio €" else precio
                     )
 
                     // Verificar si se seleccionó una imagen

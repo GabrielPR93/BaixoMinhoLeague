@@ -3,6 +3,7 @@ package com.example.baixominholeague.ui.menu.Inicio
 import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ import com.example.baixominholeague.recyclerViewEventos.EventoAdapter
 import com.example.baixominholeague.databinding.FragmentInicioBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.google.firebase.storage.FirebaseStorage
 
 class InicioFragment : Fragment() {
 
@@ -23,6 +25,7 @@ class InicioFragment : Fragment() {
     private var _binding: FragmentInicioBinding? = null
     private val binding get() = _binding!!
     private val db = FirebaseFirestore.getInstance()
+    private val storageRef = FirebaseStorage.getInstance().reference
 
     private lateinit var eventoAdapter: EventoAdapter
     private var correo: String? = null
@@ -87,6 +90,7 @@ class InicioFragment : Fragment() {
             .setMessage("¿Estás seguro de que deseas borrar el evento?")
             .setPositiveButton("Sí") { dialog, which ->
                 evento.nombre?.let { nombreEvento ->
+                    val imageRef = storageRef.child("images/${nombreEvento.lowercase()}.jpg")
                     db.collection("eventos").document(nombreEvento.lowercase()).delete()
                         .addOnSuccessListener {
                             updateEventList()
@@ -94,6 +98,10 @@ class InicioFragment : Fragment() {
                         .addOnFailureListener { exception ->
                             println("Error al eliminar el evento: $exception")
                         }
+
+                    imageRef.delete()
+                        .addOnSuccessListener { Log.i("Gabri","Imagen borrada correctamente de Firebase Storage") }
+                        .addOnFailureListener { exception -> Log.i("Gabri","Error al eliminar la imagen: $exception") }
                 }
             }
             .setNegativeButton("No", null)
