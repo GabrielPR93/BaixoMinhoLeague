@@ -25,7 +25,7 @@ private lateinit var adapter: JugadorAdapter
 private var setupExecuted = false
 private val jugadores = mutableListOf<Jugador>()
 
-class JugadoresFragment : Fragment() {
+class JugadoresFragment : Fragment(), OnPlayerAddedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +48,11 @@ class JugadoresFragment : Fragment() {
 
 
         return view
+    }
+
+    fun updatePlayerList(){
+        adapter.notifyDataSetChanged()
+
     }
 
     private fun searchPlayer() {
@@ -111,4 +116,7 @@ class JugadoresFragment : Fragment() {
         startActivity(intent)
     }
 
+    override fun onPlayerAdded() {
+        updatePlayerList()
+    }
 }

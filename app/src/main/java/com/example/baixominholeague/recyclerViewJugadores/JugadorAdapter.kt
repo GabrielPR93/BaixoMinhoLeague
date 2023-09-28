@@ -12,6 +12,7 @@ class JugadorAdapter(private var jugadores: List<Jugador>, private val onItemSel
     fun updateList(jugadores: List<Jugador>){
         this.jugadores=jugadores
         notifyDataSetChanged()
+        Log.i("GABRI","LISTA: ${jugadores.size}")
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JugadorViewHolder {

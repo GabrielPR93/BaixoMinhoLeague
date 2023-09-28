@@ -211,8 +211,6 @@ class NuevoEvento : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE_IMAGE_PICKER && resultCode == Activity.RESULT_OK && data != null) {
             selectedImageUri = data.data.toString()
-            // Aquí sé guarda la imagen en Firebase Storage
-            //uploadImageToFirebaseStorage(selectedImageUri!!)
 
             binding.tvImagen.setText(selectedImageUri.toString())
             binding.btnDeleteImage.visibility = View.VISIBLE

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AddPlayerAndTournament"
-    android:background="@color/blue">
+    android:background="@drawable/top_background">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -35,6 +35,19 @@
                 android:background="@android:color/transparent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                android:id="@+id/tvEvento"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nuevo Jugador / Torneo"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                android:textColor="@color/white"
+                android:layout_marginStart="20dp"
+                app:layout_constraintBottom_toBottomOf="@id/btnBackPerfil"
+                app:layout_constraintStart_toEndOf="@id/btnBackPerfil"
+                app:layout_constraintTop_toTopOf="@+id/btnBackPerfil" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardViewAddJugador"
