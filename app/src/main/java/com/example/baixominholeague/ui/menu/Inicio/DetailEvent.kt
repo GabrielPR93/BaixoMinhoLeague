@@ -23,6 +23,7 @@ class DetailEvent : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailEventBinding
     private  var db = FirebaseFirestore.getInstance()
+    private var buttonPressed: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,9 +36,25 @@ class DetailEvent : AppCompatActivity() {
         if (nameEvent != null) {
             getDetailEvent(nameEvent)
         }
+        buttonPressed=loadButtonState(nameEvent!!)
+        if(buttonPressed){
+            binding.btnParticipar.setBackgroundColor(ContextCompat.getColor(this,R.color.teal_200))
+            binding.btnParticipar.setText("Asistiré")
+        }
 
-        binding.btnParticipar.setOnClickListener { binding.btnParticipar.setBackgroundColor(ContextCompat.getColor(this,
-            R.color.teal_200)) }
+        binding.btnParticipar.setOnClickListener {
+            if(buttonPressed){
+                binding.btnParticipar.setBackgroundColor(ContextCompat.getColor(this, R.color.blue))
+                binding.btnParticipar.setText("No Asistiré")
+                saveButtonState(false,nameEvent!!)
+                buttonPressed=false
+            }else{
+                binding.btnParticipar.setBackgroundColor(ContextCompat.getColor(this, R.color.teal_200))
+                binding.btnParticipar.setText("Asistiré")
+                saveButtonState(true,nameEvent!!)
+                buttonPressed=true
+            }
+        }
 
         binding.imageButtonBack.setOnClickListener { onBackPressed() }
     }
@@ -77,6 +94,21 @@ class DetailEvent : AppCompatActivity() {
         binding.tvUbicacion.setText(ubicacion)
         binding.tvDescripcion.setText(descripcion)
         Picasso.get().load(Uri.parse(imagen)).into(binding.imageViewEvent)
+
     }
+
+    private fun saveButtonState(buttonPressed: Boolean, eventName: String) {
+        val prefs = getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE).edit()
+        prefs.putBoolean("button_pressed_$eventName", buttonPressed)
+        prefs.apply()
+    }
+
+    private fun loadButtonState(eventName: String): Boolean {
+        // Cargar el estado del botón desde las preferencias compartidas
+        val prefs = getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE)
+        return prefs.getBoolean("button_pressed_$eventName", false)
+    }
+
+
 
 }

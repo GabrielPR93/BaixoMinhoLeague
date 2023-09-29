@@ -80,11 +80,11 @@ class NuevoEvento : AppCompatActivity() {
     private fun validarCampos(): Boolean {
         var camposValidos = true
 
-        val nombre = binding.etNombreNewEvent.text.toString()
+        val nombre = binding.etNombreNewEvent.text.toString().trim()
         val fecha = binding.etFecha.text.toString()
         val hora = binding.etHora.text.toString()
-        val precio = binding.etPrecio.text.toString()
-        val ubicacion = binding.etUbicacion.text.toString()
+        val precio = binding.etPrecio.text.toString().trim()
+        val ubicacion = binding.etUbicacion.text.toString().trim()
 
         if (nombre.isEmpty()) {
             camposValidos = false
