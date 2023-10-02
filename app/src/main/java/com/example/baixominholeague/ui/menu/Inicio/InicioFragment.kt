@@ -15,6 +15,7 @@ import com.example.baixominholeague.MainActivity.Companion.CLAVE_CORREO
 import com.example.baixominholeague.data.Evento
 import com.example.baixominholeague.recyclerViewEventos.EventoAdapter
 import com.example.baixominholeague.databinding.FragmentInicioBinding
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
@@ -93,6 +94,7 @@ class InicioFragment : Fragment() {
                     val imageRef = storageRef.child("images/${nombreEvento.lowercase()}.jpg")
                     db.collection("eventos").document(nombreEvento.lowercase()).delete()
                         .addOnSuccessListener {
+                            deleteEventFromRealtimeDatabase(nombreEvento.lowercase())
                             updateEventList()
                         }
                         .addOnFailureListener { exception ->
@@ -108,6 +110,19 @@ class InicioFragment : Fragment() {
             .create()
 
         alertDialog.show()
+    }
+
+    private fun deleteEventFromRealtimeDatabase(eventName: String) {
+        val database = FirebaseDatabase.getInstance()
+        val eventoRef = database.getReference("eventos/$eventName")
+
+        eventoRef.removeValue()
+            .addOnSuccessListener {
+                Log.w("Gabri", "El evento se eliminó correctamente de la base de datos en tiempo real")
+            }
+            .addOnFailureListener { e ->
+                Log.w("Gabri", "Error al eliminar el evento de la base de datos en tiempo real")
+            }
     }
 
     private fun navigateToDetailEvent(nombre:String){

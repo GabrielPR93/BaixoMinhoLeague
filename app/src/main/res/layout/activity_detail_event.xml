@@ -239,16 +239,16 @@
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/textButton"
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/hurmegeometricsans4"
                             android:text="0 Participantes"
                             android:textAllCaps="false"
                             android:textColor="@color/black"
-                            style="@style/Widget.MaterialComponents.Button.TextButton"
-                            android:fontFamily="@font/hurmegeometricsans4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintStart_toStartOf="@id/btnParticipar"
                             app:layout_constraintEnd_toEndOf="@id/btnParticipar"
-                            app:layout_constraintTop_toBottomOf="@id/btnParticipar"/>
+                            app:layout_constraintStart_toStartOf="@id/btnParticipar"
+                            app:layout_constraintTop_toBottomOf="@id/btnParticipar" />
 
 
                     </androidx.constraintlayout.widget.ConstraintLayout>

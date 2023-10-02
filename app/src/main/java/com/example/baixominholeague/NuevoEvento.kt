@@ -26,6 +26,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
+import com.google.firebase.database.FirebaseDatabase
 import java.util.*
 
 class NuevoEvento : AppCompatActivity() {
@@ -35,6 +36,7 @@ class NuevoEvento : AppCompatActivity() {
 
     private lateinit var binding: ActivityNuevoEventoBinding
     private val db = FirebaseFirestore.getInstance()
+    val database = FirebaseDatabase.getInstance()
     private var fragmentInicio = InicioFragment()
 
     private val REQUEST_CODE_IMAGE_PICKER = 102
@@ -68,6 +70,7 @@ class NuevoEvento : AppCompatActivity() {
         binding.linearLayout.clearFocus()
         if (validarCampos()) {
             saveData(correo)
+            addEventBdRealTime(binding.etNombreNewEvent.text.toString().lowercase())
         } else {
             Toast.makeText(
                 this,
@@ -318,6 +321,22 @@ class NuevoEvento : AppCompatActivity() {
         val parsedDate = format.parse(dateTimeString)
         return Timestamp(parsedDate?.time ?: 0)
     }
+
+    private fun addEventBdRealTime(nombreEvento: String){
+        val nuevoEvento = HashMap<String, Any>()
+        nuevoEvento["participantes"] = 0
+
+        val eventoRef = database.getReference("eventos/$nombreEvento")
+
+        eventoRef.setValue(nuevoEvento)
+            .addOnSuccessListener {
+                Log.w("Gabri", "El evento se agregó correcatmente a la bd Realtime")
+            }
+            .addOnFailureListener { e ->
+                Log.w("Gabri", "Error al agregar el evento a la bd Realtime")
+            }
+    }
+
 
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()

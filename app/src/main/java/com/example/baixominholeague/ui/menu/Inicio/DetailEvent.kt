@@ -6,13 +6,16 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.example.baixominholeague.R
 import com.example.baixominholeague.databinding.ActivityDetailEventBinding
 import com.google.firebase.Timestamp
+import com.google.firebase.database.*
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 import java.util.*
+
 
 class DetailEvent : AppCompatActivity() {
 
@@ -23,6 +26,7 @@ class DetailEvent : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailEventBinding
     private  var db = FirebaseFirestore.getInstance()
+    val database = FirebaseDatabase.getInstance()
     private var buttonPressed: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,6 +38,7 @@ class DetailEvent : AppCompatActivity() {
         binding.tvTituloEvent.setText(nameEvent)
 
         if (nameEvent != null) {
+            loadParticipantes(nameEvent.lowercase())
             getDetailEvent(nameEvent)
         }
         buttonPressed=loadButtonState(nameEvent!!)
@@ -42,15 +47,21 @@ class DetailEvent : AppCompatActivity() {
             binding.btnParticipar.setText("Asistiré")
         }
 
+
+
         binding.btnParticipar.setOnClickListener {
+            val eventoRef = database.getReference("eventos/${nameEvent.lowercase()}")
+
             if(buttonPressed){
                 binding.btnParticipar.setBackgroundColor(ContextCompat.getColor(this, R.color.blue))
                 binding.btnParticipar.setText("No Asistiré")
+                eventoRef.child("participantes").setValue(ServerValue.increment(-1))
                 saveButtonState(false,nameEvent!!)
                 buttonPressed=false
             }else{
                 binding.btnParticipar.setBackgroundColor(ContextCompat.getColor(this, R.color.teal_200))
                 binding.btnParticipar.setText("Asistiré")
+                eventoRef.child("participantes").setValue(ServerValue.increment(1))
                 saveButtonState(true,nameEvent!!)
                 buttonPressed=true
             }
@@ -109,6 +120,23 @@ class DetailEvent : AppCompatActivity() {
         return prefs.getBoolean("button_pressed_$eventName", false)
     }
 
+    private fun loadParticipantes(nombreEvento: String){
+        val eventoRef = database.getReference("eventos/$nombreEvento")
 
+        eventoRef.child("participantes").addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    val participantes = snapshot.getValue(Long::class.java)
+                    if (participantes != null) {
+                        binding.textButton.text = "$participantes Participantes"
+                    }
+                }
+            }
 
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("Firebase", "Error al leer los datos: ${error.message}")
+            }
+        })
+
+    }
 }
