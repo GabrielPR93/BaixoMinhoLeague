@@ -4,15 +4,18 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.example.baixominholeague.MainActivity
 import com.example.baixominholeague.R
 import com.example.baixominholeague.databinding.ActivityRegisterBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
+    private val db = FirebaseFirestore.getInstance()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
@@ -37,7 +40,8 @@ class RegisterActivity : AppCompatActivity() {
                 FirebaseAuth.getInstance()
                     .createUserWithEmailAndPassword(binding.editTextEmail.text.toString(),binding.editTextPassword.text.toString()).addOnCompleteListener {
                         if(it.isSuccessful){
-                          showHome(it.result?.user?.email?:"")
+                            saveData(it.result?.user?.email?:"")
+                            showHome(it.result?.user?.email?:"")
 
                         }else{
                             showAlert()
@@ -69,5 +73,19 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun checkEmpty(email: String, password: String, repeatPassword: String): Boolean {
         return email.isNotEmpty() && password.isNotEmpty() && repeatPassword.isNotEmpty()
+    }
+
+    private fun saveData(correo: String) {
+
+            db.collection("users").document(correo).set(
+                hashMapOf(
+                    "alias" to "",
+                    "nombre" to "",
+                    "telefono" to "",
+                    "localidad" to "",
+                    "posiciones" to "",
+                    "foto" to "",
+                )
+            )
     }
 }

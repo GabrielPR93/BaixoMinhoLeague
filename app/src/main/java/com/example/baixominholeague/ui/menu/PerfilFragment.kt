@@ -13,8 +13,8 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.ImageView
 import android.widget.Toast
+
 import androidx.appcompat.app.AlertDialog
-import androidx.core.net.toUri
 
 
 import androidx.core.view.isVisible
@@ -30,6 +30,7 @@ import com.example.baixominholeague.MainActivity.Companion.CLAVE_LOCALIDAD
 import com.example.baixominholeague.MainActivity.Companion.CLAVE_NOMBRE
 import com.example.baixominholeague.MainActivity.Companion.CLAVE_POSICIONES
 import com.example.baixominholeague.MainActivity.Companion.CLAVE_TELEFONO
+import android.Manifest
 import com.example.baixominholeague.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.collection.LLRBNode
@@ -39,6 +40,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.Picasso
 import java.net.URI
+
 
 class PerfilFragment : Fragment() {
 
@@ -55,13 +57,11 @@ class PerfilFragment : Fragment() {
 
     private val REQUEST_CODE_IMAGE_PICKER = 102
     private var selectedImageUri: String? = ""
-
     lateinit var imageViewPerfil: ImageView
 
     companion object {
         const val CORREO_ADMIN = "admin@gmail.com"
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,21 +72,20 @@ class PerfilFragment : Fragment() {
             nombre = it.getString(CLAVE_NOMBRE)
             telefono = it.getString(CLAVE_TELEFONO)
             localidad = it.getString(CLAVE_LOCALIDAD)
-            posiciones = it. getString(CLAVE_POSICIONES)
-            foto= it.getString(CLAVE_FOTO)
+            posiciones = it.getString(CLAVE_POSICIONES)
+            foto = it.getString(CLAVE_FOTO)
 
         }
-
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentPerfilBinding.inflate(inflater,container,false)
+        _binding = FragmentPerfilBinding.inflate(inflater, container, false)
         val view = binding.root
 
-
+        Log.i("GABRI","FOTOOOOOO: ${foto.toString()} y imagennn: ${selectedImageUri.toString()}")
         binding.btnSelectImage.setOnClickListener {
             val mainActivity = requireActivity() as MainActivity
             launchImagePicker()
@@ -97,9 +96,9 @@ class PerfilFragment : Fragment() {
                 Log.i("GAB", "Los permisos no están concedidos")
             }
         }
-        binding.btnAddPlayer.setOnClickListener{
+        binding.btnAddPlayer.setOnClickListener {
 
-            startActivity(Intent(requireContext(),AddPlayerAndTournament::class.java))
+            startActivity(Intent(requireContext(), AddPlayerAndTournament::class.java))
         }
 
         setupUi()
@@ -113,10 +112,10 @@ class PerfilFragment : Fragment() {
     }
 
 
-     fun launchImagePicker() {
+    fun launchImagePicker() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         intent.type = "image/*"
-         startActivityForResult(intent, REQUEST_CODE_IMAGE_PICKER)
+        startActivityForResult(intent, REQUEST_CODE_IMAGE_PICKER)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -126,9 +125,12 @@ class PerfilFragment : Fragment() {
             // Aquí sé guarda la imagen en Firebase Storage
             uploadImageToFirebaseStorage(selectedImageUri!!)
 
-           Picasso.get().load(Uri.parse(selectedImageUri)).transform(CircleTransformation(requireContext(),25,Color.WHITE)).into(binding.imageViewProfile)
+            Picasso.get().load(Uri.parse(selectedImageUri))
+                .transform(CircleTransformation(requireContext(), 25, Color.WHITE))
+                .into(binding.imageViewProfile)
         }
     }
+
     private fun uploadImageToFirebaseStorage(imageUri: String) {
         val storageRef = FirebaseStorage.getInstance().reference
         val imageFileName = "profile_image_$correo.jpg"
@@ -144,7 +146,10 @@ class PerfilFragment : Fragment() {
                 db.collection("users").document(correo.orEmpty()).update("foto", selectedImageUri)
             }
         }.addOnFailureListener { exception ->
-            Log.e("PerfilFragment", "Error al cargar la imagen en Firebase Storage: ${exception.message}")
+            Log.e(
+                "PerfilFragment",
+                "Error al cargar la imagen en Firebase Storage: ${exception.message}"
+            )
         }
     }
 
@@ -157,14 +162,14 @@ class PerfilFragment : Fragment() {
                     val correoJugador = document.getString("correo")
                     val nombreJugador = document.getString("nombre")
 
-                    if(correoJugador.equals(correo)){
+                    if (correoJugador.equals(correo)) {
 
                         loadPositions(nombreJugador.toString())
                     }
                 }
             }
             .addOnFailureListener { exception ->
-                Log.i("GAB","Error al acceder")
+                Log.i("GAB", "Error al acceder")
             }
     }
 
@@ -177,7 +182,8 @@ class PerfilFragment : Fragment() {
             .addOnSuccessListener { result ->
                 for (document in result) {
                     val nombreDocumento = document.id
-                    val matrizJugadores = document.get("jugadores") as ArrayList<HashMap<String, Any>>
+                    val matrizJugadores =
+                        document.get("jugadores") as ArrayList<HashMap<String, Any>>
 
                     for (jugador in matrizJugadores) {
 
@@ -187,20 +193,27 @@ class PerfilFragment : Fragment() {
 
                         if (nombreJugador == nombreJugadorBuscado && puntuacionJugadorInt > 0) {
 
-                            when(puntuacionJugadorInt){
-                                25 -> stringBuilder.append(nombreDocumento).append(separador).append(puntuacionJugador+" Puntos").append("   -   ").append("1ª Posición").appendLine().append("\n")
-                                18 -> stringBuilder.append(nombreDocumento).append(separador).append(puntuacionJugador+" Puntos").append("   -   ").append("2ª Posición").appendLine().append("\n")
-                                10 -> stringBuilder.append(nombreDocumento).append(separador).append(puntuacionJugador+" Puntos").append("   -   ").append("3ª Posición").appendLine().append("\n")
-                                else ->  stringBuilder.append(nombreDocumento).append(separador).append(puntuacionJugador+" Puntos").appendLine().append("\n")
+                            when (puntuacionJugadorInt) {
+                                25 -> stringBuilder.append(nombreDocumento).append(separador)
+                                    .append(puntuacionJugador + " Puntos").append("   -   ")
+                                    .append("1ª Posición").appendLine().append("\n")
+                                18 -> stringBuilder.append(nombreDocumento).append(separador)
+                                    .append(puntuacionJugador + " Puntos").append("   -   ")
+                                    .append("2ª Posición").appendLine().append("\n")
+                                10 -> stringBuilder.append(nombreDocumento).append(separador)
+                                    .append(puntuacionJugador + " Puntos").append("   -   ")
+                                    .append("3ª Posición").appendLine().append("\n")
+                                else -> stringBuilder.append(nombreDocumento).append(separador)
+                                    .append(puntuacionJugador + " Puntos").appendLine().append("\n")
                             }
-                           // Log.i("GABRI","Documento: $nombreDocumento, Nombre del jugador : $nombreJugador, PUntuacion : $puntuacionJugador")
+                            // Log.i("GABRI","Documento: $nombreDocumento, Nombre del jugador : $nombreJugador, PUntuacion : $puntuacionJugador")
                         }
                     }
-                    binding.textViewTorneos.text=stringBuilder.toString()
+                    binding.textViewTorneos.text = stringBuilder.toString()
                 }
             }
             .addOnFailureListener { exception ->
-                Log.i("GAB","Error al acceder")
+                Log.i("GAB", "Error al acceder")
             }
     }
 
@@ -213,44 +226,49 @@ class PerfilFragment : Fragment() {
         binding.editTextLocalidad.setText(localidad)
         binding.editTextPosiciones.setText(posiciones)
 
-         if(correo.equals(CORREO_ADMIN)){
-             binding.textViewTituloTorneos.visibility=View.GONE
-             binding.scrollTorneosDisputados.visibility=View.GONE
-             binding.btnAddPlayer.visibility=View.VISIBLE
-         }
+        if (correo.equals(CORREO_ADMIN)) {
+            binding.textViewTituloTorneos.visibility = View.GONE
+            binding.scrollTorneosDisputados.visibility = View.GONE
+            binding.btnAddPlayer.visibility = View.VISIBLE
+        }
 
-         if(selectedImageUri!=""){//Para que al cambiar la imagen se actualize (solo entra si se cambia la imagen)
-             selectedImageUri = Uri.parse(selectedImageUri).toString()
-             Picasso.get().load(selectedImageUri).transform(CircleTransformation(requireContext(),25,Color.WHITE)).into(binding.imageViewProfile)
-         }
-        else if(foto!=""){ //Cargar la imagen de perfil guardada
-             selectedImageUri= Uri.parse(foto).toString()
-             Picasso.get().load(selectedImageUri).transform(CircleTransformation(requireContext(),25,Color.WHITE)).into(binding.imageViewProfile)
-         }
+        if (selectedImageUri != "") {//Para que al cambiar la imagen se actualize (solo entra si se cambia la imagen)
+            selectedImageUri = Uri.parse(selectedImageUri).toString()
+            Picasso.get().load(selectedImageUri)
+                .transform(CircleTransformation(requireContext(), 25, Color.WHITE))
+                .into(binding.imageViewProfile)
+        } else if (foto != "") { //Cargar la imagen de perfil guardada
+            selectedImageUri = Uri.parse(foto).toString()
+            Picasso.get().load(selectedImageUri)
+                .transform(CircleTransformation(requireContext(), 25, Color.WHITE))
+                .into(binding.imageViewProfile)
+        }
 
         loadEmail(correo.toString())
 
     }
 
     private fun saveData() {
-        binding.save.setOnClickListener{
+        binding.save.setOnClickListener {
 
             db.collection("users").document(correo.orEmpty()).set(
-                hashMapOf("alias" to binding.editTextAlias.text.toString(),
-                "nombre" to binding.editTextNombre.text.toString(),
-                "telefono" to binding.editTextTelefono.text.toString(),
-                "localidad" to binding.editTextLocalidad.text.toString(),
-                "posiciones" to binding.editTextPosiciones.text.toString(),
-                "foto" to selectedImageUri,
-                "id" to 0)
+                hashMapOf(
+                    "alias" to binding.editTextAlias.text.toString(),
+                    "nombre" to binding.editTextNombre.text.toString(),
+                    "telefono" to binding.editTextTelefono.text.toString(),
+                    "localidad" to binding.editTextLocalidad.text.toString(),
+                    "posiciones" to binding.editTextPosiciones.text.toString(),
+                    "foto" to selectedImageUri,
+                    "id" to 0
+                )
 
             )
-            Toast.makeText(requireContext(),"Guardado correctamente",Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Guardado correctamente", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun deleteData() {
-        binding.delet.setOnClickListener{
+        binding.delet.setOnClickListener {
             val alertDialog = AlertDialog.Builder(requireContext())
                 .setTitle("Confirmar eliminación")
                 .setMessage("¿Estás seguro de que deseas borrar los datos?")
@@ -272,8 +290,8 @@ class PerfilFragment : Fragment() {
 
     private fun showMenuEdit() {
 
-        binding.buttomMenuEdit.setOnClickListener{
-            if(!binding.save.isVisible){
+        binding.buttomMenuEdit.setOnClickListener {
+            if (!binding.save.isVisible) {
                 binding.save.show()
                 binding.delet.show()
                 binding.buttomMenuEdit.setImageResource(R.drawable.edit_off_24)
@@ -287,13 +305,13 @@ class PerfilFragment : Fragment() {
                 binding.editeTextEdicion.isVisible = true
                 binding.editTextNombre.requestFocus()
 
-            }else{
+            } else {
                 binding.save.hide()
                 binding.delet.hide()
                 binding.editeTextEdicion.isVisible = false
                 binding.buttomMenuEdit.setImageResource(R.drawable.edit_24)
 
-                binding.btnSelectImage.isVisible= false
+                binding.btnSelectImage.isVisible = false
                 binding.editTextAlias.isEnabled = false
                 binding.editTextNombre.isEnabled = false
                 binding.editTextTelefono.isEnabled = false
@@ -313,7 +331,10 @@ class PerfilFragment : Fragment() {
                 .setMessage("¿Estás seguro de que deseas cerrar sesión?")
                 .setPositiveButton("Sí") { dialog, which ->
 
-                    val prefs = requireActivity().getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE).edit()
+                    val prefs = requireActivity().getSharedPreferences(
+                        getString(R.string.prefs_file),
+                        Context.MODE_PRIVATE
+                    ).edit()
                     prefs.clear()
                     prefs.apply()
                     //Cerramos la sesión
