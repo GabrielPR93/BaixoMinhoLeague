@@ -3,6 +3,7 @@ package com.example.baixominholeague.login
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -22,40 +23,53 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.buttomBackLogin.setOnClickListener {
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
+            onBackPressedDispatcher.onBackPressed()
+        }
+        binding.btnBackNewUser.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
         }
 
         binding.buttomCrearCuenta.setOnClickListener {
             register()
 
-
         }
+        showPassword()
+        showRepeatPassword()
     }
 
     private fun register() {
         //title = "Autenticación"
 
-            if(binding.editTextPassword.text.toString().equals(binding.editTextPaswoord2.text.toString()) && checkEmpty(binding.editTextEmail.text.toString(),binding.editTextPassword.text.toString(),binding.editTextPaswoord2.text.toString())){
-                FirebaseAuth.getInstance()
-                    .createUserWithEmailAndPassword(binding.editTextEmail.text.toString(),binding.editTextPassword.text.toString()).addOnCompleteListener {
-                        if(it.isSuccessful){
-                            saveData(it.result?.user?.email?:"")
-                            showHome(it.result?.user?.email?:"")
+        if (binding.editTextPassword.text.toString()
+                .equals(binding.editTextPaswoord2.text.toString()) && checkEmpty(
+                binding.etNombreUsuario.text.toString(),
+                binding.editTextEmail.text.toString(),
+                binding.editTextPassword.text.toString(),
+                binding.editTextPaswoord2.text.toString()
+            )
+        ) {
+            FirebaseAuth.getInstance()
+                .createUserWithEmailAndPassword(
+                    binding.editTextEmail.text.toString(),
+                    binding.editTextPassword.text.toString()
+                ).addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        saveData(it.result?.user?.email ?: "",binding.etNombreUsuario.text.toString())
+                        showHome(it.result?.user?.email ?: "")
 
-                        }else{
-                            showAlert()
+                    } else {
+                        showAlert()
 
-                        }
                     }
-            }else{
-                showAlert()
-            }
+                }
+        } else {
+            showAlert()
+        }
     }
 
-    private fun showHome(email: String){
-        val homeIntent: Intent = Intent(this,MainActivity::class.java).apply {
-            putExtra("email",email)
+    private fun showHome(email: String) {
+        val homeIntent: Intent = Intent(this, MainActivity::class.java).apply {
+            putExtra("email", email)
 
         }
         startActivity(homeIntent)
@@ -66,26 +80,68 @@ class RegisterActivity : AppCompatActivity() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Error")
         builder.setMessage("Se ha producido un error autenticando al usuario")
-        builder.setPositiveButton("Aceptar",null)
+        builder.setPositiveButton("Aceptar", null)
         val dialog: AlertDialog = builder.create()
         dialog.show()
     }
 
-    private fun checkEmpty(email: String, password: String, repeatPassword: String): Boolean {
+    private fun checkEmpty(nombreUsuario: String, email: String, password: String, repeatPassword: String): Boolean {
         return email.isNotEmpty() && password.isNotEmpty() && repeatPassword.isNotEmpty()
     }
 
-    private fun saveData(correo: String) {
+    private fun saveData(correo: String,nombreUsuario: String) {
 
-            db.collection("users").document(correo).set(
-                hashMapOf(
-                    "alias" to "",
-                    "nombre" to "",
-                    "telefono" to "",
-                    "localidad" to "",
-                    "posiciones" to "",
-                    "foto" to "",
-                )
+        db.collection("users").document(correo).set(
+            hashMapOf(
+                "alias" to nombreUsuario,
+                "nombre" to "",
+                "telefono" to "",
+                "localidad" to "",
+                "posiciones" to "",
+                "foto" to "",
             )
+        )
+    }
+
+    private fun showPassword() {
+        var isPasswordVisible = false
+        val editextPassword = binding.editTextPassword
+        var inputType: Int
+
+        binding.btnshowPassword.setOnClickListener {
+            isPasswordVisible = !isPasswordVisible
+            if (isPasswordVisible) {
+                inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                binding.btnshowPassword.setImageResource(R.drawable.baseline_visibility_off_24)
+
+            } else {
+                inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD or InputType.TYPE_CLASS_TEXT
+                binding.btnshowPassword.setImageResource(R.drawable.outline_visibility_24)
+            }
+
+            editextPassword.inputType = inputType
+            editextPassword.setSelection(editextPassword.text.length)
+        }
+    }
+
+    private fun showRepeatPassword() {
+        var isPasswordVisible = false
+        val editextPassword = binding.editTextPaswoord2
+        var inputType: Int
+
+        binding.btnshowPassword2.setOnClickListener {
+            isPasswordVisible = !isPasswordVisible
+            if (isPasswordVisible) {
+                inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                binding.btnshowPassword2.setImageResource(R.drawable.baseline_visibility_off_24)
+
+            } else {
+                inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD or InputType.TYPE_CLASS_TEXT
+                binding.btnshowPassword2.setImageResource(R.drawable.outline_visibility_24)
+            }
+
+            editextPassword.inputType = inputType
+            editextPassword.setSelection(editextPassword.text.length)
+        }
     }
 }

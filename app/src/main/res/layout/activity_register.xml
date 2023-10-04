@@ -4,118 +4,211 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".login.RegisterActivity">
+    tools:context=".login.RegisterActivity"
+    android:background="@drawable/backgroundnewuser">
 
-    <ImageView
-        android:id="@+id/imageViewAuth"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="-10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/top_background2" />
-
-    <TextView
-        android:id="@+id/textViewAuth"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="-5dp"
-        android:fontFamily="@font/hurme_light"
-        android:text="Crear cuenta"
-        android:textSize="25dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageViewAuth" />
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-
-
-    <EditText
-        android:id="@+id/editTextEmail"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="40dp"
-        android:background="@drawable/editext_background"
-        android:drawableStart="@drawable/email_24"
-        android:drawablePadding="20dp"
-        android:hint="  Correo electrónico"
-        android:inputType="textEmailAddress"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewAuth" />
-
-    <EditText
-        android:id="@+id/editTextPassword"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="40dp"
-        android:background="@drawable/editext_background"
-        android:drawableStart="@drawable/lock_24"
-        android:drawablePadding="20dp"
-        android:hint="   Contraseña"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextEmail" />
-
-    <EditText
-        android:id="@+id/editTextPaswoord2"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="40dp"
-        android:background="@drawable/editext_background"
-        android:drawableStart="@drawable/lock_24"
-        android:drawablePadding="20dp"
-        android:hint="   Repetir contraseña"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
-
-    <LinearLayout
-        android:id="@+id/idLinearLayoutRegister"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        app:layout_constraintEnd_toEndOf="@id/editTextPaswoord2"
-        app:layout_constraintStart_toStartOf="@id/editTextPaswoord2"
-        app:layout_constraintTop_toBottomOf="@id/editTextPaswoord2"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/buttomBackLogin"
+        <LinearLayout
+            android:id="@+id/linearLayoutRegisterPrincipal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginEnd="30dp"
-            android:backgroundTint="@color/blue"
-            android:text="Volver"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextPaswoord2" />
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/buttomCrearCuenta"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginEnd="30dp"
-            android:backgroundTint="@color/blue"
-            android:text="crear cuenta"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextPaswoord2" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
 
-    </LinearLayout>
+                <ImageButton
+                    android:id="@+id/btnBackNewUser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:src="@drawable/outline_arrow_circle_left_24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
+                <TextView
+                    android:id="@+id/tvEvento"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:text="Nuevo Usuario"
+                    android:textColor="@color/blanco_azul"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/btnBackNewUser"
+                    app:layout_constraintStart_toEndOf="@id/btnBackNewUser"
+                    app:layout_constraintTop_toTopOf="@+id/btnBackNewUser" />
+
+
+                <TextView
+                    android:id="@+id/textViewAuth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="180dp"
+                    android:fontFamily="@font/hurme_light"
+                    android:text="Crear cuenta"
+                    android:textSize="25dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/btnBackNewUser" />
+
+                <EditText
+                    android:id="@+id/etNombreUsuario"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:background="@drawable/editext_background"
+                    android:drawableStart="@drawable/outline_person_24"
+                    android:drawablePadding="30dp"
+                    android:hint="Nombre de usuario"
+                    android:inputType="textEmailAddress"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textViewAuth" />
+
+
+                <EditText
+                    android:id="@+id/editTextEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:background="@drawable/editext_background"
+                    android:drawableStart="@drawable/email_24"
+                    android:drawablePadding="30dp"
+                    android:hint="Correo electrónico"
+                    android:inputType="textEmailAddress"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etNombreUsuario" />
+
+                <LinearLayout
+                    android:id="@+id/linearLayoutPassword"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/editext_background"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:layout_marginStart="30dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/editTextEmail">
+
+                <EditText
+                    android:id="@+id/editTextPassword"
+                    android:layout_width="310dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/editext_background"
+                    android:drawableStart="@drawable/lock_24"
+                    android:drawablePadding="30dp"
+                    android:hint="Contraseña"
+                    android:inputType="textPassword"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/editTextEmail" />
+
+                <ImageButton
+                    android:id="@+id/btnshowPassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:contentDescription="Mostrar/Ocultar contraseña"
+                    android:src="@drawable/outline_visibility_24"
+                    app:layout_constraintStart_toEndOf="@+id/editTextPassword"
+                    app:layout_constraintTop_toTopOf="@+id/editTextPassword" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/linearLayoutPassword2"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/editext_background"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:layout_marginStart="30dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayoutPassword">
+                <EditText
+                    android:id="@+id/editTextPaswoord2"
+                    android:layout_width="310dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/editext_background"
+                    android:drawableStart="@drawable/lock_24"
+                    android:drawablePadding="30dp"
+                    android:hint="Repetir contraseña"
+                    android:inputType="textPassword"/>
+
+                <ImageButton
+                    android:id="@+id/btnshowPassword2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:contentDescription="Mostrar/Ocultar contraseña"
+                    android:src="@drawable/outline_visibility_24"
+                    app:layout_constraintStart_toEndOf="@+id/editTextPaswoord2"
+                    app:layout_constraintTop_toTopOf="@+id/editTextPaswoord2" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/idLinearLayoutRegister"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="@id/linearLayoutPassword2"
+                    app:layout_constraintStart_toStartOf="@id/linearLayoutPassword2"
+                    app:layout_constraintTop_toBottomOf="@id/linearLayoutPassword2"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <Button
+                        android:id="@+id/buttomBackLogin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="30dp"
+                        android:backgroundTint="@color/blue"
+                        android:text="Volver"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/editTextPaswoord2" />
+
+                    <Button
+                        android:id="@+id/buttomCrearCuenta"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+
+                        android:layout_marginEnd="30dp"
+                        android:backgroundTint="@color/blue"
+                        android:text="crear cuenta"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/editTextPaswoord2" />
+
+
+                </LinearLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
