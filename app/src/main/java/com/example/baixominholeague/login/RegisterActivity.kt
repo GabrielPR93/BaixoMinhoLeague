@@ -22,9 +22,6 @@ class RegisterActivity : AppCompatActivity() {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.buttomBackLogin.setOnClickListener {
-            onBackPressedDispatcher.onBackPressed()
-        }
         binding.btnBackNewUser.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
@@ -59,7 +56,6 @@ class RegisterActivity : AppCompatActivity() {
 
                     } else {
                         showAlert()
-
                     }
                 }
         } else {

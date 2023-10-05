@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.InputType
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.example.baixominholeague.MainActivity
 import com.example.baixominholeague.R
@@ -14,6 +16,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.GoogleAuthProvider
 
 class LoginActivity : AppCompatActivity() {
@@ -37,23 +40,20 @@ class LoginActivity : AppCompatActivity() {
 
         setup()
         session()
+        showPassword()
 
     }
 
+
     private fun setup() {
 
-        binding.buttomRegister.setOnClickListener {
-            startActivity(Intent(this, RegisterActivity::class.java))
+        binding.tvNewUser.setOnClickListener { startActivity(Intent(this, RegisterActivity::class.java)) }
 
-        }
+        binding.buttomLogin.setOnClickListener { login() }
 
-        binding.buttomLogin.setOnClickListener {
-            login()
-        }
+        binding.buttomGoogle.setOnClickListener { googleInit() }
 
-        binding.buttomGoogle.setOnClickListener {
-            googleInit()
-        }
+
     }
 
     private fun googleInit() {
@@ -149,6 +149,27 @@ class LoginActivity : AppCompatActivity() {
                 showAlert()
             }
 
+        }
+    }
+
+    private fun showPassword() {
+        var isPasswordVisible = false
+        val editextPassword = binding.editTextPassword
+        var inputType: Int
+
+        binding.btnshowPassword.setOnClickListener {
+            isPasswordVisible = !isPasswordVisible
+            if (isPasswordVisible) {
+                inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                binding.btnshowPassword.setImageResource(R.drawable.baseline_visibility_off_24)
+
+            } else {
+                inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD or InputType.TYPE_CLASS_TEXT
+                binding.btnshowPassword.setImageResource(R.drawable.outline_visibility_24)
+            }
+
+            editextPassword.inputType = inputType
+            editextPassword.setSelection(editextPassword.text.length)
         }
     }
 }
