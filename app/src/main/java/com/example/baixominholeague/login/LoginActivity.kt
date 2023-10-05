@@ -10,6 +10,7 @@ import androidx.appcompat.app.AlertDialog
 import com.example.baixominholeague.MainActivity
 import com.example.baixominholeague.R
 import com.example.baixominholeague.databinding.ActivityLoginBinding
+import com.example.baixominholeague.login.ResetPassword.Companion.CLAVE_CORREO_RESET
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -52,6 +53,8 @@ class LoginActivity : AppCompatActivity() {
         binding.buttomLogin.setOnClickListener { login() }
 
         binding.buttomGoogle.setOnClickListener { googleInit() }
+
+        binding.tvResetPassword.setOnClickListener { showResetPassword(binding.editTextNombre.text.toString()?:"") }
 
 
     }
@@ -108,6 +111,13 @@ class LoginActivity : AppCompatActivity() {
         }
         startActivity(homeIntent)
         finish()
+    }
+
+    private fun showResetPassword(email: String?) {
+        val homeIntent: Intent = Intent(this, ResetPassword::class.java).apply {
+            putExtra(CLAVE_CORREO_RESET, email)
+        }
+        startActivity(homeIntent)
     }
 
     private fun showAlert() {
