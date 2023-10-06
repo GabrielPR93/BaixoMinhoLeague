@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.example.baixominholeague.MainActivity
@@ -60,6 +61,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun googleInit() {
+
         val googleConf = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
@@ -89,11 +91,13 @@ class LoginActivity : AppCompatActivity() {
                 binding.editTextPassword.text.toString()
             )
         ) {
+            binding.progresBarLogin.visibility = View.VISIBLE
             FirebaseAuth.getInstance()
                 .signInWithEmailAndPassword(
                     binding.editTextNombre.text.toString(),
                     binding.editTextPassword.text.toString()
                 ).addOnCompleteListener {
+                    binding.progresBarLogin.visibility = View.INVISIBLE
                     if (it.isSuccessful) {
                         showHome(it.result?.user?.email ?: "")
 
@@ -102,6 +106,7 @@ class LoginActivity : AppCompatActivity() {
 
                     }
                 }
+                .addOnFailureListener { binding.progresBarLogin.visibility = View.INVISIBLE}
         }
     }
 
@@ -137,6 +142,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        binding.progresBarLogin.visibility = View.VISIBLE
         if (requestCode == GOOGLE_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
 
@@ -148,6 +154,7 @@ class LoginActivity : AppCompatActivity() {
                     val credential = GoogleAuthProvider.getCredential(account.idToken, null)
                     FirebaseAuth.getInstance().signInWithCredential(credential)
                         .addOnCompleteListener {
+                            binding.progresBarLogin.visibility = View.INVISIBLE
                             if (it.isSuccessful) {
                                 showHome(account.email ?: "")
                             } else {
@@ -156,6 +163,7 @@ class LoginActivity : AppCompatActivity() {
                         }
                 }
             } catch (e: ApiException) {
+                binding.progresBarLogin.visibility = View.INVISIBLE
                 showAlert()
             }
 
