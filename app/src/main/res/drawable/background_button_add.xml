@@ -1,4 +1,14 @@
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="#6672FF" /> <!-- Cambia el color a azul según tus preferencias -->
-    <corners android:radius="260dp" /> <!-- La mitad del ancho/altura del ImageButton para hacerlo circular -->
-</shape>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Borde blanco -->
+    <item>
+        <shape android:shape="oval">
+            <stroke android:width="2.5dp" android:color="#FFFFFF" />
+        </shape>
+    </item>
+    <!-- Fondo azul -->
+    <item android:right="2.5dp" android:left="2.5dp" android:top="2.5dp" android:bottom="2.5dp">
+        <shape android:shape="oval">
+            <solid android:color="#6672FF" />
+        </shape>
+    </item>
+</layer-list>

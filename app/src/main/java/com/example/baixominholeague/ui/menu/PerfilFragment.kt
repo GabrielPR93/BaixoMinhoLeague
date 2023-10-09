@@ -7,7 +7,6 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.DisplayMetrics
 import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -19,7 +18,6 @@ import androidx.appcompat.app.AlertDialog
 
 import androidx.core.view.isVisible
 import com.example.baixominholeague.AddPlayerAndTournament
-import com.example.baixominholeague.CircleTransformation
 import com.example.baixominholeague.MainActivity
 import com.example.baixominholeague.MainActivity.Companion.CLAVE_ALIAS
 import com.example.baixominholeague.R
@@ -28,18 +26,14 @@ import com.example.baixominholeague.MainActivity.Companion.CLAVE_CORREO
 import com.example.baixominholeague.MainActivity.Companion.CLAVE_FOTO
 import com.example.baixominholeague.MainActivity.Companion.CLAVE_LOCALIDAD
 import com.example.baixominholeague.MainActivity.Companion.CLAVE_NOMBRE
+import com.example.baixominholeague.MainActivity.Companion.CLAVE_OTROS
 import com.example.baixominholeague.MainActivity.Companion.CLAVE_POSICIONES
 import com.example.baixominholeague.MainActivity.Companion.CLAVE_TELEFONO
-import android.Manifest
 import com.example.baixominholeague.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.collection.LLRBNode
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
-import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.Picasso
-import java.net.URI
 
 
 class PerfilFragment : Fragment() {
@@ -52,6 +46,7 @@ class PerfilFragment : Fragment() {
     private var telefono: String? = null
     private var localidad: String? = null
     private var posiciones: String? = null
+    private var otros: String? = null
     private var foto: String? = null
     private val db = FirebaseFirestore.getInstance()
 
@@ -73,6 +68,7 @@ class PerfilFragment : Fragment() {
             telefono = it.getString(CLAVE_TELEFONO)
             localidad = it.getString(CLAVE_LOCALIDAD)
             posiciones = it.getString(CLAVE_POSICIONES)
+            otros = it.getString(CLAVE_OTROS)
             foto = it.getString(CLAVE_FOTO)
 
         }
@@ -126,7 +122,6 @@ class PerfilFragment : Fragment() {
             uploadImageToFirebaseStorage(selectedImageUri!!)
 
             Picasso.get().load(Uri.parse(selectedImageUri))
-                .transform(CircleTransformation(requireContext(), 25, Color.WHITE))
                 .into(binding.imageViewProfile)
         }
     }
@@ -175,7 +170,7 @@ class PerfilFragment : Fragment() {
 
     private fun loadPositions(nombreJugadorBuscado: String) {
         val collectionRef = db.collection("clasificacionMovimiento")
-        val separador = " ─────⌲ "
+        val separador = " ────⌲ "
         val stringBuilder = StringBuilder()
 
         collectionRef.get()
@@ -224,23 +219,21 @@ class PerfilFragment : Fragment() {
         binding.editTextNombre.setText(nombre)
         binding.editTextTelefono.setText(telefono)
         binding.editTextLocalidad.setText(localidad)
+        binding.editTextOtrosDatos.setText(otros)
         binding.editTextPosiciones.setText(posiciones)
 
         if (correo.equals(CORREO_ADMIN)) {
             binding.textViewTituloTorneos.visibility = View.GONE
-            binding.scrollTorneosDisputados.visibility = View.GONE
             binding.btnAddPlayer.visibility = View.VISIBLE
         }
 
         if (selectedImageUri != "") {//Para que al cambiar la imagen se actualize (solo entra si se cambia la imagen)
             selectedImageUri = Uri.parse(selectedImageUri).toString()
             Picasso.get().load(selectedImageUri)
-                .transform(CircleTransformation(requireContext(), 25, Color.WHITE))
                 .into(binding.imageViewProfile)
         } else if (foto != "") { //Cargar la imagen de perfil guardada
             selectedImageUri = Uri.parse(foto).toString()
             Picasso.get().load(selectedImageUri)
-                .transform(CircleTransformation(requireContext(), 25, Color.WHITE))
                 .into(binding.imageViewProfile)
         }
 
@@ -258,8 +251,8 @@ class PerfilFragment : Fragment() {
                     "telefono" to binding.editTextTelefono.text.toString(),
                     "localidad" to binding.editTextLocalidad.text.toString(),
                     "posiciones" to binding.editTextPosiciones.text.toString(),
-                    "foto" to selectedImageUri,
-                    "id" to 0
+                    "otros" to binding.editTextOtrosDatos.text.toString(),
+                    "foto" to selectedImageUri
                 )
 
             )
@@ -280,6 +273,7 @@ class PerfilFragment : Fragment() {
                     binding.editTextTelefono.text.clear()
                     binding.editTextLocalidad.text.clear()
                     binding.editTextPosiciones.text.clear()
+                    binding.editTextOtrosDatos.text.clear()
                 }
                 .setNegativeButton("No", null)
                 .create()
@@ -302,6 +296,7 @@ class PerfilFragment : Fragment() {
                 binding.editTextTelefono.isEnabled = true
                 binding.editTextLocalidad.isEnabled = true
                 binding.editTextPosiciones.isEnabled = true
+                binding.editTextOtrosDatos.isEnabled = true
                 binding.editeTextEdicion.isVisible = true
                 binding.editTextNombre.requestFocus()
 
@@ -317,6 +312,7 @@ class PerfilFragment : Fragment() {
                 binding.editTextTelefono.isEnabled = false
                 binding.editTextLocalidad.isEnabled = false
                 binding.editTextPosiciones.isEnabled = false
+                binding.editTextOtrosDatos.isEnabled = false
                 binding.editeTextEdicion.isVisible = false
             }
         }

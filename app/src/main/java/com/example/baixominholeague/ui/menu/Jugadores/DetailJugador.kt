@@ -74,9 +74,10 @@ class DetailJugador : AppCompatActivity() {
                         var posiciones = document.getString("posiciones")
                         var telefono = document.getString("telefono")
                         var foto = document.getString("foto")
+                        var otros = document.getString("otros")
 
-                        if(alias !=null && nombre!=null && localidad!=null && posiciones!=null && telefono!=null && foto!=null){
-                            setupUi(alias,nombre,telefono,correo,localidad,posiciones,foto)
+                        if(alias !=null && nombre!=null && localidad!=null && posiciones!=null && telefono!=null && foto!=null && otros !=null){
+                            setupUi(alias,nombre,telefono,correo,localidad,posiciones,foto,otros)
 
                         }
                     }
@@ -87,7 +88,7 @@ class DetailJugador : AppCompatActivity() {
                                     "/" + resources.getResourceTypeName(R.drawable.profile) +
                                     "/" + resources.getResourceEntryName(R.drawable.profile)
                         )
-                        setupUi("","","",correo ,"","",defaultFotoUri.toString())
+                        setupUi("","","",correo ,"","",defaultFotoUri.toString(),"")
                     }
                 }
             }
@@ -97,7 +98,7 @@ class DetailJugador : AppCompatActivity() {
 
     }
 
-    private fun setupUi(alias: String, nombre: String, telefono: String, correo: String, localidad: String, posiciones: String, foto: String) {
+    private fun setupUi(alias: String, nombre: String, telefono: String, correo: String, localidad: String, posiciones: String, foto: String, otros: String) {
 
         if(!foto.isNullOrEmpty()){
             Picasso.get().load(Uri.parse(foto)).into(binding.myCircleImageView)
@@ -108,6 +109,7 @@ class DetailJugador : AppCompatActivity() {
         binding.tvTelefono.setText(telefono)
         binding.tvCorreo.setText(correo)
         binding.tvLocalidad.setText(localidad)
+        binding.tvOtros.setText(otros)
         binding.tvPosiciones.setText(posiciones)
 
     }

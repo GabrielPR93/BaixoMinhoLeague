@@ -54,6 +54,7 @@ class MainActivity : AppCompatActivity() {
     private var telefono: String? = null
     private var localidad: String? = null
     private var posiciones: String? = null
+    private var otros: String? = null
 
     private var args: Bundle? = null
     private val requiredPermissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -68,6 +69,7 @@ class MainActivity : AppCompatActivity() {
         const val CLAVE_TELEFONO = "telefono"
         const val CLAVE_LOCALIDAD = "localidad"
         const val CLAVE_POSICIONES = "posiciones"
+        const val CLAVE_OTROS = "otros"
         const val CLAVE_FOTO = "foto"
     }
 
@@ -211,6 +213,7 @@ class MainActivity : AppCompatActivity() {
                         localidad = document.get("localidad") as String?
                         posiciones = document.get("posiciones") as String?
                         foto = document.get("foto") as String?
+                        otros = document.get("otros") as String?
 
                         args = Bundle().apply {
 
@@ -221,6 +224,7 @@ class MainActivity : AppCompatActivity() {
                             putString(CLAVE_LOCALIDAD, localidad?.toString())
                             putString(CLAVE_POSICIONES, posiciones?.toString())
                             putString(CLAVE_FOTO, foto?.toString())
+                            putString(CLAVE_OTROS,otros?.toString())
                         }
                         fragmentPerfil.arguments = args
 

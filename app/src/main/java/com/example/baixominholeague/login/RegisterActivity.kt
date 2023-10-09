@@ -94,7 +94,8 @@ class RegisterActivity : AppCompatActivity() {
                 "telefono" to "",
                 "localidad" to "",
                 "posiciones" to "",
-                "foto" to "",
+                "otros" to "",
+                "foto" to ""
             )
         )
     }
