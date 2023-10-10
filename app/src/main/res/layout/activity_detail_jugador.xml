@@ -176,6 +176,20 @@
                             tools:text="Posiciones" />
 
                         <TextView
+                            android:id="@+id/tvOtros"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="50dp"
+                            android:layout_marginTop="15dp"
+                            android:drawableStart="@drawable/stars_24"
+                            android:drawablePadding="10dp"
+                            android:fontFamily="@font/hurmegeometricsans4"
+                            android:text="Otros datos"
+                            android:textSize="15dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tvPosiciones"  />
+
+                        <TextView
                             android:id="@+id/tvTituloTorneos"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -187,7 +201,7 @@
                             android:text="Torneos Disputados :"
                             android:textSize="15dp"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tvPosiciones" />
+                            app:layout_constraintTop_toBottomOf="@id/tvOtros" />
 
                         <TextView
                             android:id="@+id/tvTorneosDisputados"
@@ -196,28 +210,14 @@
                             android:layout_marginStart="100dp"
                             android:layout_marginTop="15dp"
                             android:layout_marginEnd="30dp"
+                            android:layout_marginBottom="25dp"
                             android:drawablePadding="10dp"
                             android:fontFamily="@font/hurmegeometricsans4"
                             android:textSize="15dp"
                             app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tvTituloTorneos"
                             tools:text="● Torneo 1" />
-
-                        <TextView
-                            android:id="@+id/tvOtros"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="50dp"
-                            android:layout_marginTop="15dp"
-                            android:layout_marginBottom="25dp"
-                            android:drawableStart="@drawable/stars_24"
-                            android:drawablePadding="10dp"
-                            android:fontFamily="@font/hurmegeometricsans4"
-                            android:text="Otros datos"
-                            android:textSize="15dp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tvTorneosDisputados" />
 
 
                     </androidx.constraintlayout.widget.ConstraintLayout>

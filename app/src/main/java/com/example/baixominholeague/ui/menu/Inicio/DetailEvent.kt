@@ -78,14 +78,15 @@ class DetailEvent : AppCompatActivity() {
 
                     if(document.id==nameEvent.lowercase()){
                         val correoJugador = document.getString("correo")
+                        val nombreUsuario = document.getString("nombreUsuario")
                         val fecha = document.getTimestamp("fecha")
                         val precio = document.getString("precio")
                         val ubicacion = document.getString("ubicacion")
                         val descripcion = document.getString("descripcion")
                         val imagen = document.getString("imagen")
 
-                        if (correoJugador != null && fecha !=null && precio != null && ubicacion != null) {
-                            setupUI(correoJugador,fecha,precio,ubicacion,descripcion,imagen)
+                        if (correoJugador !=null && fecha !=null && precio != null && ubicacion != null && nombreUsuario != null) {
+                            setupUI(correoJugador,fecha,precio,ubicacion,descripcion,imagen,nombreUsuario)
                         }
                     }
 
@@ -96,9 +97,9 @@ class DetailEvent : AppCompatActivity() {
             }
     }
 
-    private fun setupUI(correo: String, fecha: Timestamp, precio: String, ubicacion: String,descripcion: String?,imagen: String?){
+    private fun setupUI(correoJugador:String, fecha: Timestamp, precio: String, ubicacion: String,descripcion: String?,imagen: String?,nombreUsuario: String){
         var nuevaFecha = fecha.toDate()
-        binding.tvCorreoPublicado.setText(correo)
+        binding.tvUsuarioPublicado.text= if(nombreUsuario.isNullOrEmpty()) correoJugador else nombreUsuario
         binding.tvFechaEvent.setText(SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()) .format(nuevaFecha))
         binding.tvHoraEvent.setText(SimpleDateFormat("HH:mm", Locale.getDefault()) .format(nuevaFecha)+" H")
         binding.tvPrecio.setText(precio)

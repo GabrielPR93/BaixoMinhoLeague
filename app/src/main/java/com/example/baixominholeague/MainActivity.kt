@@ -115,10 +115,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.floatinButton.setOnClickListener {
-            (correo ?: correoLogin)?.let {
-                navigateToNewEvent(it)
-
-            }
+            alias?.let { it1 -> navigateToNewEvent(it1) }
         }
 
         updateNewEvent()
@@ -137,9 +134,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun navigateToNewEvent(email: String) {
+    private fun navigateToNewEvent(Usuario: String) {
         val intent = Intent(this, NuevoEvento::class.java)
-        intent.putExtra(NuevoEvento.EMAIL_PUBLICADOR, email)
+        intent.putExtra(NuevoEvento.USUARIO_PUBLICADOR, Usuario)
         addEventLauncher.launch(intent)
     }
 

@@ -213,8 +213,8 @@
                             app:layout_constraintStart_toStartOf="@id/tvInscripcion"/>
 
                         <TextView
-                            android:id="@+id/tvCorreoPublicado"
-                            tools:text="gabrielmendaperezrodrig@hotmail.com"
+                            android:id="@+id/tvUsuarioPublicado"
+                            tools:text="Gabriel"
                             android:textSize="15dp"
                             android:layout_width="0dp"
                             android:gravity="start"

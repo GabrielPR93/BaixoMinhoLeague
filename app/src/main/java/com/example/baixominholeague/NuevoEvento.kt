@@ -21,6 +21,7 @@ import android.widget.Toast
 import androidx.core.net.toUri
 import com.example.baixominholeague.databinding.ActivityNuevoEventoBinding
 import com.example.baixominholeague.ui.menu.Inicio.InicioFragment
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
@@ -31,24 +32,24 @@ import java.util.*
 
 class NuevoEvento : AppCompatActivity() {
     companion object {
-        const val EMAIL_PUBLICADOR = "emailPublicador"
+        const val USUARIO_PUBLICADOR = "usuarioPublicador"
     }
 
     private lateinit var binding: ActivityNuevoEventoBinding
     private val db = FirebaseFirestore.getInstance()
     val database = FirebaseDatabase.getInstance()
-    private var fragmentInicio = InicioFragment()
+    private val currentUser = FirebaseAuth.getInstance().currentUser
 
     private val REQUEST_CODE_IMAGE_PICKER = 102
     private var selectedImageUri: String? = null
-    private var correo: String? = ""
+    private var nombreUsuario: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityNuevoEventoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        correo = intent.getStringExtra(EMAIL_PUBLICADOR)
+        nombreUsuario = intent.getStringExtra(USUARIO_PUBLICADOR)
 
         setupUI()
 
@@ -69,7 +70,7 @@ class NuevoEvento : AppCompatActivity() {
     private fun saveNewTorneo() {
         binding.linearLayout.clearFocus()
         if (validarCampos()) {
-            saveData(correo)
+            saveData(currentUser?.email?:"")
             addEventBdRealTime(binding.etNombreNewEvent.text.toString().lowercase())
         } else {
             Toast.makeText(
@@ -235,6 +236,7 @@ class NuevoEvento : AppCompatActivity() {
                     // No existe un documento con el mismo nombre, puedes guardarlo
                     val evento = hashMapOf(
                         "correo" to correo,
+                        "nombreUsuario" to nombreUsuario,
                         "nombre" to binding.etNombreNewEvent.text.toString().uppercase(),
                         "descripcion" to binding.etDescripcion.text.toString().trim(),
                         "fecha" to getTimestampFromDateAndTime(
