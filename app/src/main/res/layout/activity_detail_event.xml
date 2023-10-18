@@ -81,6 +81,17 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent"/>
 
+                        <ProgressBar
+                            android:id="@+id/progressBarImageEvent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:elevation="1dp"
+                            android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="@+id/imageViewEvent"
+                            app:layout_constraintEnd_toEndOf="@+id/imageViewEvent"
+                            app:layout_constraintStart_toStartOf="@+id/imageViewEvent"
+                            app:layout_constraintTop_toTopOf="@+id/imageViewEvent" />
+
                         <ImageView
                             android:id="@+id/imageViewEvent"
                             android:layout_width="250dp"

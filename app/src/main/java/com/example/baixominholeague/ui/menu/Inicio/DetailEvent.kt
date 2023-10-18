@@ -6,13 +6,19 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.baixominholeague.R
 import com.example.baixominholeague.databinding.ActivityDetailEventBinding
 import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import java.util.*
 
@@ -27,7 +33,10 @@ class DetailEvent : AppCompatActivity() {
     private lateinit var binding: ActivityDetailEventBinding
     private  var db = FirebaseFirestore.getInstance()
     val database = FirebaseDatabase.getInstance()
+    private val currentUser = FirebaseAuth.getInstance().currentUser?.email
     private var buttonPressed: Boolean = false
+    private lateinit var alias: String
+    private lateinit var nombre: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,20 +46,20 @@ class DetailEvent : AppCompatActivity() {
         val nameEvent = intent.getStringExtra(NAME_EVENT)
         binding.tvTituloEvent.setText(nameEvent)
 
+        if (currentUser != null) {
+            getAliasAndNAme(currentUser)
+        }
+
         if (nameEvent != null) {
+            loadButtonState(nameEvent)
             loadParticipantes(nameEvent.lowercase())
             getDetailEvent(nameEvent)
         }
-        buttonPressed=loadButtonState(nameEvent!!)
-        if(buttonPressed){
-            binding.btnParticipar.setBackgroundColor(ContextCompat.getColor(this,R.color.teal_200))
-            binding.btnParticipar.setText("Asistiré")
-        }
-
 
 
         binding.btnParticipar.setOnClickListener {
-            val eventoRef = database.getReference("eventos/${nameEvent.lowercase()}")
+
+            val eventoRef = database.getReference("eventos/${nameEvent?.lowercase()}")
 
             if(buttonPressed){
                 binding.btnParticipar.setBackgroundColor(ContextCompat.getColor(this, R.color.blue))
@@ -89,7 +98,6 @@ class DetailEvent : AppCompatActivity() {
                             setupUI(correoJugador,fecha,precio,ubicacion,descripcion,imagen,nombreUsuario)
                         }
                     }
-
                 }
             }
             .addOnFailureListener { exception ->
@@ -99,26 +107,81 @@ class DetailEvent : AppCompatActivity() {
 
     private fun setupUI(correoJugador:String, fecha: Timestamp, precio: String, ubicacion: String,descripcion: String?,imagen: String?,nombreUsuario: String){
         var nuevaFecha = fecha.toDate()
+        var progressBar = binding.progressBarImageEvent
+        var imageViewEvent = binding.imageViewEvent
+        progressBar.visibility = View.VISIBLE
+
         binding.tvUsuarioPublicado.text= if(nombreUsuario.isNullOrEmpty()) correoJugador else nombreUsuario
         binding.tvFechaEvent.setText(SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()) .format(nuevaFecha))
         binding.tvHoraEvent.setText(SimpleDateFormat("HH:mm", Locale.getDefault()) .format(nuevaFecha)+" H")
         binding.tvPrecio.setText(precio)
         binding.tvUbicacion.setText(ubicacion)
         binding.tvDescripcion.setText(descripcion)
-        Picasso.get().load(Uri.parse(imagen)).into(binding.imageViewEvent)
 
+        Picasso.get().load(Uri.parse(imagen)).into(imageViewEvent, object : Callback {
+            override fun onSuccess() {
+                progressBar.visibility = View.GONE
+            }
+
+            override fun onError(e: Exception?) {
+                progressBar.visibility = View.GONE
+                Log.i("Gabri","Error al cargar la imagen: $e")
+            }
+        })
     }
 
-    private fun saveButtonState(buttonPressed: Boolean, eventName: String) {
-        val prefs = getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE).edit()
-        prefs.putBoolean("button_pressed_$eventName", buttonPressed)
-        prefs.apply()
+    private fun getAliasAndNAme(correo: String){
+        db.collection("users").document(correo).get()
+            .addOnSuccessListener { documentSnapshot ->
+                if (documentSnapshot.exists()){
+                    alias = documentSnapshot.getString("alias") ?: ""
+                    nombre = documentSnapshot.getString("nombre") ?: ""
+
+                }else{ Log.i("Gabri","Error: El documento no existe")}
+            }
+            .addOnFailureListener { exception -> Log.i("Gabri","Error: $exception") }
     }
 
-    private fun loadButtonState(eventName: String): Boolean {
-        // Cargar el estado del botón desde las preferencias compartidas
-        val prefs = getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE)
-        return prefs.getBoolean("button_pressed_$eventName", false)
+    private fun saveButtonState(buttonPressed: Boolean, eventName: String){
+        val usuarioRef = db.collection("users").document(currentUser!!)
+        val participacionesRef = usuarioRef.collection("participaciones")
+        val nuevoDocumento = participacionesRef.document(eventName)
+
+        nuevoDocumento.get().addOnSuccessListener { documentSnapshot ->
+            if (documentSnapshot.exists()) {
+                // El documento ya existe, actualízalo
+                nuevoDocumento.update("estadoBoton", buttonPressed)
+            } else {
+                // El documento no existe, agrégalo
+                val nuevoElemento = hashMapOf(
+                    "estadoBoton" to buttonPressed
+                )
+                nuevoDocumento.set(nuevoElemento)
+            }
+        }
+    }
+
+    private fun loadButtonState(eventName: String) {
+        val usuarioRef = db.collection("users").document(currentUser!!)
+        val participacionRef = usuarioRef.collection("participaciones").document(eventName)
+
+        participacionRef.get().addOnSuccessListener { documentSnapshot ->
+            if (documentSnapshot.exists()) {
+                val estadoBoton = documentSnapshot.getBoolean("estadoBoton")
+                if (estadoBoton != null) {
+                    if (estadoBoton) {
+                        binding.btnParticipar.setBackgroundColor(ContextCompat.getColor(this,R.color.teal_200))
+                        binding.btnParticipar.setText("Asistiré")
+                        buttonPressed=true
+                        Log.i("Gabri","ESTADOOOOO: $estadoBoton")
+                    }
+                }
+            } else {
+                Log.i("Gabri","El documento no existe: ${participacionRef.toString()}")
+            }
+        }.addOnFailureListener { exception ->
+            Log.i("Gabri","Error: $exception")
+        }
     }
 
     private fun loadParticipantes(nombreEvento: String){
@@ -138,6 +201,5 @@ class DetailEvent : AppCompatActivity() {
                 Log.e("Firebase", "Error al leer los datos: ${error.message}")
             }
         })
-
     }
 }
