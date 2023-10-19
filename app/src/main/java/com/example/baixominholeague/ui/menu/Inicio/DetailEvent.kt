@@ -31,7 +31,7 @@ class DetailEvent : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivityDetailEventBinding
-    private  var db = FirebaseFirestore.getInstance()
+    private var db = FirebaseFirestore.getInstance()
     val database = FirebaseDatabase.getInstance()
     private val currentUser = FirebaseAuth.getInstance().currentUser?.email
     private var buttonPressed: Boolean = false
@@ -51,7 +51,9 @@ class DetailEvent : AppCompatActivity() {
         }
 
         if (nameEvent != null) {
-            loadButtonState(nameEvent)
+            buttonPressed = loadButtonStateLocal(nameEvent)
+            updateButtonUI()
+            loadButtonStateFromDataBase(nameEvent)
             loadParticipantes(nameEvent.lowercase())
             getDetailEvent(nameEvent)
         }
@@ -61,31 +63,39 @@ class DetailEvent : AppCompatActivity() {
 
             val eventoRef = database.getReference("eventos/${nameEvent?.lowercase()}")
 
-            if(buttonPressed){
+            if (buttonPressed) {
                 binding.btnParticipar.setBackgroundColor(ContextCompat.getColor(this, R.color.blue))
                 binding.btnParticipar.setText("No Asistiré")
                 eventoRef.child("participantes").setValue(ServerValue.increment(-1))
-                saveButtonState(false,nameEvent!!)
-                buttonPressed=false
-            }else{
-                binding.btnParticipar.setBackgroundColor(ContextCompat.getColor(this, R.color.teal_200))
+                saveButtonStateLocal(false, nameEvent!!)
+                saveButtonStateFromDataBase(false, nameEvent!!)
+                buttonPressed = false
+            } else {
+                binding.btnParticipar.setBackgroundColor(
+                    ContextCompat.getColor(
+                        this,
+                        R.color.teal_200
+                    )
+                )
                 binding.btnParticipar.setText("Asistiré")
                 eventoRef.child("participantes").setValue(ServerValue.increment(1))
-                saveButtonState(true,nameEvent!!)
-                buttonPressed=true
+                saveButtonStateLocal(true, nameEvent!!)
+                saveButtonStateFromDataBase(true, nameEvent!!)
+                buttonPressed = true
             }
         }
 
         binding.imageButtonBack.setOnClickListener { onBackPressed() }
     }
-    private fun getDetailEvent(nameEvent: String){
+
+    private fun getDetailEvent(nameEvent: String) {
         val collectionRef = db.collection("eventos")
 
         collectionRef.get()
             .addOnSuccessListener { result ->
                 for (document in result) {
 
-                    if(document.id==nameEvent.lowercase()){
+                    if (document.id == nameEvent.lowercase()) {
                         val correoJugador = document.getString("correo")
                         val nombreUsuario = document.getString("nombreUsuario")
                         val fecha = document.getTimestamp("fecha")
@@ -94,26 +104,52 @@ class DetailEvent : AppCompatActivity() {
                         val descripcion = document.getString("descripcion")
                         val imagen = document.getString("imagen")
 
-                        if (correoJugador !=null && fecha !=null && precio != null && ubicacion != null && nombreUsuario != null) {
-                            setupUI(correoJugador,fecha,precio,ubicacion,descripcion,imagen,nombreUsuario)
+                        if (correoJugador != null && fecha != null && precio != null && ubicacion != null && nombreUsuario != null) {
+                            setupUI(
+                                correoJugador,
+                                fecha,
+                                precio,
+                                ubicacion,
+                                descripcion,
+                                imagen,
+                                nombreUsuario
+                            )
                         }
                     }
                 }
             }
             .addOnFailureListener { exception ->
-                Log.i("GAB","Error al acceder")
+                Log.i("GAB", "Error al acceder")
             }
     }
 
-    private fun setupUI(correoJugador:String, fecha: Timestamp, precio: String, ubicacion: String,descripcion: String?,imagen: String?,nombreUsuario: String){
+    private fun setupUI(
+        correoJugador: String,
+        fecha: Timestamp,
+        precio: String,
+        ubicacion: String,
+        descripcion: String?,
+        imagen: String?,
+        nombreUsuario: String
+    ) {
         var nuevaFecha = fecha.toDate()
         var progressBar = binding.progressBarImageEvent
         var imageViewEvent = binding.imageViewEvent
         progressBar.visibility = View.VISIBLE
 
-        binding.tvUsuarioPublicado.text= if(nombreUsuario.isNullOrEmpty()) correoJugador else nombreUsuario
-        binding.tvFechaEvent.setText(SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()) .format(nuevaFecha))
-        binding.tvHoraEvent.setText(SimpleDateFormat("HH:mm", Locale.getDefault()) .format(nuevaFecha)+" H")
+        binding.tvUsuarioPublicado.text =
+            if (nombreUsuario.isNullOrEmpty()) correoJugador else nombreUsuario
+        binding.tvFechaEvent.setText(
+            SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(
+                nuevaFecha
+            )
+        )
+        binding.tvHoraEvent.setText(
+            SimpleDateFormat(
+                "HH:mm",
+                Locale.getDefault()
+            ).format(nuevaFecha) + " H"
+        )
         binding.tvPrecio.setText(precio)
         binding.tvUbicacion.setText(ubicacion)
         binding.tvDescripcion.setText(descripcion)
@@ -125,24 +161,36 @@ class DetailEvent : AppCompatActivity() {
 
             override fun onError(e: Exception?) {
                 progressBar.visibility = View.GONE
-                Log.i("Gabri","Error al cargar la imagen: $e")
+                Log.i("Gabri", "Error al cargar la imagen: $e")
             }
         })
     }
 
-    private fun getAliasAndNAme(correo: String){
+    private fun updateButtonUI() {
+        if (buttonPressed) {
+            binding.btnParticipar.setBackgroundColor(ContextCompat.getColor(this, R.color.teal_200))
+            binding.btnParticipar.setText("Asistiré")
+        } else {
+            binding.btnParticipar.setBackgroundColor(ContextCompat.getColor(this, R.color.blue))
+            binding.btnParticipar.setText("No Asistiré")
+        }
+    }
+
+    private fun getAliasAndNAme(correo: String) {
         db.collection("users").document(correo).get()
             .addOnSuccessListener { documentSnapshot ->
-                if (documentSnapshot.exists()){
+                if (documentSnapshot.exists()) {
                     alias = documentSnapshot.getString("alias") ?: ""
                     nombre = documentSnapshot.getString("nombre") ?: ""
 
-                }else{ Log.i("Gabri","Error: El documento no existe")}
+                } else {
+                    Log.i("Gabri", "Error: El documento no existe")
+                }
             }
-            .addOnFailureListener { exception -> Log.i("Gabri","Error: $exception") }
+            .addOnFailureListener { exception -> Log.i("Gabri", "Error: $exception") }
     }
 
-    private fun saveButtonState(buttonPressed: Boolean, eventName: String){
+    private fun saveButtonStateFromDataBase(buttonPressed: Boolean, eventName: String) {
         val usuarioRef = db.collection("users").document(currentUser!!)
         val participacionesRef = usuarioRef.collection("participaciones")
         val nuevoDocumento = participacionesRef.document(eventName)
@@ -161,7 +209,21 @@ class DetailEvent : AppCompatActivity() {
         }
     }
 
-    private fun loadButtonState(eventName: String) {
+    private fun saveButtonStateLocal(buttonPressed: Boolean, eventName: String) {
+        val prefs =
+            getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE).edit()
+        prefs.putBoolean("button_pressed_$eventName", buttonPressed)
+        prefs.apply()
+
+    }
+
+    private fun loadButtonStateLocal(eventName: String): Boolean {
+        // Cargar el estado del botón desde las preferencias compartidas
+        val prefs = getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE)
+        return prefs.getBoolean("button_pressed_$eventName", false)
+    }
+
+    private fun loadButtonStateFromDataBase(eventName: String) {
         val usuarioRef = db.collection("users").document(currentUser!!)
         val participacionRef = usuarioRef.collection("participaciones").document(eventName)
 
@@ -170,21 +232,27 @@ class DetailEvent : AppCompatActivity() {
                 val estadoBoton = documentSnapshot.getBoolean("estadoBoton")
                 if (estadoBoton != null) {
                     if (estadoBoton) {
-                        binding.btnParticipar.setBackgroundColor(ContextCompat.getColor(this,R.color.teal_200))
+                        binding.btnParticipar.setBackgroundColor(
+                            ContextCompat.getColor(
+                                this,
+                                R.color.teal_200
+                            )
+                        )
                         binding.btnParticipar.setText("Asistiré")
-                        buttonPressed=true
-                        Log.i("Gabri","ESTADOOOOO: $estadoBoton")
+                        buttonPressed = true
+                    } else {
+                        buttonPressed = false
                     }
                 }
             } else {
-                Log.i("Gabri","El documento no existe: ${participacionRef.toString()}")
+                Log.i("Gabri", "El documento no existe: ${participacionRef.toString()}")
             }
         }.addOnFailureListener { exception ->
-            Log.i("Gabri","Error: $exception")
+            Log.i("Gabri", "Error: $exception")
         }
     }
 
-    private fun loadParticipantes(nombreEvento: String){
+    private fun loadParticipantes(nombreEvento: String) {
         val eventoRef = database.getReference("eventos/$nombreEvento")
 
         eventoRef.child("participantes").addValueEventListener(object : ValueEventListener {
