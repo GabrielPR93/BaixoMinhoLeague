@@ -15,6 +15,9 @@
         android:theme="@style/Theme.BaixoMinhoLeagueSinActionBar"
         tools:targetApi="31">
         <activity
+            android:name=".ui.menu.Inicio.ParticipantesActivity"
+            android:exported="false" />
+        <activity
             android:name=".login.ResetPassword"
             android:exported="false" />
         <activity

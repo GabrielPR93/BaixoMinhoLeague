@@ -7,7 +7,6 @@ import com.example.baixominholeague.data.Evento
 import com.example.baixominholeague.databinding.ItemEventBinding
 import com.example.baixominholeague.ui.menu.PerfilFragment.Companion.CORREO_ADMIN
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import java.util.*
 
 class EventoViewHolder(view: View, private val eliminarEvento: (Evento) -> Unit): RecyclerView.ViewHolder(view) {

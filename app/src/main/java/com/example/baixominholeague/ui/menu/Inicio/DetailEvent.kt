@@ -1,23 +1,20 @@
 package com.example.baixominholeague.ui.menu.Inicio
 
 import android.content.Context
+import android.content.Intent
 import android.icu.text.SimpleDateFormat
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.TextView
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.baixominholeague.R
 import com.example.baixominholeague.databinding.ActivityDetailEventBinding
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.SetOptions
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import java.util.*
@@ -86,7 +83,13 @@ class DetailEvent : AppCompatActivity() {
         }
 
         binding.imageButtonBack.setOnClickListener { onBackPressed() }
+        binding.textButton.setOnClickListener {
+            val intent = Intent(this, ParticipantesActivity::class.java)
+            startActivity(intent)
+        }
+
     }
+
 
     private fun getDetailEvent(nameEvent: String) {
         val collectionRef = db.collection("eventos")

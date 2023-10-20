@@ -2,38 +2,25 @@ package com.example.baixominholeague
 
 import android.Manifest
 import android.app.Activity
-import android.app.DatePickerDialog
-import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
-import android.icu.util.Calendar
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.InputType
-import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.baixominholeague.databinding.ActivityMainBinding
 import com.example.baixominholeague.ui.menu.ClasificacionFragment
-import com.example.baixominholeague.ui.menu.Inicio.DetailEvent
 import com.example.baixominholeague.ui.menu.Inicio.InicioFragment
 import com.example.baixominholeague.ui.menu.Jugadores.JugadoresFragment
 import com.example.baixominholeague.ui.menu.PerfilFragment
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
-import java.sql.Timestamp
-import java.text.SimpleDateFormat
-import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
