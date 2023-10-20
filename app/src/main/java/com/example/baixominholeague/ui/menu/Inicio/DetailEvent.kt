@@ -34,6 +34,7 @@ class DetailEvent : AppCompatActivity() {
     private var buttonPressed: Boolean = false
     private lateinit var alias: String
     private lateinit var nombre: String
+    private lateinit var imagenUsuario: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +56,6 @@ class DetailEvent : AppCompatActivity() {
             getDetailEvent(nameEvent)
         }
 
-
         binding.btnParticipar.setOnClickListener {
 
             val eventoRef = database.getReference("eventos/${nameEvent?.lowercase()}")
@@ -66,6 +66,7 @@ class DetailEvent : AppCompatActivity() {
                 eventoRef.child("participantes").setValue(ServerValue.increment(-1))
                 saveButtonStateLocal(false, nameEvent!!)
                 saveButtonStateFromDataBase(false, nameEvent!!)
+                deleteParticipacion(nameEvent!!)
                 buttonPressed = false
             } else {
                 binding.btnParticipar.setBackgroundColor(
@@ -78,16 +79,23 @@ class DetailEvent : AppCompatActivity() {
                 eventoRef.child("participantes").setValue(ServerValue.increment(1))
                 saveButtonStateLocal(true, nameEvent!!)
                 saveButtonStateFromDataBase(true, nameEvent!!)
+                saveParticipacion(alias,nombre, nameEvent!!,imagenUsuario)
                 buttonPressed = true
             }
         }
 
         binding.imageButtonBack.setOnClickListener { onBackPressed() }
         binding.textButton.setOnClickListener {
-            val intent = Intent(this, ParticipantesActivity::class.java)
-            startActivity(intent)
+            if(nameEvent!=null){
+                navigateToParticipantes(nameEvent)
+            }
         }
+    }
 
+    private fun navigateToParticipantes(nombre:String){
+        val intent= Intent(this, ParticipantesActivity::class.java)
+        intent.putExtra(DetailEvent.NAME_EVENT,nombre)
+        startActivity(intent)
     }
 
 
@@ -185,6 +193,7 @@ class DetailEvent : AppCompatActivity() {
                 if (documentSnapshot.exists()) {
                     alias = documentSnapshot.getString("alias") ?: ""
                     nombre = documentSnapshot.getString("nombre") ?: ""
+                    imagenUsuario = documentSnapshot.getString("foto")?:""
 
                 } else {
                     Log.i("Gabri", "Error: El documento no existe")
@@ -273,4 +282,26 @@ class DetailEvent : AppCompatActivity() {
             }
         })
     }
+
+    private fun saveParticipacion(alias: String, nombre: String, eventName: String,imagenUsuario: String) {
+        val usuarioRef = db.collection("eventos").document(eventName.lowercase())
+        val participantesRef = usuarioRef.collection("participantes")
+        val nuevoDocumento = participantesRef.document(currentUser!!)
+
+        val nuevoElemento = hashMapOf(
+            "alias" to alias,
+            "nombre" to nombre,
+            "imagen" to imagenUsuario
+        )
+
+        nuevoDocumento.set(nuevoElemento)
+    }
+
+    private fun deleteParticipacion(eventName: String) {
+        val eventoRef = db.collection("eventos")
+        val participantesRef = eventoRef.document(eventName.lowercase()).collection("participantes")
+        val documentoAEliminar = participantesRef.document(currentUser!!)
+        documentoAEliminar.delete()
+    }
+
 }

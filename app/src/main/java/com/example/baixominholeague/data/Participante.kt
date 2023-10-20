@@ -1,11 +1,14 @@
 package com.example.baixominholeague.data
 
-import java.util.*
-
 class Participante {
 
-    constructor(nombre: String, correo: String)
+    constructor(alias: String, nombreCompleto: String, imagen: String){
+        this.alias = alias
+        this.imagen = imagen
+        this.nombreCompleto = nombreCompleto
+    }
 
-    var correo: String? = null
+    var nombreCompleto: String? = null
     var alias: String? = null
+    var imagen: String? = null
 }

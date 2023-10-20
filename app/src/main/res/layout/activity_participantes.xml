@@ -24,6 +24,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <View
+                    android:background="@drawable/top_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <SearchView
+                    android:id="@+id/searchViewParticipantes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:queryHint="Buscar"
+                    android:fontFamily="@font/hurmegeometricsans4"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginTop="35dp"
+                    android:iconifiedByDefault="false"
+                    android:queryBackground="@drawable/searchbackground"
+                    android:background="@drawable/searchbackground"
+                    app:layout_constraintTop_toBottomOf="@id/imageButtonBackParticipantes"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
                 <ImageButton
                     android:id="@+id/imageButtonBackParticipantes"
                     android:layout_width="wrap_content"
@@ -55,13 +79,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     tools:listitem="@layout/item_participante"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="35dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/imageButtonBackParticipantes"/>
+                    app:layout_constraintTop_toBottomOf="@id/searchViewParticipantes"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>

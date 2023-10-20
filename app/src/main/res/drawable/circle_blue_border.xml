@@ -3,7 +3,7 @@
     <!-- Fondo blanco con borde -->
     <item>
         <shape android:shape="oval">
-            <stroke android:width="20dp" android:color="@color/blue2" />
+            <solid android:color="@color/blue2"/>
         </shape>
     </item>
 

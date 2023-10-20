@@ -133,7 +133,7 @@
                         android:enabled="false"
                         android:fontFamily="@font/hurme_light"
                         android:hint="Nombre y apellidos"
-                        android:maxLength="42"
+                        android:maxLength="38"
                         android:textColor="@color/black"
                         android:textSize="16dp"
                         app:layout_constraintEnd_toEndOf="parent"

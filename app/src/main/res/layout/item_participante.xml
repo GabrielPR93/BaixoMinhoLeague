@@ -2,16 +2,26 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/blue2"
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
+
+    <ProgressBar
+        android:id="@+id/progresBarParticipante"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="11dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/framelayoutParticipantes"
+        app:layout_constraintStart_toStartOf="@+id/framelayoutParticipantes"
+        app:layout_constraintTop_toTopOf="@+id/framelayoutParticipantes" />
 
     <FrameLayout
         android:id="@+id/framelayoutParticipantes"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:elevation="10dp"
-        android:layout_margin="20dp"
+        android:layout_margin="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="@+id/cardViewParticipante"
         app:layout_constraintEnd_toStartOf="@id/cardViewParticipante"
@@ -57,10 +67,10 @@
 
 
             <TextView
-                android:id="@+id/tvNombreParticipante"
+                android:id="@+id/tvAliasParticipante"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
+                android:layout_marginStart="40dp"
                 android:layout_marginTop="1dp"
                 android:layout_marginEnd="5dp"
                 android:fontFamily="@font/hurmebold"
@@ -72,22 +82,22 @@
                 android:textSize="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/tvCorreoParticipante"
+                app:layout_constraintBottom_toTopOf="@id/tvNombreCompleto"
                 tools:text="Gabri" />
 
             <TextView
-                android:id="@+id/tvCorreoParticipante"
+                android:id="@+id/tvNombreCompleto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingStart="7dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="25dp"
                 android:layout_marginBottom="5dp"
                 android:fontFamily="@font/hurmegeometricsans4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@id/tvNombreParticipante"
-                app:layout_constraintTop_toBottomOf="@id/tvNombreParticipante"
-                tools:text="Gabri.sake@gmail.com" />
+                app:layout_constraintStart_toStartOf="@id/tvAliasParticipante"
+                app:layout_constraintTop_toBottomOf="@id/tvAliasParticipante"
+                tools:text="Nombre completo" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
