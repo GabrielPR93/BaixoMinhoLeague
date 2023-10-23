@@ -4,6 +4,7 @@ import android.net.Uri
 import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.example.baixominholeague.R
 import com.example.baixominholeague.data.Participante
 import com.example.baixominholeague.databinding.ItemParticipanteBinding
 import com.squareup.picasso.Callback
@@ -20,7 +21,7 @@ class ParticipanteViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         val imagenUri = participante.imagen?.let { Uri.parse(it) }
 
-        if (imagenUri != null) {
+        if (imagenUri != null && imagenUri.toString()!="") {
             Picasso.get().load(imagenUri).into(binding.imageViewProfileParticipante, object : Callback {
                 override fun onSuccess() {
                     binding.progresBarParticipante.visibility = View.GONE
@@ -33,7 +34,7 @@ class ParticipanteViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             })
         } else {
             // Si participante.imagen es nulo, mostrar una imagen predeterminada
-            //Picasso.get().load(R.drawable.placeholder_image).into(binding.imageViewProfileParticipante)
+            Picasso.get().load(R.drawable.perfil1).into(binding.imageViewProfileParticipante)
             binding.progresBarParticipante.visibility = View.GONE
         }
     }

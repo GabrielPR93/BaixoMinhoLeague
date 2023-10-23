@@ -79,22 +79,22 @@ class DetailEvent : AppCompatActivity() {
                 eventoRef.child("participantes").setValue(ServerValue.increment(1))
                 saveButtonStateLocal(true, nameEvent!!)
                 saveButtonStateFromDataBase(true, nameEvent!!)
-                saveParticipacion(alias,nombre, nameEvent!!,imagenUsuario)
+                saveParticipacion(alias, nombre, nameEvent!!, imagenUsuario)
                 buttonPressed = true
             }
         }
 
         binding.imageButtonBack.setOnClickListener { onBackPressed() }
         binding.textButton.setOnClickListener {
-            if(nameEvent!=null){
+            if (nameEvent != null) {
                 navigateToParticipantes(nameEvent)
             }
         }
     }
 
-    private fun navigateToParticipantes(nombre:String){
-        val intent= Intent(this, ParticipantesActivity::class.java)
-        intent.putExtra(DetailEvent.NAME_EVENT,nombre)
+    private fun navigateToParticipantes(nombre: String) {
+        val intent = Intent(this, ParticipantesActivity::class.java)
+        intent.putExtra(DetailEvent.NAME_EVENT, nombre)
         startActivity(intent)
     }
 
@@ -165,16 +165,21 @@ class DetailEvent : AppCompatActivity() {
         binding.tvUbicacion.setText(ubicacion)
         binding.tvDescripcion.setText(descripcion)
 
-        Picasso.get().load(Uri.parse(imagen)).into(imageViewEvent, object : Callback {
-            override fun onSuccess() {
-                progressBar.visibility = View.GONE
-            }
+        if (imagen != null && imagen.toString() != "") {
+            Picasso.get().load(Uri.parse(imagen)).into(imageViewEvent, object : Callback {
+                override fun onSuccess() {
+                    progressBar.visibility = View.GONE
+                }
 
-            override fun onError(e: Exception?) {
-                progressBar.visibility = View.GONE
-                Log.i("Gabri", "Error al cargar la imagen: $e")
-            }
-        })
+                override fun onError(e: Exception?) {
+                    progressBar.visibility = View.GONE
+                    Log.i("Gabri", "Error al cargar la imagen: $e")
+                }
+            })
+        } else {
+            Picasso.get().load(R.drawable.imagennodisponible).into(imageViewEvent)
+            progressBar.visibility = View.GONE
+        }
     }
 
     private fun updateButtonUI() {
@@ -193,7 +198,7 @@ class DetailEvent : AppCompatActivity() {
                 if (documentSnapshot.exists()) {
                     alias = documentSnapshot.getString("alias") ?: ""
                     nombre = documentSnapshot.getString("nombre") ?: ""
-                    imagenUsuario = documentSnapshot.getString("foto")?:""
+                    imagenUsuario = documentSnapshot.getString("foto") ?: ""
 
                 } else {
                     Log.i("Gabri", "Error: El documento no existe")
@@ -283,7 +288,12 @@ class DetailEvent : AppCompatActivity() {
         })
     }
 
-    private fun saveParticipacion(alias: String, nombre: String, eventName: String,imagenUsuario: String) {
+    private fun saveParticipacion(
+        alias: String,
+        nombre: String,
+        eventName: String,
+        imagenUsuario: String
+    ) {
         val usuarioRef = db.collection("eventos").document(eventName.lowercase())
         val participantesRef = usuarioRef.collection("participantes")
         val nuevoDocumento = participantesRef.document(currentUser!!)
