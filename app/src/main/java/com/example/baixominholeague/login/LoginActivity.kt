@@ -80,8 +80,7 @@ class LoginActivity : AppCompatActivity() {
         val correo = prefs.getString("email", null)
 
         if (correo != null) {
-
-            showHome(correo)
+            showHome()
         }
     }
 
@@ -99,7 +98,7 @@ class LoginActivity : AppCompatActivity() {
                 ).addOnCompleteListener {
                     binding.progresBarLogin.visibility = View.INVISIBLE
                     if (it.isSuccessful) {
-                        showHome(it.result?.user?.email ?: "")
+                        showHome()
 
                     } else {
                         showAlert()
@@ -110,11 +109,8 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun showHome(email: String) {
-        val homeIntent: Intent = Intent(this, MainActivity::class.java).apply {
-            putExtra("correoLogin", email)
-        }
-        startActivity(homeIntent)
+    private fun showHome() {
+        startActivity(Intent(this, MainActivity::class.java))
         finish()
     }
 
@@ -156,7 +152,7 @@ class LoginActivity : AppCompatActivity() {
                         .addOnCompleteListener {
                             binding.progresBarLogin.visibility = View.INVISIBLE
                             if (it.isSuccessful) {
-                                showHome(account.email ?: "")
+                                showHome()
                             } else {
                                 showAlert()
                             }

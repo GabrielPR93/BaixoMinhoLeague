@@ -9,12 +9,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.example.baixominholeague.ui.menu.Jugadores.DetailJugador
 import com.example.baixominholeague.MainActivity.Companion.CLAVE_CORREO
 import com.example.baixominholeague.data.Evento
 import com.example.baixominholeague.recyclerViewEventos.EventoAdapter
 import com.example.baixominholeague.databinding.FragmentInicioBinding
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -27,17 +33,9 @@ class InicioFragment : Fragment() {
     private val binding get() = _binding!!
     private val db = FirebaseFirestore.getInstance()
     private val storageRef = FirebaseStorage.getInstance().reference
-
     private lateinit var eventoAdapter: EventoAdapter
-    private var correo: String? = null
+    private val correo = FirebaseAuth.getInstance().currentUser?.email
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-
-            correo = it.getString(CLAVE_CORREO)
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,16 +49,20 @@ class InicioFragment : Fragment() {
         binding.reyclerView.adapter = eventoAdapter
         binding.reyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        getEventsOrderByDate()
+        if (correo != null) {
+            getEventsOrderByDate(correo)
+        }
 
         return view
     }
 
     fun updateEventList(){
-        getEventsOrderByDate()
-        eventoAdapter.notifyDataSetChanged()
+        if (correo != null) {
+            getEventsOrderByDate(correo)
+            eventoAdapter.notifyDataSetChanged()
+        }
     }
-    fun getEventsOrderByDate() {
+    fun getEventsOrderByDate(correo: String) {
         val eventsCollection = db.collection("eventos")
         val query = eventsCollection.orderBy("fecha", Query.Direction.ASCENDING)
 
@@ -130,5 +132,7 @@ class InicioFragment : Fragment() {
         intent.putExtra(DetailEvent.NAME_EVENT,nombre)
         startActivity(intent)
     }
+
+
 }
 

@@ -7,6 +7,24 @@
     tools:context=".MainActivity"
     android:background="#c4c4c4">
 
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        app:tabMode="fixed"
+        app:tabGravity="fill"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintTop_toBottomOf="@id/cabeceraInicio"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
     <FrameLayout
         android:id="@+id/frameContainer"
         android:layout_width="match_parent"
@@ -16,7 +34,7 @@
     android:id="@+id/AppBar_Menu"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="bottom"
+    android:layout_gravity="bottom|center"
     android:background="@color/white"
     app:fabCradleRoundedCornerRadius="40dp"
     app:fabCradleMargin="8dp">

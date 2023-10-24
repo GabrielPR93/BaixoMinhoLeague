@@ -52,7 +52,7 @@ class RegisterActivity : AppCompatActivity() {
                 ).addOnCompleteListener {
                     if (it.isSuccessful) {
                         saveData(it.result?.user?.email ?: "",binding.etNombreUsuario.text.toString())
-                        showHome(it.result?.user?.email ?: "")
+                        showHome()
 
                     } else {
                         showAlert()
@@ -63,13 +63,9 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    private fun showHome(email: String) {
-        val homeIntent: Intent = Intent(this, MainActivity::class.java).apply {
-            putExtra("email", email)
-
-        }
-        startActivity(homeIntent)
-
+    private fun showHome() {
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
     }
 
     private fun showAlert() {

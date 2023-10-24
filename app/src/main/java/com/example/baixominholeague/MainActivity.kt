@@ -7,17 +7,26 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
+import android.widget.FrameLayout
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.example.baixominholeague.databinding.ActivityMainBinding
 import com.example.baixominholeague.ui.menu.ClasificacionFragment
 import com.example.baixominholeague.ui.menu.Inicio.InicioFragment
+import com.example.baixominholeague.ui.menu.Inicio.NovedadesFragment
 import com.example.baixominholeague.ui.menu.Jugadores.JugadoresFragment
 import com.example.baixominholeague.ui.menu.PerfilFragment
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
@@ -29,12 +38,11 @@ class MainActivity : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
     private var fragmentPerfil = PerfilFragment()
     private var fragmentInicio = InicioFragment()
+    private val correo = FirebaseAuth.getInstance().currentUser?.email
 
     private val REQUEST_ADD_EVENT = 200
     private val REQUEST_CODE_PERMISSIONS = 101
 
-    private var correo: String? = null
-    private var correoLogin: String? = null
     private var alias: String? = null
     private var nombre: String? = null
     private var foto: String? = null
@@ -43,12 +51,19 @@ class MainActivity : AppCompatActivity() {
     private var posiciones: String? = null
     private var otros: String? = null
 
+
     private var args: Bundle? = null
     private val requiredPermissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
 
     private lateinit var addEventLauncher: ActivityResultLauncher<Intent>
 
-
+    private inner class ViewPagerFragmentAdapter(
+        fragmentActivity: FragmentActivity,
+        private val fragments: List<Fragment>
+    ) : FragmentStateAdapter(fragmentActivity) {
+        override fun getItemCount(): Int = fragments.size
+        override fun createFragment(position: Int): Fragment = fragments[position]
+    }
     companion object {
         const val CLAVE_CORREO = "correo"
         const val CLAVE_ALIAS = "alias"
@@ -67,36 +82,31 @@ class MainActivity : AppCompatActivity() {
 
         binding.bottomNavigation.setBackground(null);
 
+
         if (!arePermissionsGranted()) {
             requestPermissions()
         }
 
-        val intent = intent
-        correo = intent.getStringExtra("email")
-        correoLogin = intent.getStringExtra("correoLogin")
-
-        getDataBd() //Acceder a datos del usuario
+        if (correo != null) {
+            //Acceder a datos del usuario
+            getDataBd(correo)
+        }
         saveData()
-
-        // Pasar el correo al fragment Inicio
-        val args = Bundle()
-        args.putString(CLAVE_CORREO, correo?.toString() ?: correoLogin.toString())
+        viewPager()
 
         //Cargar el fragment de Inicio al iniciar
-        if (savedInstanceState == null) {
-            replaceFragment(fragmentInicio)
-            fragmentInicio?.arguments = args
-        }
+//        if (savedInstanceState == null) {
+//            replaceFragment(fragmentInicio)
+//            fragmentInicio?.arguments = args
+//        }
 
 
         binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
-
             when (item.itemId) {
-                R.id.home -> replaceFragment(fragmentInicio)
+                R.id.home -> showMainActivityContent()
                 R.id.Buscar -> replaceFragment(JugadoresFragment())
                 R.id.clasificacion -> replaceFragment(ClasificacionFragment())
                 R.id.perfil -> replaceFragment(fragmentPerfil)
-
             }
             true
         }
@@ -107,6 +117,29 @@ class MainActivity : AppCompatActivity() {
 
         updateNewEvent()
 
+    }
+    private fun showMainActivityContent() {
+        val fragmentContainer = findViewById<FrameLayout>(R.id.frameContainer)
+        fragmentContainer.removeAllViews() // Limpia el contenido del FrameLayout
+
+        // Aquí puedes agregar cualquier contenido adicional que desees mostrar en el MainActivity, como vistas o fragmentos iniciales
+        // Por ejemplo, si tienes una vista inicial con una imagen, puedes agregarla aquí.
+    }
+
+    private fun viewPager(){
+        val viewPager: ViewPager2 = binding.viewPager // Usa el FrameLayout como contenedor del ViewPager
+        val tabs: TabLayout = binding.tabs
+
+        val fragments = listOf(InicioFragment(), NovedadesFragment())
+        val adapter = ViewPagerFragmentAdapter(this, fragments)
+        viewPager.adapter = adapter
+
+        TabLayoutMediator(tabs, viewPager) { tab, position ->
+            when (position) {
+                0 -> tab.text = "Eventos"
+                1 -> tab.text = "Noticias"
+            }
+        }.attach()
     }
 
     //Actualiza los eventos despues de añadir uno nuevo
@@ -185,8 +218,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun getDataBd() {
-        db.collection("users").document(correo ?: correoLogin.orEmpty()).get()
+    private fun getDataBd(correo: String) {
+        db.collection("users").document(correo).get()
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     val document = it.result
@@ -201,7 +234,7 @@ class MainActivity : AppCompatActivity() {
 
                         args = Bundle().apply {
 
-                            putString(CLAVE_CORREO, correo?.toString() ?: correoLogin.toString())
+                            putString(CLAVE_CORREO, correo.toString())
                             putString(CLAVE_ALIAS, alias?.toString())
                             putString(CLAVE_NOMBRE, nombre?.toString())
                             putString(CLAVE_TELEFONO, telefono?.toString())
@@ -223,7 +256,7 @@ class MainActivity : AppCompatActivity() {
         //Guardado de datos
         val prefs =
             getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE).edit()
-        prefs.putString("email", correo ?: correoLogin)
+        prefs.putString("email", correo)
         prefs.apply()
     }
 
@@ -235,5 +268,8 @@ class MainActivity : AppCompatActivity() {
             .commit()
 
     }
+
+
+
 
 }
