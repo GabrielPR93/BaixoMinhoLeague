@@ -8,11 +8,11 @@
     tools:context=".ui.menu.Inicio.NovedadesFragment">
 
     <TextView
-        android:id="@+id/cabeceraInicio"
+        android:id="@+id/noticias"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/blue"
         android:fontFamily="@font/titulos"
+        android:layout_marginTop="20dp"
         android:gravity="center"
         android:paddingTop="25dp"
         android:paddingBottom="45dp"

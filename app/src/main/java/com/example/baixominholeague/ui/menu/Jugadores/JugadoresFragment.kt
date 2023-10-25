@@ -19,20 +19,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-private var _binding: FragmentJugadoresBinding? = null
-private val binding get() = _binding!!
-private lateinit var adapter: JugadorAdapter
-private var setupExecuted = false
-private val jugadores = mutableListOf<Jugador>()
-
 class JugadoresFragment : Fragment(), OnPlayerAddedListener {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-
-        }
-    }
+    private var _binding: FragmentJugadoresBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var adapter: JugadorAdapter
+    private var setupExecuted = false
+    private val jugadores = mutableListOf<Jugador>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -237,13 +237,13 @@ class NuevoEvento : AppCompatActivity() {
                     val evento = hashMapOf(
                         "correo" to correo,
                         "nombreUsuario" to nombreUsuario,
-                        "nombre" to binding.etNombreNewEvent.text.toString().uppercase(),
+                        "nombre" to binding.etNombreNewEvent.text.toString().uppercase().trim(),
                         "descripcion" to binding.etDescripcion.text.toString().trim(),
                         "fecha" to getTimestampFromDateAndTime(
                             binding.etFecha.text.toString(),
                             binding.etHora.text.toString()
                         ),
-                        "ubicacion" to binding.etUbicacion.text.toString(),
+                        "ubicacion" to binding.etUbicacion.text.toString().trim(),
                         "imagen" to "",
                         "precio" to  if(precio != "Gratis") "$precio €" else precio
                     )

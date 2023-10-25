@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.FrameLayout
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -94,13 +95,6 @@ class MainActivity : AppCompatActivity() {
         saveData()
         viewPager()
 
-        //Cargar el fragment de Inicio al iniciar
-//        if (savedInstanceState == null) {
-//            replaceFragment(fragmentInicio)
-//            fragmentInicio?.arguments = args
-//        }
-
-
         binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.home -> showMainActivityContent()
@@ -119,15 +113,19 @@ class MainActivity : AppCompatActivity() {
 
     }
     private fun showMainActivityContent() {
-        val fragmentContainer = findViewById<FrameLayout>(R.id.frameContainer)
-        fragmentContainer.removeAllViews() // Limpia el contenido del FrameLayout
-
-        // Aquí puedes agregar cualquier contenido adicional que desees mostrar en el MainActivity, como vistas o fragmentos iniciales
-        // Por ejemplo, si tienes una vista inicial con una imagen, puedes agregarla aquí.
+        binding.viewPager.visibility = View.VISIBLE
+        binding.tabs.visibility = View.VISIBLE
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        val fragment = fragmentManager.findFragmentById(R.id.frameContainer)
+        if (fragment != null) {
+            fragmentTransaction.remove(fragment)
+        }
+        fragmentTransaction.commit()
     }
 
     private fun viewPager(){
-        val viewPager: ViewPager2 = binding.viewPager // Usa el FrameLayout como contenedor del ViewPager
+        val viewPager: ViewPager2 = binding.viewPager
         val tabs: TabLayout = binding.tabs
 
         val fragments = listOf(InicioFragment(), NovedadesFragment())
@@ -261,15 +259,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun replaceFragment(fragment: Fragment) {
-
+        binding.viewPager.visibility = View.GONE
+        binding.tabs.visibility = View.GONE
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
-            .replace(R.id.frameContainer, fragment)
-            .commit()
+        val deleteFragment = fragmentManager.findFragmentById(R.id.frameContainer)
+        if (deleteFragment != null) {
+            fragmentTransaction.remove(deleteFragment)
+        }
+
+        fragmentTransaction.replace(R.id.frameContainer, fragment)
+        fragmentTransaction.commit()
 
     }
-
-
-
-
 }
