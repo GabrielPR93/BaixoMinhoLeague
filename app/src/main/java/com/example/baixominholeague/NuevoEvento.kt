@@ -72,6 +72,7 @@ class NuevoEvento : AppCompatActivity() {
         if (validarCampos()) {
             saveData(currentUser?.email?:"")
             addEventBdRealTime(binding.etNombreNewEvent.text.toString().lowercase())
+
         } else {
             Toast.makeText(
                 this,

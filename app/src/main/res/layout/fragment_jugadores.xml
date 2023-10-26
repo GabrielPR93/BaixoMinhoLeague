@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:background="@color/blue2"
     tools:context=".ui.menu.Jugadores.JugadoresFragment">
 
     <ProgressBar
@@ -24,8 +24,8 @@
         android:background="@color/blue"
         android:fontFamily="@font/titulos"
         android:gravity="center"
-        android:paddingTop="12dp"
-        android:paddingBottom="35dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="47dp"
         android:text="Jugadores"
         android:textColor="@android:color/white"
         android:textSize="40sp"

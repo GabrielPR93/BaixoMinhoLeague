@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/stBlue"
+    android:background="@color/blue2"
     tools:context=".ui.menu.Inicio.NovedadesFragment">
 
     <TextView
@@ -16,7 +16,7 @@
         android:gravity="center"
         android:paddingTop="25dp"
         android:paddingBottom="45dp"
-        android:text="BaixoMiño"
+        android:text="Noticias"
         android:textColor="@android:color/white"
         android:textSize="45sp"
         app:layout_constraintTop_toTopOf="parent"

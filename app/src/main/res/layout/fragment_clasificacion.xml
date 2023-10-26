@@ -23,8 +23,8 @@
         android:background="@color/blue"
         android:fontFamily="@font/titulos"
         android:gravity="center"
-        android:paddingTop="12dp"
-        android:paddingBottom="35dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="47dp"
         android:text="CLasificación"
 
         android:textColor="@android:color/white"

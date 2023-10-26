@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Adapter
 import android.widget.FrameLayout
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -19,6 +20,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.example.baixominholeague.data.Evento
 import com.example.baixominholeague.databinding.ActivityMainBinding
 import com.example.baixominholeague.ui.menu.ClasificacionFragment
 import com.example.baixominholeague.ui.menu.Inicio.InicioFragment
@@ -38,11 +40,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val db = FirebaseFirestore.getInstance()
     private var fragmentPerfil = PerfilFragment()
-    private var fragmentInicio = InicioFragment()
     private val correo = FirebaseAuth.getInstance().currentUser?.email
+    public var adapter : ViewPagerFragmentAdapter? = null
 
     private val REQUEST_ADD_EVENT = 200
     private val REQUEST_CODE_PERMISSIONS = 101
+    private val REQUEST_CODE_NUEVO_EVENTO = 102
 
     private var alias: String? = null
     private var nombre: String? = null
@@ -52,18 +55,18 @@ class MainActivity : AppCompatActivity() {
     private var posiciones: String? = null
     private var otros: String? = null
 
-
     private var args: Bundle? = null
     private val requiredPermissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
 
-    private lateinit var addEventLauncher: ActivityResultLauncher<Intent>
-
-    private inner class ViewPagerFragmentAdapter(
+    inner class ViewPagerFragmentAdapter(
         fragmentActivity: FragmentActivity,
         private val fragments: List<Fragment>
     ) : FragmentStateAdapter(fragmentActivity) {
         override fun getItemCount(): Int = fragments.size
         override fun createFragment(position: Int): Fragment = fragments[position]
+        fun getFragment(position: Int): Fragment {
+            return fragments[position]
+        }
     }
     companion object {
         const val CLAVE_CORREO = "correo"
@@ -82,7 +85,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.bottomNavigation.setBackground(null);
-
 
         if (!arePermissionsGranted()) {
             requestPermissions()
@@ -109,10 +111,9 @@ class MainActivity : AppCompatActivity() {
             alias?.let { it1 -> navigateToNewEvent(it1) }
         }
 
-        updateNewEvent()
-
     }
     private fun showMainActivityContent() {
+
         binding.viewPager.visibility = View.VISIBLE
         binding.tabs.visibility = View.VISIBLE
         val fragmentManager = supportFragmentManager
@@ -129,7 +130,7 @@ class MainActivity : AppCompatActivity() {
         val tabs: TabLayout = binding.tabs
 
         val fragments = listOf(InicioFragment(), NovedadesFragment())
-        val adapter = ViewPagerFragmentAdapter(this, fragments)
+        adapter = ViewPagerFragmentAdapter(this, fragments)
         viewPager.adapter = adapter
 
         TabLayoutMediator(tabs, viewPager) { tab, position ->
@@ -140,24 +141,23 @@ class MainActivity : AppCompatActivity() {
         }.attach()
     }
 
-    //Actualiza los eventos despues de añadir uno nuevo
-    private fun updateNewEvent() {
-        addEventLauncher = registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
+    //Actualizar lista de eventos despues de añadir uno nuevo
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
 
-                fragmentInicio.updateEventList()
-            }
+        if (requestCode == REQUEST_CODE_NUEVO_EVENTO && resultCode == Activity.RESULT_OK) {
+
+            val inicioFragment = adapter?.getFragment(0) as? InicioFragment
+            inicioFragment?.updateEventList()
+            binding.viewPager.currentItem = 0
         }
     }
 
     private fun navigateToNewEvent(Usuario: String) {
         val intent = Intent(this, NuevoEvento::class.java)
         intent.putExtra(NuevoEvento.USUARIO_PUBLICADOR, Usuario)
-        addEventLauncher.launch(intent)
+        startActivityForResult(intent, REQUEST_CODE_NUEVO_EVENTO)
     }
-
 
     //Precarga de la imagen de perfil
     private fun loadFoto(foto: String?) {
@@ -272,4 +272,6 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.commit()
 
     }
+
+
 }

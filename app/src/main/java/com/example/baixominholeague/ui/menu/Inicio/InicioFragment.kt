@@ -52,7 +52,7 @@ class InicioFragment : Fragment() {
         if (correo != null) {
             getEventsOrderByDate(correo)
         }
-
+        Log.i("GABRI","SE CREOOOOO BIEN")
         return view
     }
 
