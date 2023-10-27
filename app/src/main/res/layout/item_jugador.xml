@@ -6,11 +6,12 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="5dp"
     android:layout_marginEnd="5dp"
-    android:layout_marginBottom="10dp"
+    android:layout_marginBottom="5dp"
     android:layout_marginTop="5dp"
     android:background="#1B0E0E0E"
     android:gravity="center_vertical"
-    app:cardCornerRadius="20dp"
+    app:cardCornerRadius="10dp"
+    tools:backgroundTint="@color/blue"
     android:padding="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,11 +22,10 @@
             android:id="@+id/tvPlayerName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
-            android:paddingTop="7dp"
-            android:paddingBottom="7dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:paddingStart="10dp"
             android:textAlignment="textStart"
             android:textColor="@color/black"
@@ -33,6 +33,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+
             tools:text="Nombre Jugador" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
