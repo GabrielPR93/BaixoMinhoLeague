@@ -1,4 +1,4 @@
-package com.example.baixominholeague
+package com.example.baixominholeague.ui.menu.Perfil
 
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
@@ -11,7 +11,6 @@ import android.view.View
 import android.widget.*
 import com.example.baixominholeague.data.Jugador
 import com.example.baixominholeague.databinding.ActivityAddPlayerAndTournamentBinding
-import com.example.baixominholeague.databinding.FragmentJugadoresBinding
 import com.example.baixominholeague.ui.menu.Jugadores.JugadoresFragment
 import com.example.baixominholeague.ui.menu.Jugadores.OnPlayerAddedListener
 import com.google.firebase.firestore.FirebaseFirestore

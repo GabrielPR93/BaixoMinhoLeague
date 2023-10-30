@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -13,7 +13,10 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.BaixoMinhoLeagueSinActionBar"
-        tools:targetApi="31">
+        tools:targetApi="31" >
+        <activity
+            android:name=".ui.menu.Perfil.Configuracion"
+            android:exported="false" />
         <activity
             android:name=".ui.menu.Inicio.ParticipantesActivity"
             android:exported="false" />
@@ -27,7 +30,7 @@
             android:name=".ui.menu.Inicio.DetailEvent"
             android:exported="false" />
         <activity
-            android:name=".AddPlayerAndTournament"
+            android:name=".ui.menu.Perfil.AddPlayerAndTournament"
             android:exported="false" />
         <activity
             android:name=".ui.menu.Jugadores.DetailJugador"
@@ -35,7 +38,7 @@
         <activity
             android:name=".login.LoginActivity"
             android:exported="true"
-            android:theme="@style/Theme.BaixoMinhoLeagueStartingSinActionBar">
+            android:theme="@style/Theme.BaixoMinhoLeagueStartingSinActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

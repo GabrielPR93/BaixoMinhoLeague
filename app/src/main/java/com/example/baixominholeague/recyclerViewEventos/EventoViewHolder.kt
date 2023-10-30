@@ -5,7 +5,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.example.baixominholeague.data.Evento
 import com.example.baixominholeague.databinding.ItemEventBinding
-import com.example.baixominholeague.ui.menu.PerfilFragment.Companion.CORREO_ADMIN
+import com.example.baixominholeague.ui.menu.Perfil.PerfilFragment.Companion.CORREO_ADMIN
 import com.google.firebase.auth.FirebaseAuth
 import java.util.*
 

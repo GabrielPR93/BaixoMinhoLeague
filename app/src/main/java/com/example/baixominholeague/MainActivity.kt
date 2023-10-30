@@ -7,12 +7,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Adapter
-import android.widget.FrameLayout
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -20,13 +15,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import com.example.baixominholeague.data.Evento
 import com.example.baixominholeague.databinding.ActivityMainBinding
 import com.example.baixominholeague.ui.menu.ClasificacionFragment
 import com.example.baixominholeague.ui.menu.Inicio.InicioFragment
 import com.example.baixominholeague.ui.menu.Inicio.NovedadesFragment
 import com.example.baixominholeague.ui.menu.Jugadores.JugadoresFragment
-import com.example.baixominholeague.ui.menu.PerfilFragment
+import com.example.baixominholeague.ui.menu.Perfil.PerfilFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth

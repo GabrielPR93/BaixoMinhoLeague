@@ -1,9 +1,8 @@
-package com.example.baixominholeague.ui.menu
+package com.example.baixominholeague.ui.menu.Perfil
 
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -17,7 +16,6 @@ import androidx.appcompat.app.AlertDialog
 
 
 import androidx.core.view.isVisible
-import com.example.baixominholeague.AddPlayerAndTournament
 import com.example.baixominholeague.MainActivity
 import com.example.baixominholeague.MainActivity.Companion.CLAVE_ALIAS
 import com.example.baixominholeague.R
@@ -102,12 +100,15 @@ class PerfilFragment : Fragment() {
         saveData()
         deleteData()
 
-        logout()
+       // logout()
+        configuration()
 
         return view
     }
 
-
+    private fun configuration(){
+        binding.buttomLogout.setOnClickListener { startActivity(Intent(requireContext(),Configuracion::class.java)) }
+    }
     fun launchImagePicker() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         intent.type = "image/*"
