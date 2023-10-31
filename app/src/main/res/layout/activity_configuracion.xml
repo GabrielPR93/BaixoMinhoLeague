@@ -11,7 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorOnPrimary"
+        android:background="?attr/colorPrimary"
         android:elevation="1dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,13 +21,13 @@
 
         <!-- Flecha de atrás -->
         <ImageButton
-            android:id="@+id/imageButtonBack"
+            android:id="@+id/imageButtonBackPerfil"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:background="@android:color/transparent"
-            android:src="@drawable/back_black"
+            android:src="@drawable/back"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,21 +39,18 @@
             android:layout_marginStart="20dp"
             android:layout_marginBottom="20dp"
             android:text="Configuración"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="18dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/imageButtonBack"
-            app:layout_constraintTop_toTopOf="@+id/imageButtonBack" />
+            app:layout_constraintStart_toEndOf="@id/imageButtonBackPerfil"
+            app:layout_constraintTop_toTopOf="@+id/imageButtonBackPerfil" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView2"
         android:background="@color/blanco_gris"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -67,39 +64,164 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:background="@color/blanco_gris"
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/tvprueba"
+                    android:id="@+id/tvGeneral"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:text="ESTO ESS UNA PRUEBA"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:text="General"
+                    android:fontFamily="@font/hurmebold"
+                    android:textSize="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <LinearLayout
+                    android:id="@+id/CardCuentaUsuario"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/backgroud_profile"
+                    android:orientation="vertical"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvGeneral">
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="15dp"
+                        android:text="Cuenta de Usuario"
+                        style="@style/fuentePrincipal" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/CardNotificaciones"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/backgroud_profile"
+                    android:orientation="vertical"
+
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/CardCuentaUsuario">
+
+
+                    <TextView
+                        android:id="@+id/tvNotificaciones"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="15dp"
+                        android:text="Notificaciones"
+                        style="@style/fuentePrincipal" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#720E0F10"
+                        android:gravity="center_horizontal" />
+
+                    <TextView
+                        android:id="@+id/tvTema"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Tema Nocturno"
+                        android:padding="15dp"
+                        android:paddingBottom="10dp"
+                        style="@style/fuentePrincipal" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#720E0F10"
+                        android:gravity="center_horizontal" />
+
+                    <TextView
+                        android:id="@+id/tvBorrarCache"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Borrar caché"
+                        android:padding="15dp"
+                        android:paddingBottom="10dp"
+                        style="@style/fuentePrincipal" />
+
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/tvprueba2"
+                    android:id="@+id/tvInfo"
                     android:layout_width="match_parent"
-                    android:layout_height="900dp"
-                    android:text="ESTO ESS UNA PRUEBA"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="30dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Acerca de:"
+                    android:fontFamily="@font/hurmebold"
+                    android:textSize="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvprueba" />
+                    app:layout_constraintTop_toBottomOf="@id/CardNotificaciones" />
+
+                <LinearLayout
+                    android:id="@+id/CardAcercaDe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/backgroud_profile"
+                    android:orientation="vertical"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvInfo">
 
 
+                    <TextView
+                        android:id="@+id/tvPoliticaPrivacidad"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="15dp"
+                        android:text="Política de Privacidad"
+                        style="@style/fuentePrincipal" />
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#720E0F10"
+                        android:gravity="center_horizontal" />
 
+                    <TextView
+                        android:id="@+id/tvTerminosServicio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Términos de Servicio"
+                        android:padding="15dp"
+                        android:paddingBottom="10dp"
+                        style="@style/fuentePrincipal" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvCerrarSesion"
+                    style="@style/fuentePrincipal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:drawableStart="@drawable/exit_to_app_24"
+                    android:drawablePadding="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="Cerrar Sesión"
+                    android:layout_marginBottom="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/CardAcercaDe" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

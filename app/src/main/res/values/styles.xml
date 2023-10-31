@@ -17,6 +17,12 @@
         <item name="fontFamily">@font/hurmegeometricsans4</item>
         <item name="android:textSize">16.5dp</item>
     </style>
+    <style name="fuentePrincipal">
+        <item name="fontFamily">@font/hurmegeometricsans4</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">16dp</item>
+    </style>
 
     <style name="TextViewError">
         <item name="android:textColor">@color/red</item>

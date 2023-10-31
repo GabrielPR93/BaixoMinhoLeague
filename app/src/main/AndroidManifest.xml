@@ -13,31 +13,39 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.BaixoMinhoLeagueSinActionBar"
-        tools:targetApi="31" >
+        tools:targetApi="31">
         <activity
             android:name=".ui.menu.Perfil.Configuracion"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".ui.menu.Inicio.ParticipantesActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".login.ResetPassword"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".NuevoEvento"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".ui.menu.Inicio.DetailEvent"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".ui.menu.Perfil.AddPlayerAndTournament"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".ui.menu.Jugadores.DetailJugador"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".login.LoginActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.BaixoMinhoLeagueStartingSinActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -47,9 +55,11 @@
         </activity>
         <activity
             android:name=".login.RegisterActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
     </application>
 
