@@ -20,9 +20,9 @@
 
     <item
         android:id="@+id/clasificacion"
-        android:title="Ranking"
+        android:title="Clasificación"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_clasificacion"/>
+        android:icon="@drawable/podium"/>
 
     <item
         android:id="@+id/perfil"

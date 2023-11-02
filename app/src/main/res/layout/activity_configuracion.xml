@@ -50,23 +50,23 @@
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView2"
-        android:background="@color/blanco_gris"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/blanco_gris"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:layout_marginTop="60dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="60dp"
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
-                android:background="@color/blanco_gris"
-                android:layout_height="match_parent">
+                android:background="@color/blanco_gris">
 
                 <TextView
                     android:id="@+id/tvGeneral"
@@ -74,8 +74,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="20dp"
-                    android:text="General"
                     android:fontFamily="@font/hurmebold"
+                    android:text="General"
                     android:textSize="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -84,23 +84,24 @@
                 <LinearLayout
                     android:id="@+id/CardCuentaUsuario"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_margin="20dp"
                     android:background="@drawable/backgroud_profile"
                     android:orientation="vertical"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvGeneral">
 
 
-                    <TextView
+                    <com.google.android.material.button.MaterialButton
+                        style="@style/MyTextButtonStyle"
+                        android:drawableEnd="@drawable/round_keyboard_arrow_right_24"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="15dp"
-                        android:text="Cuenta de Usuario"
-                        style="@style/fuentePrincipal" />
+                        android:layout_height="match_parent"
+                        android:text="Cuenta de Usuario" />
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/CardNotificaciones"
                     android:layout_width="match_parent"
@@ -108,34 +109,66 @@
                     android:layout_margin="20dp"
                     android:background="@drawable/backgroud_profile"
                     android:orientation="vertical"
-
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/CardCuentaUsuario">
 
-
-                    <TextView
-                        android:id="@+id/tvNotificaciones"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="15dp"
-                        android:text="Notificaciones"
-                        style="@style/fuentePrincipal" />
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvNotificaciones"
+                            style="@style/fuentePrincipal"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:padding="15dp"
+                            android:text="Notificaciones" />
+
+                        <Switch
+                            android:id="@+id/notificationSwitch"
+                            android:gravity="end"
+                            android:checked="true"
+                            android:layout_marginEnd="70dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="#720E0F10"
                         android:gravity="center_horizontal" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/tvTema"
-                        android:layout_width="match_parent"
+                        style="@style/fuentePrincipal"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:text="Tema Nocturno"
                         android:padding="15dp"
                         android:paddingBottom="10dp"
-                        style="@style/fuentePrincipal" />
+                        android:text="Tema Nocturno" />
+
+                    <Switch
+                        android:id="@+id/temaNocturnoSwitch"
+                        android:gravity="end"
+                        android:layout_marginEnd="70dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
@@ -143,14 +176,12 @@
                         android:background="#720E0F10"
                         android:gravity="center_horizontal" />
 
-                    <TextView
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/tvBorrarCache"
+                        style="@style/MyTextButtonStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Borrar caché"
-                        android:padding="15dp"
-                        android:paddingBottom="10dp"
-                        style="@style/fuentePrincipal" />
+                        android:text="Borrar caché" />
 
                 </LinearLayout>
 
@@ -160,8 +191,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="20dp"
-                    android:text="Acerca de:"
                     android:fontFamily="@font/hurmebold"
+                    android:text="Acerca de:"
                     android:textSize="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -174,18 +205,18 @@
                     android:layout_margin="20dp"
                     android:background="@drawable/backgroud_profile"
                     android:orientation="vertical"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvInfo">
 
 
-                    <TextView
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/tvPoliticaPrivacidad"
+                        style="@style/MyTextButtonStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="15dp"
-                        android:text="Política de Privacidad"
-                        style="@style/fuentePrincipal" />
+                        android:drawableEnd="@drawable/round_keyboard_arrow_right_24"
+                        android:text="Política de Privacidad" />
 
                     <View
                         android:layout_width="match_parent"
@@ -193,29 +224,28 @@
                         android:background="#720E0F10"
                         android:gravity="center_horizontal" />
 
-                    <TextView
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/tvTerminosServicio"
+                        style="@style/MyTextButtonStyle"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Términos de Servicio"
-                        android:padding="15dp"
-                        android:paddingBottom="10dp"
-                        style="@style/fuentePrincipal" />
+                        android:layout_height="match_parent"
+                        android:drawableEnd="@drawable/round_keyboard_arrow_right_24"
+                        android:text="Términos de Servicio" />
 
                 </LinearLayout>
 
-                <TextView
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/tvCerrarSesion"
-                    style="@style/fuentePrincipal"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="20dp"
-                    android:drawableStart="@drawable/exit_to_app_24"
-                    android:drawablePadding="10dp"
-                    android:paddingBottom="10dp"
-                    android:text="Cerrar Sesión"
-                    android:layout_marginBottom="20dp"
+                    android:drawableEnd="@drawable/baseline_logout_24"
+                    android:fontFamily="@font/hurmegeometricsans4"
+                    android:text="Cerrar Sesión "
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/CardAcercaDe" />
