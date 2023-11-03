@@ -29,7 +29,7 @@
                 android:id="@+id/btnBackPerfil"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/back"
+                android:src="@drawable/arrow_back"
                 android:layout_marginTop="30dp"
                 android:layout_marginStart="30dp"
                 android:background="@android:color/transparent"

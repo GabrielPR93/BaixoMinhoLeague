@@ -27,7 +27,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="30dp"
             android:background="@android:color/transparent"
-            android:src="@drawable/back"
+            android:src="@drawable/arrow_back"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -95,9 +95,9 @@
 
                     <com.google.android.material.button.MaterialButton
                         style="@style/MyTextButtonStyle"
-                        android:drawableEnd="@drawable/round_keyboard_arrow_right_24"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:drawableEnd="@drawable/round_keyboard_arrow_right_24"
                         android:text="Cuenta de Usuario" />
 
                 </LinearLayout>

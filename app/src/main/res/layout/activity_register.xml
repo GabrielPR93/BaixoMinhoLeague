@@ -31,7 +31,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="20dp"
                     android:background="?attr/selectableItemBackground"
-                    android:src="@drawable/outline_arrow_circle_left_24"
+                    android:src="@drawable/arrow_back"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
