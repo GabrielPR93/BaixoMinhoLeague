@@ -46,7 +46,8 @@
             android:name=".login.LoginActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.BaixoMinhoLeagueStartingSinActionBar" >
+            android:theme="@style/Theme.BaixoMinhoLeagueStartingSinActionBar">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

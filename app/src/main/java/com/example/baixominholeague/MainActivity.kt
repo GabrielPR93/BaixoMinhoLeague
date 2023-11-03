@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -20,6 +21,7 @@ import com.example.baixominholeague.ui.menu.ClasificacionFragment
 import com.example.baixominholeague.ui.menu.Inicio.InicioFragment
 import com.example.baixominholeague.ui.menu.Inicio.NovedadesFragment
 import com.example.baixominholeague.ui.menu.Jugadores.JugadoresFragment
+import com.example.baixominholeague.ui.menu.Perfil.Configuracion
 import com.example.baixominholeague.ui.menu.Perfil.PerfilFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -79,6 +81,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.bottomNavigation.setBackground(null);
+        loadTheme()
 
         if (!arePermissionsGranted()) {
             requestPermissions()
@@ -90,6 +93,7 @@ class MainActivity : AppCompatActivity() {
         }
         saveData()
         viewPager()
+
 
         binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
@@ -133,6 +137,20 @@ class MainActivity : AppCompatActivity() {
                 1 -> tab.text = "Noticias"
             }
         }.attach()
+    }
+
+    private fun loadTheme(){
+        val sharedPrefs = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+
+// Cargar el estado del botón y el tema
+        val switchState = sharedPrefs.getBoolean("switchState", false)
+        val themeMode = sharedPrefs.getInt("themeMode", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+
+// Configurar el estado del botón y el tema
+
+        //binding.temaNocturnoSwitch.isChecked = switchState
+        AppCompatDelegate.setDefaultNightMode(themeMode)
+
     }
 
     //Actualizar lista de eventos despues de añadir uno nuevo
