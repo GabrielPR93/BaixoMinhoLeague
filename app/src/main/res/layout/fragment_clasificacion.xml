@@ -20,7 +20,7 @@
         android:id="@+id/cabeceraClasi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/blue"
+        android:background="?attr/colorOnPrimary"
         android:fontFamily="@font/titulos"
         android:gravity="center"
         android:paddingTop="20dp"
@@ -52,8 +52,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:showDividers="middle"
-                android:divider="@color/black"
-                android:background="@color/white"/>
+                android:divider="?attr/colorPrimaryVariant"
+                android:background="?attr/colorSurface"/>
         </ScrollView>
     </HorizontalScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

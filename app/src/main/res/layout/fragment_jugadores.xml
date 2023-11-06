@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue2"
+    android:background="?attr/colorSurfaceVariant"
     tools:context=".ui.menu.Jugadores.JugadoresFragment">
 
     <ProgressBar
@@ -21,7 +21,7 @@
         android:id="@+id/cabecera"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/blue"
+        android:background="?attr/colorOnPrimary"
         android:fontFamily="@font/titulos"
         android:gravity="center"
         android:paddingTop="20dp"

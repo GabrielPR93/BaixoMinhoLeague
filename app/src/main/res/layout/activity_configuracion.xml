@@ -11,7 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
+        android:background="?attr/colorOnPrimary"
         android:elevation="1dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -52,7 +52,7 @@
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/blanco_gris"
+        android:background="?attr/colorTertiary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -66,7 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
-                android:background="@color/blanco_gris">
+                android:background="?attr/colorTertiary">
 
                 <TextView
                     android:id="@+id/tvGeneral"
@@ -142,7 +142,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="#720E0F10"
+                        android:background="@android:color/darker_gray"
                         android:gravity="center_horizontal" />
 
                 <LinearLayout
@@ -173,7 +173,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="#720E0F10"
+                        android:background="@android:color/darker_gray"
                         android:gravity="center_horizontal" />
 
                     <com.google.android.material.button.MaterialButton
@@ -221,7 +221,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="#720E0F10"
+                        android:background="@android:color/darker_gray"
                         android:gravity="center_horizontal" />
 
                     <com.google.android.material.button.MaterialButton
@@ -245,7 +245,8 @@
                     android:fontFamily="@font/hurmegeometricsans4"
                     android:text="Cerrar Sesión "
                     android:textAllCaps="false"
-                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textColor="?attr/colorPrimary"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/CardAcercaDe" />

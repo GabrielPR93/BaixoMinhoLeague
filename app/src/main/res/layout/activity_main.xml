@@ -17,7 +17,7 @@
             android:id="@+id/cabeceraInicio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/blue"
+            android:background="?attr/colorOnPrimary"
             android:fontFamily="@font/titulos"
             android:gravity="center"
             android:paddingTop="20dp"
@@ -51,15 +51,17 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top|center"
-            android:background="@color/blanco_gris"
+
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -74,7 +76,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
-        android:background="@color/white"
+        android:background="?attr/colorOnPrimary"
         app:fabCradleMargin="8dp"
         app:fabCradleRoundedCornerRadius="40dp">
 
