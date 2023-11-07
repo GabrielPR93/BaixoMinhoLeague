@@ -17,14 +17,14 @@
         <!-- Primary brand color. -->
         <item name="colorSurface">@color/fondo</item>
         <item name="colorSurfaceVariant">@color/fondo</item>
-        <item name="customColorValue">@color/colorPrimaryOverlay</item>
+        <item name="customColorValue">@color/DarkSecondari</item>
         <item name="colorPrimary">@color/greenPrimary</item>
         <item name="colorPrimaryVariant">@color/greenPrimary</item>
         <item name="colorOnPrimary">@color/fondo</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/red</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
-        <item name="colorOnSecondary">@color/bronce</item>
+        <item name="colorSecondaryVariant">@color/white</item>
+        <item name="colorOnSecondary">@color/colorPrimaryOverlay</item>
         <item name="colorTertiary">@color/fondo</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/black</item>
@@ -36,6 +36,17 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">16dp</item>
+    </style>
+
+    <style name="TvSeparador">
+        <item name="android:fontFamily">@font/hurmebold</item>
+        <item name="android:background">@color/colorPrimaryOverlay</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">start</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingTop">2.5dp</item>
+        <item name="android:paddingBottom">2.5dp</item>
+        <item name="android:textSize">18dp</item>
     </style>
 
     <style name="MyTextButtonStyle" parent="Widget.MaterialComponents.Button.TextButton">
@@ -53,4 +64,39 @@
         <item name="android:paddingRight">10dp</item>
         <item name="android:paddingBottom">10dp</item>
     </style>
+    <style name="EditTextWhiteBackground">
+        <item name="android:background">@color/DarkSecondari</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="fontFamily">@font/hurmegeometricsans4</item>
+        <item name="android:textSize">16.5dp</item>
+    </style>
+    <style name="tvCorreo">
+        <item name="android:background">@color/DarkSecondari</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:paddingStart">5dp</item>
+        <item name="android:paddingEnd">5dp</item>
+        <item name="android:gravity">center</item>
+        <item name="fontFamily">@font/hurmegeometricsans4</item>
+        <item name="android:textSize">14dp</item>
+    </style>
+    <style name="textoStyle">
+        <item name="android:background">@color/DarkSecondari</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">start</item>
+        <item name="fontFamily">@font/hurmegeometricsans4</item>
+        <item name="android:textSize">15dp</item>
+    </style>
+    <style name="textoStyleBold">
+        <item name="android:background">@color/DarkSecondari</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">start</item>
+        <item name="fontFamily">@font/hurmebold</item>
+        <item name="android:textSize">15dp</item>
+    </style>
+    <style name="fondoEventos">
+        <item name="android:background">@color/black</item>
+    </style>
+
 </resources>

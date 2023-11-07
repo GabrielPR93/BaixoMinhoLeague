@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/top_background"
+    style="@style/fondoEventos"
     tools:context=".ui.menu.Jugadores.DetailJugador">
 
     <ScrollView
@@ -52,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="20dp"
-                    android:background="@color/blue"
+                    android:background="@android:color/transparent"
                     android:src="@drawable/arrow_back"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -98,7 +98,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="22dp"
-                            android:fontFamily="@font/hurmegeometricsans4"
+                            style="@style/textoStyle"
                             android:textSize="25dp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -113,8 +113,7 @@
                             android:layout_marginTop="36dp"
                             android:drawableStart="@drawable/outline_person_24"
                             android:drawablePadding="10dp"
-                            android:fontFamily="@font/hurmegeometricsans4"
-                            android:textSize="15dp"
+                            style="@style/textoStyle"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tvAlias"
                             tools:text="Nombre" />
@@ -127,8 +126,7 @@
                             android:layout_marginTop="15dp"
                             android:drawableStart="@drawable/phone_android_24"
                             android:drawablePadding="10dp"
-                            android:fontFamily="@font/hurmegeometricsans4"
-                            android:textSize="15dp"
+                            style="@style/textoStyle"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tvNombre"
                             tools:text="Teléfono" />
@@ -141,8 +139,7 @@
                             android:layout_marginTop="15dp"
                             android:drawableStart="@drawable/outline_email_24"
                             android:drawablePadding="10dp"
-                            android:fontFamily="@font/hurmegeometricsans4"
-                            android:textSize="15dp"
+                            style="@style/textoStyle"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tvTelefono"
                             tools:text="Correo" />
@@ -155,8 +152,7 @@
                             android:layout_marginTop="15dp"
                             android:drawableStart="@drawable/location_on_24"
                             android:drawablePadding="10dp"
-                            android:fontFamily="@font/hurmegeometricsans4"
-                            android:textSize="15dp"
+                            style="@style/textoStyle"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tvCorreo"
                             tools:text="Localidad" />
@@ -169,8 +165,7 @@
                             android:layout_marginTop="15dp"
                             android:drawableStart="@drawable/posiciones"
                             android:drawablePadding="10dp"
-                            android:fontFamily="@font/hurmegeometricsans4"
-                            android:textSize="15dp"
+                            style="@style/textoStyle"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tvLocalidad"
                             tools:text="Posiciones" />
@@ -183,9 +178,8 @@
                             android:layout_marginTop="15dp"
                             android:drawableStart="@drawable/stars_24"
                             android:drawablePadding="10dp"
-                            android:fontFamily="@font/hurmegeometricsans4"
+                            style="@style/textoStyle"
                             android:text="Otros datos"
-                            android:textSize="15dp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tvPosiciones"  />
 
@@ -197,9 +191,8 @@
                             android:layout_marginTop="15dp"
                             android:drawableStart="@drawable/copa"
                             android:drawablePadding="10dp"
-                            android:fontFamily="@font/hurmegeometricsans4"
+                            style="@style/textoStyle"
                             android:text="Torneos Disputados :"
-                            android:textSize="15dp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tvOtros" />
 
@@ -212,8 +205,7 @@
                             android:layout_marginEnd="30dp"
                             android:layout_marginBottom="25dp"
                             android:drawablePadding="10dp"
-                            android:fontFamily="@font/hurmegeometricsans4"
-                            android:textSize="15dp"
+                            style="@style/textoStyle"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tvTituloTorneos"

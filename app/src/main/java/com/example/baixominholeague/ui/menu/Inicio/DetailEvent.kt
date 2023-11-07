@@ -166,7 +166,7 @@ class DetailEvent : AppCompatActivity() {
         binding.tvDescripcion.setText(descripcion)
 
         if (imagen != null && imagen.toString() != "") {
-            Picasso.get().load(Uri.parse(imagen)).into(imageViewEvent, object : Callback {
+            Picasso.get().load(Uri.parse(imagen)).fit().centerCrop().into(imageViewEvent, object : Callback {
                 override fun onSuccess() {
                     progressBar.visibility = View.GONE
                 }

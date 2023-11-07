@@ -8,6 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="negro">#000000</color>
     <color name="DarkPrimary">#151E21</color>
+    <color name="DarkSecondari">#434343</color>
     <color name="fondo">#000000</color>
     <color name="colorPrimaryOverlay">#2f2f2f</color>
     <color name="greenPrimary">#00C8E0</color>

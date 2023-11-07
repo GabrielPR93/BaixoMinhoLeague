@@ -268,7 +268,7 @@ class PerfilFragment : Fragment() {
                 .setPositiveButton("Sí") { dialog, which ->
 
                     db.collection("users").document(correo.orEmpty()).delete()
-                    binding.editTextAlias.text.clear()
+                    //binding.editTextAlias.text.clear()
                     binding.editTextNombre.text.clear()
                     binding.editTextTelefono.text.clear()
                     binding.editTextLocalidad.text.clear()
