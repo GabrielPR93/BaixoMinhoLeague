@@ -2,19 +2,20 @@
     <!-- Base application theme. -->
     <style name="Theme.BaixoMinhoLeague" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">@color/greenPrimary</item>
+        <item name="colorPrimaryVariant">@color/greenPrimary</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
+        <item name="colorSecondary">@color/greenPrimary</item>
+        <item name="colorSecondaryVariant">@color/colorPrimaryOverlay</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">@color/black</item>
         <!-- Customize your theme here. -->
     </style>
     <style name="Theme.BaixoMinhoLeagueSinActionBar" parent="Theme.MaterialComponents.NoActionBar">
         <!-- Primary brand color. -->
+
         <item name="colorSurface">@color/fondo</item>
         <item name="colorSurfaceVariant">@color/fondo</item>
         <item name="customColorValue">@color/DarkSecondari</item>
@@ -22,9 +23,9 @@
         <item name="colorPrimaryVariant">@color/greenPrimary</item>
         <item name="colorOnPrimary">@color/fondo</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/red</item>
-        <item name="colorSecondaryVariant">@color/white</item>
-        <item name="colorOnSecondary">@color/colorPrimaryOverlay</item>
+        <item name="colorSecondary">@color/greenPrimary</item>
+        <item name="colorSecondaryVariant">@color/colorPrimaryOverlay</item>
+        <item name="colorOnSecondary">@color/black</item>
         <item name="colorTertiary">@color/fondo</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/black</item>
@@ -36,6 +37,11 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">16dp</item>
+    </style>
+    <style name="textRecyclerView">
+        <item name="android:fontFamily">@font/hurmegeometricsans4</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">14dp</item>
     </style>
 
     <style name="TvSeparador">
@@ -82,21 +88,38 @@
         <item name="android:textSize">14dp</item>
     </style>
     <style name="textoStyle">
-        <item name="android:background">@color/DarkSecondari</item>
+        <item name="android:background">@android:color/transparent</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:gravity">start</item>
         <item name="fontFamily">@font/hurmegeometricsans4</item>
         <item name="android:textSize">15dp</item>
     </style>
     <style name="textoStyleBold">
-        <item name="android:background">@color/DarkSecondari</item>
+        <item name="android:background">@android:color/transparent</item>
         <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">start</item>
+        <item name="fontFamily">@font/hurmebold</item>
+        <item name="android:textSize">15dp</item>
+    </style>
+    <style name="textoStyleBoldGreen">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textColor">@color/greenPrimary</item>
         <item name="android:gravity">start</item>
         <item name="fontFamily">@font/hurmebold</item>
         <item name="android:textSize">15dp</item>
     </style>
     <style name="fondoEventos">
         <item name="android:background">@color/black</item>
+    </style>
+    <style name="fondoParticipantes">
+        <item name="android:background">@color/black</item>
+    </style>
+    <style name="fondoView">
+        <item name="android:background">@color/black</item>
+    </style>
+    <style name="textButtonStyle" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
 </resources>

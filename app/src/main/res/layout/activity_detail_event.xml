@@ -263,14 +263,13 @@
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/textButton"
-                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            style="@style/textButtonStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/hurmegeometricsans4"
                             android:text="0 Participantes"
                             android:drawableEnd="@drawable/arrow_drop"
                             android:textAllCaps="false"
-                            android:textColor="?attr/colorSecondaryVariant"
                             app:layout_constraintEnd_toEndOf="@id/btnParticipar"
                             app:layout_constraintStart_toStartOf="@id/btnParticipar"
                             app:layout_constraintTop_toBottomOf="@id/btnParticipar" />

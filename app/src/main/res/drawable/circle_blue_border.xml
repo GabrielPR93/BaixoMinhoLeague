@@ -3,7 +3,7 @@
     <!-- Fondo blanco con borde -->
     <item>
         <shape android:shape="oval">
-            <solid android:color="@color/blue2"/>
+            <solid android:color="?attr/colorSurfaceVariant"/>
         </shape>
     </item>
 

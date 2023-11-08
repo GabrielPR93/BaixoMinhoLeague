@@ -49,9 +49,6 @@ class Configuracion : AppCompatActivity() {
                 // El tema oscuro está activo
                 binding.temaNocturnoSwitch.isChecked = true
             }
-            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> {
-                binding.temaNocturnoSwitch.isChecked = false
-            }
         }
     }
     private fun saveTheme(){

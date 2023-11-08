@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue2"
+    style="@style/fondoParticipantes"
     tools:context=".ui.menu.Inicio.ParticipantesActivity">
 
     <ScrollView
@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content">
 
                 <View
-                    android:background="@drawable/top_background"
+                    style="@style/fondoView"
                     android:layout_width="match_parent"
                     android:layout_height="180dp"
                     app:layout_constraintTop_toTopOf="parent"

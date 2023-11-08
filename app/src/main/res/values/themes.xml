@@ -23,8 +23,8 @@
         <item name="colorOnPrimary">@color/blue</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/greenSecondary</item>
-        <item name="colorSecondaryVariant">@color/black</item>
-        <item name="colorOnSecondary">@color/blanco_gris</item>
+        <item name="colorSecondaryVariant">@color/blanco_gris</item>
+        <item name="colorOnSecondary">@color/black</item>
 
         <item name="colorTertiary">@color/white</item>
 
@@ -46,6 +46,11 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">16dp</item>
+    </style>
+    <style name="textRecyclerView">
+        <item name="android:fontFamily">@font/hurmegeometricsans4</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">14dp</item>
     </style>
 
     <style name="TvSeparador">
@@ -82,7 +87,7 @@
         <item name="android:textSize">16.5dp</item>
     </style>
     <style name="tvCorreo">
-        <item name="android:background">@color/white</item>
+        <item name="android:background">@android:color/transparent</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:paddingStart">5dp</item>
         <item name="android:paddingEnd">5dp</item>
@@ -91,14 +96,21 @@
         <item name="android:textSize">14dp</item>
     </style>
     <style name="textoStyle">
-        <item name="android:background">@color/white</item>
+        <item name="android:background">@android:color/transparent</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:gravity">start</item>
         <item name="fontFamily">@font/hurmegeometricsans4</item>
         <item name="android:textSize">15dp</item>
     </style>
     <style name="textoStyleBold">
-        <item name="android:background">@color/white</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:gravity">start</item>
+        <item name="fontFamily">@font/hurmebold</item>
+        <item name="android:textSize">15dp</item>
+    </style>
+    <style name="textoStyleBoldGreen">
+        <item name="android:background">@android:color/transparent</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:gravity">start</item>
         <item name="fontFamily">@font/hurmebold</item>
@@ -106,5 +118,15 @@
     </style>
     <style name="fondoEventos">
         <item name="android:background">@drawable/top_background</item>
+    </style>
+    <style name="fondoParticipantes">
+        <item name="android:background">@color/blue2</item>
+    </style>
+    <style name="fondoView">
+        <item name="android:background">@drawable/top_background</item>
+    </style>
+    <style name="textButtonStyle" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 </resources>
