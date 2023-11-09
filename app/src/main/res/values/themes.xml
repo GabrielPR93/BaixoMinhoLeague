@@ -19,7 +19,7 @@
         <item name="colorSurfaceVariant">@color/blue2</item>
         <item name="customColorValue">@color/white</item>
         <item name="colorPrimary">@color/blue</item>
-        <item name="colorPrimaryVariant">@color/black</item>
+        <item name="colorPrimaryVariant">@color/grisPrincipal</item>
         <item name="colorOnPrimary">@color/blue</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/greenSecondary</item>
@@ -44,12 +44,12 @@
     <style name="fuentePrincipal">
         <item name="fontFamily">@font/hurmegeometricsans4</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">@color/grisPrincipal</item>
         <item name="android:textSize">16dp</item>
     </style>
     <style name="textRecyclerView">
         <item name="android:fontFamily">@font/hurmegeometricsans4</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">@color/grisPrincipal</item>
         <item name="android:textSize">14dp</item>
     </style>
 
@@ -67,7 +67,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:textAlignment">textStart</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">@color/DarkSecondari</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
         <item name="android:textStyle">bold</item>
@@ -78,12 +78,26 @@
         <item name="android:paddingRight">10dp</item>
         <item name="android:paddingBottom">10dp</item>
     </style>
+    <style name="TextViewError">
+        <item name="android:textColor">@color/red</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="fontFamily">@font/hurmegeometricsans4</item>
+        <item name="android:textSize">14.5dp</item>
+    </style>
+
+    <style name="TextViewIconError">
+        <item name="android:textColor">@color/red</item>
+        <item name="android:text">*</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="fontFamily">@font/hurmegeometricsans4</item>
+    </style>
     <style name="EditTextWhiteBackground">
         <item name="android:background">@android:color/white</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">@color/grisPrincipal</item>
         <item name="android:paddingTop">10dp</item>
         <item name="android:paddingBottom">10dp</item>
-        <item name="fontFamily">@font/hurmegeometricsans4</item>
+        <item name="android:fontFamily">@font/hurmegeometricsans4</item>
         <item name="android:textSize">16.5dp</item>
     </style>
     <style name="tvCorreo">
@@ -97,7 +111,7 @@
     </style>
     <style name="textoStyle">
         <item name="android:background">@android:color/transparent</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">@color/grisPrincipal</item>
         <item name="android:gravity">start</item>
         <item name="fontFamily">@font/hurmegeometricsans4</item>
         <item name="android:textSize">15dp</item>
@@ -127,6 +141,6 @@
     </style>
     <style name="textButtonStyle" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:background">@android:color/transparent</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">@color/grisPrincipal</item>
     </style>
 </resources>

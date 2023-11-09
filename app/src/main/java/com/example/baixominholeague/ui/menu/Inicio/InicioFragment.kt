@@ -45,18 +45,26 @@ class InicioFragment : Fragment() {
         val view = binding.root
 
         binding.progresBarEvents.visibility=View.VISIBLE
-        eventoAdapter = EventoAdapter(emptyList(),::eliminarEvento){nombreEvento -> navigateToDetailEvent(nombreEvento) }
+        //eventoAdapter = EventoAdapter(emptyList(),::eliminarEvento){nombreEvento -> navigateToDetailEvent(nombreEvento) }
+        ensureEventoAdapterInitialized()
         binding.reyclerView.adapter = eventoAdapter
         binding.reyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         if (correo != null) {
             getEventsOrderByDate(correo)
         }
-        Log.i("GABRI","SE CREOOOOO BIEN")
+        Log.i("GABRI","SE CREOOOOO BIEN: ${eventoAdapter.toString()}")
         return view
     }
 
+    fun ensureEventoAdapterInitialized() {
+        if (!::eventoAdapter.isInitialized) {
+            eventoAdapter = EventoAdapter(emptyList(),::eliminarEvento){nombreEvento -> navigateToDetailEvent(nombreEvento) }
+        }
+    }
     fun updateEventList(){
+        ensureEventoAdapterInitialized()
+
         if (correo != null) {
             getEventsOrderByDate(correo)
             eventoAdapter.notifyDataSetChanged()

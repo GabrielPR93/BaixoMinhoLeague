@@ -7,13 +7,16 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.baixominholeague.databinding.ActivityMainBinding
@@ -56,7 +59,7 @@ class MainActivity : AppCompatActivity() {
 
     inner class ViewPagerFragmentAdapter(
         fragmentActivity: FragmentActivity,
-        private val fragments: List<Fragment>
+        val fragments: List<Fragment>
     ) : FragmentStateAdapter(fragmentActivity) {
         override fun getItemCount(): Int = fragments.size
         override fun createFragment(position: Int): Fragment = fragments[position]
@@ -137,6 +140,7 @@ class MainActivity : AppCompatActivity() {
                 1 -> tab.text = "Noticias"
             }
         }.attach()
+        binding.viewPager.currentItem=0
     }
 
     private fun loadTheme(){
@@ -158,12 +162,12 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == REQUEST_CODE_NUEVO_EVENTO && resultCode == Activity.RESULT_OK) {
+            viewPager()
+            //inicioFragment?.updateEventList()
 
-            val inicioFragment = adapter?.getFragment(0) as? InicioFragment
-            inicioFragment?.updateEventList()
-            binding.viewPager.currentItem = 0
         }
     }
+
 
     private fun navigateToNewEvent(Usuario: String) {
         val intent = Intent(this, NuevoEvento::class.java)
@@ -271,19 +275,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun replaceFragment(fragment: Fragment) {
-        binding.viewPager.visibility = View.GONE
-        binding.tabs.visibility = View.GONE
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
-        val deleteFragment = fragmentManager.findFragmentById(R.id.frameContainer)
-        if (deleteFragment != null) {
-            fragmentTransaction.remove(deleteFragment)
-        }
 
         fragmentTransaction.replace(R.id.frameContainer, fragment)
+        fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
 
+        // Escucha cambios en la pila de retroceso
+        fragmentManager.addOnBackStackChangedListener {
+            // Verifica si la pila de retroceso está vacía, lo que significa que estamos en el fragmento superior
+            val isBackStackEmpty = fragmentManager.backStackEntryCount == 0
+
+            // Ajusta la visibilidad del ViewPager y las pestañas en consecuencia
+            binding.viewPager.visibility = if (isBackStackEmpty) View.VISIBLE else View.GONE
+            binding.tabs.visibility = if (isBackStackEmpty) View.VISIBLE else View.GONE
+        }
     }
+
 
 
 }

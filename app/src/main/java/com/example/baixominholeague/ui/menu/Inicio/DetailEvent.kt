@@ -72,7 +72,7 @@ class DetailEvent : AppCompatActivity() {
                 binding.btnParticipar.setBackgroundColor(
                     ContextCompat.getColor(
                         this,
-                        R.color.teal_200
+                        R.color.greenPrimary
                     )
                 )
                 binding.btnParticipar.setText("Asistiré")
@@ -184,7 +184,7 @@ class DetailEvent : AppCompatActivity() {
 
     private fun updateButtonUI() {
         if (buttonPressed) {
-            binding.btnParticipar.setBackgroundColor(ContextCompat.getColor(this, R.color.teal_200))
+            binding.btnParticipar.setBackgroundColor(ContextCompat.getColor(this, R.color.greenPrimary))
             binding.btnParticipar.setText("Asistiré")
         } else {
             binding.btnParticipar.setBackgroundColor(ContextCompat.getColor(this, R.color.blue))
@@ -252,7 +252,7 @@ class DetailEvent : AppCompatActivity() {
                         binding.btnParticipar.setBackgroundColor(
                             ContextCompat.getColor(
                                 this,
-                                R.color.teal_200
+                                R.color.greenPrimary
                             )
                         )
                         binding.btnParticipar.setText("Asistiré")
