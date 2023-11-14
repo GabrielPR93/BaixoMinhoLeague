@@ -1,33 +1,21 @@
 package com.example.baixominholeague
 
 import android.Manifest
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.viewpager.widget.PagerAdapter
-import androidx.viewpager2.adapter.FragmentStateAdapter
-import androidx.viewpager2.widget.ViewPager2
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.example.baixominholeague.databinding.ActivityMainBinding
-import com.example.baixominholeague.ui.menu.ClasificacionFragment
-import com.example.baixominholeague.ui.menu.Inicio.InicioFragment
-import com.example.baixominholeague.ui.menu.Inicio.NovedadesFragment
-import com.example.baixominholeague.ui.menu.Jugadores.JugadoresFragment
-import com.example.baixominholeague.ui.menu.Perfil.Configuracion
 import com.example.baixominholeague.ui.menu.Perfil.PerfilFragment
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Callback
@@ -37,10 +25,10 @@ import com.squareup.picasso.Picasso
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var navController: NavController
     private val db = FirebaseFirestore.getInstance()
     private var fragmentPerfil = PerfilFragment()
     private val correo = FirebaseAuth.getInstance().currentUser?.email
-    public var adapter : ViewPagerFragmentAdapter? = null
 
     private val REQUEST_ADD_EVENT = 200
     private val REQUEST_CODE_PERMISSIONS = 101
@@ -57,16 +45,6 @@ class MainActivity : AppCompatActivity() {
     private var args: Bundle? = null
     private val requiredPermissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
 
-    inner class ViewPagerFragmentAdapter(
-        fragmentActivity: FragmentActivity,
-        val fragments: List<Fragment>
-    ) : FragmentStateAdapter(fragmentActivity) {
-        override fun getItemCount(): Int = fragments.size
-        override fun createFragment(position: Int): Fragment = fragments[position]
-        fun getFragment(position: Int): Fragment {
-            return fragments[position]
-        }
-    }
     companion object {
         const val CLAVE_CORREO = "correo"
         const val CLAVE_ALIAS = "alias"
@@ -82,9 +60,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        initUI()
 
-        binding.bottomNavigation.setBackground(null);
-        loadTheme()
+       binding.bottomNavigation.setBackground(null);
+          loadTheme()
 
         if (!arePermissionsGranted()) {
             requestPermissions()
@@ -95,52 +74,21 @@ class MainActivity : AppCompatActivity() {
             getDataBd(correo)
         }
         saveData()
-        viewPager()
 
-
-        binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.home -> showMainActivityContent()
-                R.id.Buscar -> replaceFragment(JugadoresFragment())
-                R.id.clasificacion -> replaceFragment(ClasificacionFragment())
-                R.id.perfil -> replaceFragment(fragmentPerfil)
-            }
-            true
-        }
-
-        binding.floatinButton.setOnClickListener {
-            alias?.let { it1 -> navigateToNewEvent(it1) }
-        }
+//        binding.floatinButton.setOnClickListener {
+//            alias?.let { it1 -> navigateToNewEvent(it1) }
+//        }
 
     }
-    private fun showMainActivityContent() {
-
-        binding.viewPager.visibility = View.VISIBLE
-        binding.tabs.visibility = View.VISIBLE
-        val fragmentManager = supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        val fragment = fragmentManager.findFragmentById(R.id.frameContainer)
-        if (fragment != null) {
-            fragmentTransaction.remove(fragment)
-        }
-        fragmentTransaction.commit()
+    private fun initUI(){
+        initNavigation()
     }
 
-    private fun viewPager(){
-        val viewPager: ViewPager2 = binding.viewPager
-        val tabs: TabLayout = binding.tabs
+    private fun initNavigation() {
+        val navHost = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
+            navController = navHost.navController
+            binding.bottomNavigation.setupWithNavController(navController)
 
-        val fragments = listOf(InicioFragment(), NovedadesFragment())
-        adapter = ViewPagerFragmentAdapter(this, fragments)
-        viewPager.adapter = adapter
-
-        TabLayoutMediator(tabs, viewPager) { tab, position ->
-            when (position) {
-                0 -> tab.text = "Eventos"
-                1 -> tab.text = "Noticias"
-            }
-        }.attach()
-        binding.viewPager.currentItem=0
     }
 
     private fun loadTheme(){
@@ -158,15 +106,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     //Actualizar lista de eventos despues de añadir uno nuevo
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == REQUEST_CODE_NUEVO_EVENTO && resultCode == Activity.RESULT_OK) {
-            viewPager()
-            //inicioFragment?.updateEventList()
-
-        }
-    }
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//
+//        if (requestCode == REQUEST_CODE_NUEVO_EVENTO && resultCode == Activity.RESULT_OK) {
+//            viewPager()
+//            //inicioFragment?.updateEventList()
+//
+//        }
+//    }
 
 
     private fun navigateToNewEvent(Usuario: String) {
@@ -274,24 +222,24 @@ class MainActivity : AppCompatActivity() {
         prefs.apply()
     }
 
-    private fun replaceFragment(fragment: Fragment) {
-        val fragmentManager = supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-
-        fragmentTransaction.replace(R.id.frameContainer, fragment)
-        fragmentTransaction.addToBackStack(null)
-        fragmentTransaction.commit()
-
-        // Escucha cambios en la pila de retroceso
-        fragmentManager.addOnBackStackChangedListener {
-            // Verifica si la pila de retroceso está vacía, lo que significa que estamos en el fragmento superior
-            val isBackStackEmpty = fragmentManager.backStackEntryCount == 0
-
-            // Ajusta la visibilidad del ViewPager y las pestañas en consecuencia
-            binding.viewPager.visibility = if (isBackStackEmpty) View.VISIBLE else View.GONE
-            binding.tabs.visibility = if (isBackStackEmpty) View.VISIBLE else View.GONE
-        }
-    }
+//    private fun replaceFragment(fragment: Fragment) {
+//        val fragmentManager = supportFragmentManager
+//        val fragmentTransaction = fragmentManager.beginTransaction()
+//
+//        fragmentTransaction.replace(R.id.frameContainer, fragment)
+//        fragmentTransaction.addToBackStack(null)
+//        fragmentTransaction.commit()
+//
+//        // Escucha cambios en la pila de retroceso
+//        fragmentManager.addOnBackStackChangedListener {
+//            // Verifica si la pila de retroceso está vacía, lo que significa que estamos en el fragmento superior
+//            val isBackStackEmpty = fragmentManager.backStackEntryCount == 0
+//
+//            // Ajusta la visibilidad del ViewPager y las pestañas en consecuencia
+//            binding.viewPager.visibility = if (isBackStackEmpty) View.VISIBLE else View.GONE
+//            binding.tabs.visibility = if (isBackStackEmpty) View.VISIBLE else View.GONE
+//        }
+//    }
 
 
 

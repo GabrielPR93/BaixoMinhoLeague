@@ -2,4 +2,15 @@
     <string name="app_name">BaixoMiño League</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="prefs_file">com.example.baixominholeague.PREFERENCE_FILE_KEY</string>
+
+    <!-- BottomBar -->
+    <string name="inicio">Inicio</string>
+    <string name="buscar">Buscar</string>
+    <string name="clasificacion">Clasificación</string>
+    <string name="perfil">Perfil</string>
+
+    <!-- ViewPager -->
+    <string name="eventos">Eventos</string>
+    <string name="noticias">Noticias</string>
+
 </resources>

@@ -5,10 +5,7 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
-import android.graphics.Color
 import android.icu.util.Calendar
-import android.net.Uri
-import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
@@ -20,11 +17,9 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.net.toUri
 import com.example.baixominholeague.databinding.ActivityNuevoEventoBinding
-import com.example.baixominholeague.ui.menu.Inicio.InicioFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import com.squareup.picasso.Picasso
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import com.google.firebase.database.FirebaseDatabase

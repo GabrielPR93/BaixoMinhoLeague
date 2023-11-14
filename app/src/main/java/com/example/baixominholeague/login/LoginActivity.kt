@@ -8,6 +8,9 @@ import android.text.InputType
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+
 import com.example.baixominholeague.MainActivity
 import com.example.baixominholeague.R
 import com.example.baixominholeague.databinding.ActivityLoginBinding

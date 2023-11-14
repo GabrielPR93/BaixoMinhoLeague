@@ -2,13 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/home"
-        android:title="Inicio"
+        android:id="@+id/inicioFragment"
+        android:title="@string/inicio"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_home"/>
     <item
-        android:id="@+id/Buscar"
-        android:title="Buscar"
+        android:id="@+id/jugadoresFragment"
+        android:title="@string/buscar"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_person"/>
 
@@ -19,14 +19,14 @@
         android:enabled="false"/>
 
     <item
-        android:id="@+id/clasificacion"
-        android:title="Clasificación"
+        android:id="@+id/clasificacionFragment"
+        android:title="@string/clasificacion"
         app:showAsAction="ifRoom"
         android:icon="@drawable/podium"/>
 
     <item
-        android:id="@+id/perfil"
-        android:title="Perfil"
+        android:id="@+id/perfilFragment"
+        android:title="@string/perfil"
         app:showAsAction="ifRoom"
         android:icon="@drawable/baseline_account_circle_24"/>
 

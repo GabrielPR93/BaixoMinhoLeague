@@ -227,15 +227,15 @@ class PerfilFragment : Fragment() {
             binding.btnAddPlayer.visibility = View.VISIBLE
         }
 
-        if (selectedImageUri != "") {//Para que al cambiar la imagen se actualize (solo entra si se cambia la imagen)
-            selectedImageUri = Uri.parse(selectedImageUri).toString()
-            Picasso.get().load(selectedImageUri)
-                .into(binding.imageViewProfile)
-        } else if (foto != "") { //Cargar la imagen de perfil guardada
-            selectedImageUri = Uri.parse(foto).toString()
-            Picasso.get().load(selectedImageUri)
-                .into(binding.imageViewProfile)
-        }
+//        if (selectedImageUri != "") {//Para que al cambiar la imagen se actualize (solo entra si se cambia la imagen)
+//            selectedImageUri = Uri.parse(selectedImageUri).toString()
+//            Picasso.get().load(selectedImageUri)
+//                .into(binding.imageViewProfile)
+//        } else if (foto != "") { //Cargar la imagen de perfil guardada
+//            selectedImageUri = Uri.parse(foto).toString()
+//            Picasso.get().load(selectedImageUri)
+//                .into(binding.imageViewProfile)
+//        }
 
         loadEmail(correo.toString())
 

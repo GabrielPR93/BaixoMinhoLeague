@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_graph"
+    app:startDestination="@id/inicioFragment">
+
+    <fragment
+        android:id="@+id/clasificacionFragment"
+        android:name="com.example.baixominholeague.ui.menu.ClasificacionFragment"
+        android:label="fragment_clasificacion"
+        tools:layout="@layout/fragment_clasificacion" />
+    <fragment
+        android:id="@+id/jugadoresFragment"
+        android:name="com.example.baixominholeague.ui.menu.Jugadores.JugadoresFragment"
+        android:label="fragment_jugadores"
+        tools:layout="@layout/fragment_jugadores" />
+    <fragment
+        android:id="@+id/eventosFragment"
+        android:name="com.example.baixominholeague.ui.menu.Inicio.EventosFragment"
+        android:label="fragment_eventos"
+        tools:layout="@layout/fragment_eventos" />
+    <fragment
+        android:id="@+id/novedadesFragment"
+        android:name="com.example.baixominholeague.ui.menu.Inicio.NovedadesFragment"
+        android:label="fragment_novedades"
+        tools:layout="@layout/fragment_novedades" />
+    <fragment
+        android:id="@+id/perfilFragment"
+        android:name="com.example.baixominholeague.ui.menu.Perfil.PerfilFragment"
+        android:label="fragment_perfil"
+        tools:layout="@layout/fragment_perfil" />
+    <activity
+        android:id="@+id/addPlayerAndTournament"
+        android:name="com.example.baixominholeague.ui.menu.Perfil.AddPlayerAndTournament"
+        android:label="activity_add_player_and_tournament"
+        tools:layout="@layout/activity_add_player_and_tournament" />
+    <activity
+        android:id="@+id/detailEvent"
+        android:name="com.example.baixominholeague.ui.menu.Inicio.DetailEvent"
+        android:label="activity_configuracion"
+        tools:layout="@layout/activity_configuracion" />
+    <activity
+        android:id="@+id/detailJugador"
+        android:name="com.example.baixominholeague.ui.menu.Jugadores.DetailJugador"
+        android:label="activity_detail_jugador"
+        tools:layout="@layout/activity_detail_jugador" />
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="com.example.baixominholeague.login.LoginActivity"
+        android:label="activity_login"
+        tools:layout="@layout/activity_login"/>
+
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.example.baixominholeague.MainActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main" />
+    <activity
+        android:id="@+id/nuevoEvento"
+        android:name="com.example.baixominholeague.NuevoEvento"
+        android:label="activity_nuevo_evento"
+        tools:layout="@layout/activity_nuevo_evento" />
+    <activity
+        android:id="@+id/participantesActivity"
+        android:name="com.example.baixominholeague.ui.menu.Inicio.ParticipantesActivity"
+        android:label="activity_participantes"
+        tools:layout="@layout/activity_participantes" />
+    <activity
+        android:id="@+id/registerActivity"
+        android:name="com.example.baixominholeague.login.RegisterActivity"
+        android:label="activity_register"
+        tools:layout="@layout/activity_register" />
+    <activity
+        android:id="@+id/resetPassword"
+        android:name="com.example.baixominholeague.login.ResetPassword"
+        android:label="activity_reset_password"
+        tools:layout="@layout/activity_reset_password" />
+    <fragment
+        android:id="@+id/inicioFragment"
+        android:name="com.example.baixominholeague.ui.menu.Inicio.InicioFragment"
+        android:label="fragment_inicio"
+        tools:layout="@layout/fragment_inicio" />
+</navigation>
