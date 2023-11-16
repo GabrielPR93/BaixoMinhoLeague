@@ -28,7 +28,9 @@ import com.example.baixominholeague.MainActivity.Companion.CLAVE_OTROS
 import com.example.baixominholeague.MainActivity.Companion.CLAVE_POSICIONES
 import com.example.baixominholeague.MainActivity.Companion.CLAVE_TELEFONO
 import com.example.baixominholeague.login.LoginActivity
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
@@ -38,14 +40,8 @@ class PerfilFragment : Fragment() {
 
     private var _binding: FragmentPerfilBinding? = null
     private val binding get() = _binding!!
+    private val currentUser = FirebaseAuth.getInstance().currentUser
     private var correo: String? = null
-    private var alias: String? = null
-    private var nombre: String? = null
-    private var telefono: String? = null
-    private var localidad: String? = null
-    private var posiciones: String? = null
-    private var otros: String? = null
-    private var foto: String? = null
     private val db = FirebaseFirestore.getInstance()
 
     private val REQUEST_CODE_IMAGE_PICKER = 102
@@ -56,22 +52,6 @@ class PerfilFragment : Fragment() {
         const val CORREO_ADMIN = "admin@gmail.com"
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-
-            correo = it.getString(CLAVE_CORREO)
-            alias = it.getString(CLAVE_ALIAS)
-            nombre = it.getString(CLAVE_NOMBRE)
-            telefono = it.getString(CLAVE_TELEFONO)
-            localidad = it.getString(CLAVE_LOCALIDAD)
-            posiciones = it.getString(CLAVE_POSICIONES)
-            otros = it.getString(CLAVE_OTROS)
-            foto = it.getString(CLAVE_FOTO)
-
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -79,7 +59,8 @@ class PerfilFragment : Fragment() {
         _binding = FragmentPerfilBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        Log.i("GABRI","FOTOOOOOO: ${foto.toString()} y imagennn: ${selectedImageUri.toString()}")
+        if(currentUser?.email!=null){correo=currentUser.email}
+
         binding.btnSelectImage.setOnClickListener {
             val mainActivity = requireActivity() as MainActivity
             launchImagePicker()
@@ -95,7 +76,7 @@ class PerfilFragment : Fragment() {
             startActivity(Intent(requireContext(), AddPlayerAndTournament::class.java))
         }
 
-        setupUi()
+        getDataUser()
         showMenuEdit()
         saveData()
         deleteData()
@@ -103,6 +84,49 @@ class PerfilFragment : Fragment() {
         configuration()
 
         return view
+    }
+    private fun getDataUser(){
+        if(correo!=null){
+            getDataUserEmail(correo!!){ dataUser ->
+                if(dataUser != null){
+                    setupUi(
+                        dataUser["alias"] as? String ?: "",
+                        dataUser["nombre"] as? String ?: "",
+                        dataUser["telefono"] as? String ?: "",
+                        dataUser["localidad"] as? String ?: "",
+                        dataUser["otros"] as? String ?: "",
+                        dataUser["posiciones"] as? String ?: "",
+                        dataUser["foto"] as? String ?: "",
+                    )
+                }else{
+                    println("Usuario no encontrado o error en la consulta")}
+            }
+        }
+
+    }
+    fun getDataUserEmail(correo: String, onComplete: (Map<String, Any>?) -> Unit) {
+        val db = FirebaseFirestore.getInstance()
+        val usersCollection = db.collection("users")
+
+        val query = usersCollection.document(correo)
+
+        query.get()
+            .addOnCompleteListener { task: Task<DocumentSnapshot> ->
+                if (task.isSuccessful) {
+                    val document = task.result
+
+                    if (document != null && document.exists()) {
+                        val datosUsuario = document.data
+                        onComplete(datosUsuario)
+                    } else {
+                        // El documento no existe
+                        onComplete(null)
+                    }
+                } else {
+                    // Hubo un error en la consulta
+                    onComplete(null)
+                }
+            }
     }
 
     private fun configuration(){
@@ -212,7 +236,7 @@ class PerfilFragment : Fragment() {
             }
     }
 
-    private fun setupUi() {
+    private fun setupUi(alias: String, nombre: String, telefono: String, localidad: String, otros: String, posiciones: String, foto: String) {
 
         binding.textViewCorreo.text = correo
         binding.editTextAlias.setText(alias)
@@ -227,15 +251,15 @@ class PerfilFragment : Fragment() {
             binding.btnAddPlayer.visibility = View.VISIBLE
         }
 
-//        if (selectedImageUri != "") {//Para que al cambiar la imagen se actualize (solo entra si se cambia la imagen)
-//            selectedImageUri = Uri.parse(selectedImageUri).toString()
-//            Picasso.get().load(selectedImageUri)
-//                .into(binding.imageViewProfile)
-//        } else if (foto != "") { //Cargar la imagen de perfil guardada
-//            selectedImageUri = Uri.parse(foto).toString()
-//            Picasso.get().load(selectedImageUri)
-//                .into(binding.imageViewProfile)
-//        }
+        if (selectedImageUri != "") {//Para que al cambiar la imagen se actualize (solo entra si se cambia la imagen)
+            selectedImageUri = Uri.parse(selectedImageUri).toString()
+            Picasso.get().load(selectedImageUri)
+                .into(binding.imageViewProfile)
+        } else if (foto != "") { //Cargar la imagen de perfil guardada
+            selectedImageUri = Uri.parse(foto).toString()
+            Picasso.get().load(selectedImageUri)
+                .into(binding.imageViewProfile)
+        }
 
         loadEmail(correo.toString())
 
