@@ -9,7 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.baixominholeague.R
 import com.example.baixominholeague.data.Evento
 import com.example.baixominholeague.databinding.FragmentEventosBinding
 import com.example.baixominholeague.recyclerViewEventos.EventoAdapter
@@ -133,7 +135,9 @@ class EventosFragment : Fragment() {
         intent.putExtra(DetailEvent.NAME_EVENT,nombre)
         startActivity(intent)
     }
-
+//    private fun navigateToDetailEvent(nombre:String){
+//        findNavController().navigate(R.id.action_eventosFragment_to_detailEvent)
+//    }
 
 }
 

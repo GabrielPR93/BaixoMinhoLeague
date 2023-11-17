@@ -1,7 +1,6 @@
 package com.example.baixominholeague.ui.menu.Perfil
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -16,18 +15,10 @@ import androidx.appcompat.app.AlertDialog
 
 
 import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
 import com.example.baixominholeague.MainActivity
-import com.example.baixominholeague.MainActivity.Companion.CLAVE_ALIAS
 import com.example.baixominholeague.R
 import com.example.baixominholeague.databinding.FragmentPerfilBinding
-import com.example.baixominholeague.MainActivity.Companion.CLAVE_CORREO
-import com.example.baixominholeague.MainActivity.Companion.CLAVE_FOTO
-import com.example.baixominholeague.MainActivity.Companion.CLAVE_LOCALIDAD
-import com.example.baixominholeague.MainActivity.Companion.CLAVE_NOMBRE
-import com.example.baixominholeague.MainActivity.Companion.CLAVE_OTROS
-import com.example.baixominholeague.MainActivity.Companion.CLAVE_POSICIONES
-import com.example.baixominholeague.MainActivity.Companion.CLAVE_TELEFONO
-import com.example.baixominholeague.login.LoginActivity
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
@@ -130,7 +121,9 @@ class PerfilFragment : Fragment() {
     }
 
     private fun configuration(){
-        binding.buttomLogout.setOnClickListener { startActivity(Intent(requireContext(),Configuracion::class.java)) }
+        binding.buttomLogout.setOnClickListener {
+            findNavController().navigate(R.id.action_perfilFragment_to_configuracion)
+        }
     }
     fun launchImagePicker() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
