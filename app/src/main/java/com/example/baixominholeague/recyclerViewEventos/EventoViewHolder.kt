@@ -2,9 +2,11 @@ package com.example.baixominholeague.recyclerViewEventos
 
 import android.icu.text.SimpleDateFormat
 import android.view.View
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.baixominholeague.data.Evento
 import com.example.baixominholeague.databinding.ItemEventBinding
+import com.example.baixominholeague.ui.menu.Inicio.EventosFragmentDirections
 import com.example.baixominholeague.ui.menu.Perfil.PerfilFragment.Companion.CORREO_ADMIN
 import com.google.firebase.auth.FirebaseAuth
 import java.util.*
@@ -14,7 +16,7 @@ class EventoViewHolder(view: View, private val eliminarEvento: (Evento) -> Unit)
     private val binding = ItemEventBinding.bind(view)
     private val currentUser = FirebaseAuth.getInstance().currentUser
 
-    fun bind(evento: Evento, onItemSelected:(String) -> Unit) {
+    fun bind(evento: Evento, onItemSelected: (String) -> Unit) {
 
         binding.tvFecha.setText(SimpleDateFormat("dd/MM/yyyy - HH:mm", Locale.getDefault()) .format(evento.fecha)+" H")
         binding.tvEventName.setText(evento.nombre)

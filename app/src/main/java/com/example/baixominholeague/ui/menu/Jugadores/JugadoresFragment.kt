@@ -1,6 +1,5 @@
 package com.example.baixominholeague.ui.menu.Jugadores
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,23 +8,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.baixominholeague.ui.menu.Jugadores.DetailJugador.Companion.ID_PLAYER
 import com.example.baixominholeague.data.Jugador
 import com.example.baixominholeague.databinding.FragmentJugadoresBinding
 import com.example.baixominholeague.recyclerViewJugadores.JugadorAdapter
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
-class JugadoresFragment : Fragment(), OnPlayerAddedListener {
+class JugadoresFragment : Fragment() {
 
     private var _binding: FragmentJugadoresBinding? = null
     private val binding get() = _binding!!
     private lateinit var adapter: JugadorAdapter
     private var setupExecuted = false
     private val jugadores = mutableListOf<Jugador>()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setup()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,18 +35,24 @@ class JugadoresFragment : Fragment(), OnPlayerAddedListener {
         _binding = FragmentJugadoresBinding.inflate(inflater,container,false)
         val view = binding.root
 
-        adapter = JugadorAdapter(jugadores){ idJugador -> navigateToDetailPlayer(idJugador) }
+        adapter = JugadorAdapter(jugadores){ idJugador -> findNavController().navigate(JugadoresFragmentDirections.actionJugadoresFragmentToDetailJugador(idJugador)) }
 
-        setup()
+
         searchPlayer()
 
 
         return view
     }
+    private fun setup() {
+        // Obtener jugadores solo si aún no se ha hecho
+        if (!setupExecuted) {
+            getJugadores()
+        }
 
-    fun updatePlayerList(){
-        adapter.notifyDataSetChanged()
-
+        // Configurar el RecyclerView y el adaptador
+        val recyclerView = binding.recyclerViewJugadores
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = adapter
     }
 
     private fun searchPlayer() {
@@ -73,43 +80,23 @@ class JugadoresFragment : Fragment(), OnPlayerAddedListener {
         binding.ProgresBar.isVisible=false
     }
 
-    private fun setup() {
-        CoroutineScope(Dispatchers.IO).launch {
-            val jugadoresCollectionRef = FirebaseFirestore.getInstance().collection("jugadores")
+    private fun getJugadores() {
+        val jugadoresCollectionRef = FirebaseFirestore.getInstance().collection("jugadores")
 
-            // Consulta los jugadores des Firestore
-            jugadoresCollectionRef.get()
-                .addOnSuccessListener { querySnapshot ->
-
-                    if(!setupExecuted){
-                        for (document in querySnapshot) {
-                            val jugador = document.toObject(Jugador::class.java)
-                            jugadores.add(jugador)
-                        }
-                        setupExecuted =true
+        jugadoresCollectionRef.get()
+            .addOnSuccessListener { querySnapshot ->
+                for (document in querySnapshot) {
+                    val jugador = document.toObject(Jugador::class.java)
+                    // Agregar jugador solo si no existe en la lista
+                    if (!jugadores.contains(jugador)) {
+                        jugadores.add(jugador)
                     }
-                    Log.i("GAB", jugadores.size.toString())
-                    // Configura el RecyclerView y el adaptador
-
-
-                    val recyclerView = binding.recyclerViewJugadores
-                    recyclerView.layoutManager = LinearLayoutManager(requireContext())
-                    recyclerView.adapter = adapter
-
                 }
-                .addOnFailureListener { exception ->
-                    Log.e("Error", "Error al obtener los jugadores", exception)
-                }
-        }
-    }
-
-    private fun navigateToDetailPlayer(id:Int){
-        val intent= Intent(requireContext(), DetailJugador::class.java)
-        intent.putExtra(ID_PLAYER,id)
-        startActivity(intent)
-    }
-
-    override fun onPlayerAdded() {
-        updatePlayerList()
+                setupExecuted = true
+                adapter.updateList(jugadores)
+            }
+            .addOnFailureListener { exception ->
+                Log.e("Error", "Error al obtener los jugadores", exception)
+            }
     }
 }

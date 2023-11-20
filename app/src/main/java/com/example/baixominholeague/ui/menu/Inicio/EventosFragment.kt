@@ -9,9 +9,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import com.example.baixominholeague.R
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.baixominholeague.R
+import androidx.viewpager2.widget.ViewPager2
 import com.example.baixominholeague.data.Evento
 import com.example.baixominholeague.databinding.FragmentEventosBinding
 import com.example.baixominholeague.recyclerViewEventos.EventoAdapter
@@ -31,19 +33,19 @@ class EventosFragment : Fragment() {
     private lateinit var eventoAdapter: EventoAdapter
     private val correo = FirebaseAuth.getInstance().currentUser?.email
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentEventosBinding.inflate(inflater,container,false)
         val view = binding.root
+        ensureEventoAdapterInitialized()
 
         binding.progresBarEvents.visibility=View.VISIBLE
         //eventoAdapter = EventoAdapter(emptyList(),::eliminarEvento){nombreEvento -> navigateToDetailEvent(nombreEvento) }
-        ensureEventoAdapterInitialized()
         binding.reyclerView.adapter = eventoAdapter
         binding.reyclerView.layoutManager = LinearLayoutManager(requireContext())
+
 
         if (correo != null) {
             getEventsOrderByDate(correo)
@@ -54,9 +56,18 @@ class EventosFragment : Fragment() {
 
     fun ensureEventoAdapterInitialized() {
         if (!::eventoAdapter.isInitialized) {
-            eventoAdapter = EventoAdapter(emptyList(),::eliminarEvento){nombreEvento -> navigateToDetailEvent(nombreEvento) }
+
+            eventoAdapter = EventoAdapter(emptyList(), ::eliminarEvento) { nombreEvento -> navigateToDetailEvent(nombreEvento)
+
+            }
         }
     }
+
+
+
+
+
+
     fun updateEventList(){
         ensureEventoAdapterInitialized()
 

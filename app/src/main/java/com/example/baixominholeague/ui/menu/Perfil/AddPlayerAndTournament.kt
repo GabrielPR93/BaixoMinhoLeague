@@ -12,12 +12,11 @@ import android.widget.*
 import com.example.baixominholeague.data.Jugador
 import com.example.baixominholeague.databinding.ActivityAddPlayerAndTournamentBinding
 import com.example.baixominholeague.ui.menu.Jugadores.JugadoresFragment
-import com.example.baixominholeague.ui.menu.Jugadores.OnPlayerAddedListener
 import com.google.firebase.firestore.FirebaseFirestore
 import java.io.Serializable
 import java.util.*
 
-class AddPlayerAndTournament : AppCompatActivity(), OnPlayerAddedListener {
+class AddPlayerAndTournament : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddPlayerAndTournamentBinding
     private val jugadoresFragment = JugadoresFragment()
@@ -238,7 +237,7 @@ class AddPlayerAndTournament : AppCompatActivity(), OnPlayerAddedListener {
                             Toast.makeText(this, "Error al guardar jugador", Toast.LENGTH_SHORT)
                                 .show()
                         }
-                            .addOnCompleteListener { onPlayerAdded() }
+                            .addOnCompleteListener {  } //<-- onPlayerAdded() Todo Cambiar este metodo
                     } else {
                         // Ya existe un jugador con el mismo nombre, muestra un mensaje de error
                         Toast.makeText(
@@ -254,8 +253,5 @@ class AddPlayerAndTournament : AppCompatActivity(), OnPlayerAddedListener {
         }
     }
 
-    override fun onPlayerAdded() {
-            jugadoresFragment?.onPlayerAdded()
-    }
 
 }

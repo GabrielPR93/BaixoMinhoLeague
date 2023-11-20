@@ -5,10 +5,12 @@ import android.content.Intent
 import android.icu.text.SimpleDateFormat
 import android.net.Uri
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.navigation.navArgs
 import com.example.baixominholeague.R
 import com.example.baixominholeague.databinding.ActivityDetailEventBinding
 import com.google.firebase.Timestamp
@@ -22,7 +24,7 @@ import java.util.*
 
 class DetailEvent : AppCompatActivity() {
 
-
+    val args:DetailEventArgs by navArgs()
     companion object {
         const val NAME_EVENT = "name_event"
     }
@@ -35,6 +37,8 @@ class DetailEvent : AppCompatActivity() {
     private lateinit var alias: String
     private lateinit var nombre: String
     private lateinit var imagenUsuario: String
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

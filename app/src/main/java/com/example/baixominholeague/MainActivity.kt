@@ -74,11 +74,6 @@ class MainActivity : AppCompatActivity() {
             getDataBd(correo)
         }
         saveData()
-
-//        binding.floatinButton.setOnClickListener {
-//            alias?.let { it1 -> navigateToNewEvent(it1) }
-//        }
-
     }
     private fun initUI(){
         initNavigation()
@@ -88,6 +83,8 @@ class MainActivity : AppCompatActivity() {
         val navHost = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
             navController = navHost.navController
             binding.bottomNavigation.setupWithNavController(navController)
+
+            binding.floatinButton.setOnClickListener { navController.navigate(R.id.action_global_nuevoEvento) }
 
     }
 

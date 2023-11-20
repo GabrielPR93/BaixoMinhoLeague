@@ -7,16 +7,17 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
+import androidx.navigation.navArgs
 import com.example.baixominholeague.R
 import com.example.baixominholeague.databinding.ActivityDetailJugadorBinding
+import com.example.baixominholeague.ui.menu.Inicio.DetailEventArgs
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
 class DetailJugador : AppCompatActivity() {
-    companion object {
-        const val ID_PLAYER = "id_player"
-    }
+
+    val args: DetailJugadorArgs by navArgs()
 
     private var db = FirebaseFirestore.getInstance()
     private var playerId: Int? = null
@@ -27,7 +28,7 @@ class DetailJugador : AppCompatActivity() {
         binding = ActivityDetailJugadorBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        playerId = intent.getIntExtra(ID_PLAYER,-1)
+        playerId = args.id
 
         getData()
 

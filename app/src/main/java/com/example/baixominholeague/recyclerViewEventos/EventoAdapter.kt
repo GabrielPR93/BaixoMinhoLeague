@@ -2,6 +2,7 @@ package com.example.baixominholeague.recyclerViewEventos
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.baixominholeague.R
 import com.example.baixominholeague.data.Evento
@@ -23,8 +24,6 @@ class EventoAdapter(private var eventos: List<Evento>, private val eliminarEvent
 
     override fun onBindViewHolder(holder: EventoViewHolder, position: Int) {
        holder.bind(eventos[position], onItemSelected)
-
-
 
     }
 

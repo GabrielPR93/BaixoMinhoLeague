@@ -5,13 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.example.baixominholeague.R
 import com.example.baixominholeague.databinding.FragmentInicioBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
-class InicioFragment : Fragment() {
+class InicioFragment : Fragment(){
 
     private var _binding: FragmentInicioBinding? = null
     private val binding get() = _binding!!

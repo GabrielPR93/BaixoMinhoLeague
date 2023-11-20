@@ -14,7 +14,11 @@
         android:id="@+id/jugadoresFragment"
         android:name="com.example.baixominholeague.ui.menu.Jugadores.JugadoresFragment"
         android:label="fragment_jugadores"
-        tools:layout="@layout/fragment_jugadores" />
+        tools:layout="@layout/fragment_jugadores" >
+        <action
+            android:id="@+id/action_jugadoresFragment_to_detailJugador"
+            app:destination="@id/detailJugador" />
+    </fragment>
     <fragment
         android:id="@+id/novedadesFragment"
         android:name="com.example.baixominholeague.ui.menu.Inicio.NovedadesFragment"
@@ -43,12 +47,22 @@
         android:id="@+id/detailEvent"
         android:name="com.example.baixominholeague.ui.menu.Inicio.DetailEvent"
         android:label="activity_detailEvent"
-        tools:layout="@layout/activity_detail_event" />
+        tools:layout="@layout/activity_detail_event" >
+        <argument
+            android:name="name"
+            app:argType="string"
+            android:defaultValue="vacio" />
+    </activity>
     <activity
         android:id="@+id/detailJugador"
         android:name="com.example.baixominholeague.ui.menu.Jugadores.DetailJugador"
         android:label="activity_detail_jugador"
-        tools:layout="@layout/activity_detail_jugador" />
+        tools:layout="@layout/activity_detail_jugador" >
+        <argument
+            android:name="id"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </activity>
     <activity
         android:id="@+id/loginActivity"
         android:name="com.example.baixominholeague.login.LoginActivity"
@@ -84,6 +98,13 @@
         android:id="@+id/eventosFragment"
         android:name="com.example.baixominholeague.ui.menu.Inicio.EventosFragment"
         android:label="fragment_eventos"
-        tools:layout="@layout/fragment_eventos" />
+        tools:layout="@layout/fragment_eventos" >
+        <action
+            android:id="@+id/action_eventos_to_detailEvent"
+            app:destination="@id/detailEvent" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_nuevoEvento"
+        app:destination="@id/nuevoEvento" />
 
 </navigation>
