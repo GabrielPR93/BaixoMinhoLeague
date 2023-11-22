@@ -16,7 +16,11 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.net.toUri
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.example.baixominholeague.databinding.ActivityNuevoEventoBinding
+import com.example.baixominholeague.ui.menu.Inicio.EventosFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -29,6 +33,7 @@ class NuevoEvento : AppCompatActivity() {
     companion object {
         const val USUARIO_PUBLICADOR = "usuarioPublicador"
     }
+
 
     private lateinit var binding: ActivityNuevoEventoBinding
     private val db = FirebaseFirestore.getInstance()
@@ -43,7 +48,6 @@ class NuevoEvento : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityNuevoEventoBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         nombreUsuario = intent.getStringExtra(USUARIO_PUBLICADOR)
 
         setupUI()
@@ -264,15 +268,16 @@ class NuevoEvento : AppCompatActivity() {
                                     .set(evento)
                                     .addOnSuccessListener {
                                         showToast("Guardado correctamente")
-
                                     }
                                     .addOnFailureListener { e ->
                                         showToast("Error al guardar los datos")
                                     }
                                     .addOnCompleteListener {
                                         binding.progresBar.visibility = View.GONE
+                                        //eventosUpdateListener?.onEventoAddedAndClosed()
                                         setResult(Activity.RESULT_OK)
                                         finish()
+
                                     }
                             }
                         }
@@ -294,8 +299,11 @@ class NuevoEvento : AppCompatActivity() {
                             }
                             .addOnCompleteListener {
                                 binding.progresBar.visibility = View.GONE
+                                //eventosUpdateListener?.onEventoAddedAndClosed()
                                 setResult(Activity.RESULT_OK)
                                 finish()
+
+
                             }
                     }
                 } else {
@@ -308,9 +316,7 @@ class NuevoEvento : AppCompatActivity() {
                 showToast("Error al verificar el nombre del evento")
                 binding.progresBar.visibility = View.GONE
             }
-
     }
-
 
     // Función para convertir una fecha y hora en un objeto Timestamp
     private fun getTimestampFromDateAndTime(date: String, time: String): Timestamp {

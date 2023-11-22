@@ -9,11 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import com.example.baixominholeague.R
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.viewpager2.widget.ViewPager2
 import com.example.baixominholeague.data.Evento
 import com.example.baixominholeague.databinding.FragmentEventosBinding
 import com.example.baixominholeague.recyclerViewEventos.EventoAdapter
@@ -23,15 +19,29 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
 
+
 class EventosFragment : Fragment() {
 
-
     private var _binding: FragmentEventosBinding? = null
+
     private val binding get() = _binding!!
     private val db = FirebaseFirestore.getInstance()
     private val storageRef = FirebaseStorage.getInstance().reference
     private lateinit var eventoAdapter: EventoAdapter
     private val correo = FirebaseAuth.getInstance().currentUser?.email
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.reyclerView.adapter = eventoAdapter
+        binding.reyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.progresBarEvents.visibility=View.VISIBLE
+
+        if (correo != null) {
+            getEventsOrderByDate(correo)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,20 +49,15 @@ class EventosFragment : Fragment() {
     ): View? {
         _binding = FragmentEventosBinding.inflate(inflater,container,false)
         val view = binding.root
-        ensureEventoAdapterInitialized()
+       ensureEventoAdapterInitialized()
+//
 
-        binding.progresBarEvents.visibility=View.VISIBLE
         //eventoAdapter = EventoAdapter(emptyList(),::eliminarEvento){nombreEvento -> navigateToDetailEvent(nombreEvento) }
-        binding.reyclerView.adapter = eventoAdapter
-        binding.reyclerView.layoutManager = LinearLayoutManager(requireContext())
 
 
-        if (correo != null) {
-            getEventsOrderByDate(correo)
-        }
-        Log.i("GABRI","SE CREOOOOO BIEN: ${eventoAdapter.toString()}")
         return view
     }
+
 
     fun ensureEventoAdapterInitialized() {
         if (!::eventoAdapter.isInitialized) {
@@ -64,14 +69,11 @@ class EventosFragment : Fragment() {
     }
 
 
-
-
-
-
     fun updateEventList(){
         ensureEventoAdapterInitialized()
 
         if (correo != null) {
+            Log.i("Gabriele","EJECUTADOOOO")
             getEventsOrderByDate(correo)
             eventoAdapter.notifyDataSetChanged()
         }
@@ -146,6 +148,7 @@ class EventosFragment : Fragment() {
         intent.putExtra(DetailEvent.NAME_EVENT,nombre)
         startActivity(intent)
     }
+
 //    private fun navigateToDetailEvent(nombre:String){
 //        findNavController().navigate(R.id.action_eventosFragment_to_detailEvent)
 //    }

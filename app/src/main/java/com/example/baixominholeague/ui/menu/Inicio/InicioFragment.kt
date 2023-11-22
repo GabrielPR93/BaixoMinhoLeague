@@ -1,11 +1,14 @@
 package com.example.baixominholeague.ui.menu.Inicio
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.example.baixominholeague.R
 import com.example.baixominholeague.databinding.FragmentInicioBinding
@@ -19,7 +22,6 @@ class InicioFragment : Fragment(){
     private var adapter : ViewPagerAdapter? = null
 
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,7 +33,7 @@ class InicioFragment : Fragment(){
         return view
     }
 
-        private fun viewPager(){
+        fun viewPager(){
         val viewPager: ViewPager2 = binding.viewPager
         val tabs: TabLayout = binding.tabs
 
@@ -47,5 +49,4 @@ class InicioFragment : Fragment(){
         }.attach()
         binding.viewPager.currentItem=0
     }
-
 }

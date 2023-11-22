@@ -1,11 +1,13 @@
 package com.example.baixominholeague
 
 import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
@@ -15,6 +17,8 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.baixominholeague.databinding.ActivityMainBinding
+import com.example.baixominholeague.ui.menu.Inicio.EventosFragment
+import com.example.baixominholeague.ui.menu.Inicio.InicioFragment
 import com.example.baixominholeague.ui.menu.Perfil.PerfilFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -84,14 +88,16 @@ class MainActivity : AppCompatActivity() {
             navController = navHost.navController
             binding.bottomNavigation.setupWithNavController(navController)
 
-            binding.floatinButton.setOnClickListener { navController.navigate(R.id.action_global_nuevoEvento) }
+            binding.floatinButton.setOnClickListener {
+                alias?.let { it1 -> navigateToNewEvent(it1)}
+            }
 
     }
 
     private fun loadTheme(){
         val sharedPrefs = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
 
-// Cargar el estado del botón y el tema
+        // Cargar el estado del botón y el tema
         val switchState = sharedPrefs.getBoolean("switchState", false)
         val themeMode = sharedPrefs.getInt("themeMode", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
 
@@ -102,23 +108,14 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    //Actualizar lista de eventos despues de añadir uno nuevo
+//    Actualizar lista de eventos despues de añadir uno nuevo
 //    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 //        super.onActivityResult(requestCode, resultCode, data)
 //
 //        if (requestCode == REQUEST_CODE_NUEVO_EVENTO && resultCode == Activity.RESULT_OK) {
-//            viewPager()
-//            //inicioFragment?.updateEventList()
-//
+//          EventosFragment().updateEventList()
 //        }
 //    }
-
-
-    private fun navigateToNewEvent(Usuario: String) {
-        val intent = Intent(this, NuevoEvento::class.java)
-        intent.putExtra(NuevoEvento.USUARIO_PUBLICADOR, Usuario)
-        startActivityForResult(intent, REQUEST_CODE_NUEVO_EVENTO)
-    }
 
     //Precarga de la imagen de perfil
     private fun loadFoto(foto: String?) {
@@ -176,6 +173,17 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+    //Actualizar lista de eventos despues de añadir uno nuevo
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == REQUEST_CODE_NUEVO_EVENTO && resultCode == Activity.RESULT_OK) {
+            val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
+            val inicioFragment = navHostFragment.childFragmentManager.fragments.firstOrNull { it is InicioFragment } as? InicioFragment
+            inicioFragment?.viewPager()
+
+        }
+    }
 
     private fun getDataBd(correo: String) {
         db.collection("users").document(correo).get()
@@ -217,6 +225,11 @@ class MainActivity : AppCompatActivity() {
             getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE).edit()
         prefs.putString("email", correo)
         prefs.apply()
+    }
+    private fun navigateToNewEvent(Usuario: String) {
+        val intent = Intent(this, NuevoEvento::class.java)
+        intent.putExtra(NuevoEvento.USUARIO_PUBLICADOR, Usuario)
+        startActivityForResult(intent, REQUEST_CODE_NUEVO_EVENTO)
     }
 
 //    private fun replaceFragment(fragment: Fragment) {

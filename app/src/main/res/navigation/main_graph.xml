@@ -24,6 +24,7 @@
         android:name="com.example.baixominholeague.ui.menu.Inicio.NovedadesFragment"
         android:label="fragment_novedades"
         tools:layout="@layout/fragment_novedades" />
+
     <fragment
         android:id="@+id/perfilFragment"
         android:name="com.example.baixominholeague.ui.menu.Perfil.PerfilFragment"
@@ -32,6 +33,9 @@
         <action
             android:id="@+id/action_perfilFragment_to_configuracion"
             app:destination="@id/configuracion" />
+        <action
+            android:id="@+id/action_perfilFragment_to_addPlayerAndTournament"
+            app:destination="@id/addPlayerAndTournament" />
     </fragment>
     <activity
         android:id="@+id/configuracion"
@@ -69,11 +73,13 @@
         android:label="activity_login"
         tools:layout="@layout/activity_login"/>
 
+
     <activity
         android:id="@+id/nuevoEvento"
         android:name="com.example.baixominholeague.NuevoEvento"
         android:label="activity_nuevo_evento"
         tools:layout="@layout/activity_nuevo_evento" />
+
     <activity
         android:id="@+id/participantesActivity"
         android:name="com.example.baixominholeague.ui.menu.Inicio.ParticipantesActivity"
