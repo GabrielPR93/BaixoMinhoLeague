@@ -1,8 +1,7 @@
-package com.example.baixominholeague.recyclerViewEventos
+package com.example.baixominholeague.ui.menu.Inicio.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.baixominholeague.R
 import com.example.baixominholeague.data.Evento

@@ -1,4 +1,4 @@
-package com.example.baixominholeague.ui.menu.Inicio.recyclerViewParticipantes
+package com.example.baixominholeague.ui.menu.Inicio.adapter.adapterParticipantes
 
 import android.net.Uri
 import android.util.Log

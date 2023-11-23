@@ -1,4 +1,4 @@
-package com.example.baixominholeague.recyclerViewJugadores
+package com.example.baixominholeague.ui.menu.Jugadores.adapter
 
 import android.util.Log
 import android.view.LayoutInflater

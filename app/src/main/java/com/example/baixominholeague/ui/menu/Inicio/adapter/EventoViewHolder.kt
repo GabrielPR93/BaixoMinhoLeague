@@ -1,12 +1,10 @@
-package com.example.baixominholeague.recyclerViewEventos
+package com.example.baixominholeague.ui.menu.Inicio.adapter
 
 import android.icu.text.SimpleDateFormat
 import android.view.View
-import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.baixominholeague.data.Evento
 import com.example.baixominholeague.databinding.ItemEventBinding
-import com.example.baixominholeague.ui.menu.Inicio.EventosFragmentDirections
 import com.example.baixominholeague.ui.menu.Perfil.PerfilFragment.Companion.CORREO_ADMIN
 import com.google.firebase.auth.FirebaseAuth
 import java.util.*

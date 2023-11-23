@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.baixominholeague.data.Participante
 import com.example.baixominholeague.databinding.ActivityParticipantesBinding
-import com.example.baixominholeague.ui.menu.Inicio.recyclerViewParticipantes.ParticipantesAdapter
+import com.example.baixominholeague.ui.menu.Inicio.adapter.adapterParticipantes.ParticipantesAdapter
 import com.google.firebase.firestore.FirebaseFirestore
 
 class ParticipantesActivity : AppCompatActivity() {

@@ -12,7 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.baixominholeague.data.Evento
 import com.example.baixominholeague.databinding.FragmentEventosBinding
-import com.example.baixominholeague.recyclerViewEventos.EventoAdapter
+import com.example.baixominholeague.ui.menu.Inicio.adapter.EventoAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore

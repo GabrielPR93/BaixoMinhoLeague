@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/clasificacionFragment"
-        android:name="com.example.baixominholeague.ui.menu.ClasificacionFragment"
+        android:name="com.example.baixominholeague.ui.menu.Clasificacion.ClasificacionFragment"
         android:label="fragment_clasificacion"
         tools:layout="@layout/fragment_clasificacion" />
     <fragment

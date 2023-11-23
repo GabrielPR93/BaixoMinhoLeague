@@ -3,6 +3,22 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="prefs_file">com.example.baixominholeague.PREFERENCE_FILE_KEY</string>
 
+    <!-- Ligas -->
+    <array name="liga_options">
+        <item>Liga do BaixoMiño</item>
+        <item>Liga de Prueba</item>
+        <!-- Agrega más opciones según sea necesario -->
+    </array>
+
+    <string-array name="division_options_LigadoBaixoMiño">
+        <item>1ª División</item>
+        <item>2ª División</item>
+    </string-array>
+
+    <string-array name="division_options_LigadePrueba">
+        <item>3ª División</item>
+    </string-array>
+
     <!-- BottomBar -->
     <string name="inicio">Inicio</string>
     <string name="buscar">Buscar</string>
@@ -12,5 +28,9 @@
     <!-- ViewPager -->
     <string name="eventos">Eventos</string>
     <string name="noticias">Noticias</string>
+    <!-- ViewPagerClasificacion -->
+    <string name="Clasificación">Clasificación</string>
+    <string name="Jornadas">Jornadas</string>
+    <string name="choose_option1">Selecciona una Liga</string>
 
 </resources>

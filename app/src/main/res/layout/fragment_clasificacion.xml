@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.menu.ClasificacionFragment">
+    tools:context=".ui.menu.Clasificacion.ClasificacionFragment">
 
     <ProgressBar
         android:id="@+id/ProgresBarClasi"
@@ -26,34 +26,87 @@
         android:paddingTop="20dp"
         android:paddingBottom="47dp"
         android:text="CLasificación"
-
         android:textColor="@android:color/white"
         android:textSize="40sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <HorizontalScrollView
+    <LinearLayout
+        android:id="@+id/linearFiltro"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:background="?attr/customColorValue"
+        app:layout_constraintTop_toBottomOf="@id/cabeceraClasi"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal">
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <Spinner
+            android:id="@+id/spinnerLiga"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="25dp"
+            android:prompt="@string/choose_option1"/>
 
-            <TableLayout
-                android:id="@+id/tableLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="98dp"
-                android:paddingBottom="150dp"
-                android:elevation="1dp"
-                app:layout_constraintTop_toBottomOf="@id/cabeceraClasi"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:showDividers="middle"
-                android:divider="?attr/colorPrimaryVariant"
-                android:background="?attr/colorSurface"/>
-        </ScrollView>
-    </HorizontalScrollView>
+        <!-- Segunda lista desplegable -->
+        <Spinner
+            android:id="@+id/spinnerDivision"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:prompt="@string/choose_option1"/>
+    </LinearLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPagerClasificacion"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="180dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabsClasificacion"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="top|center"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linearFiltro"
+        app:tabGravity="fill"
+        app:tabMode="fixed" />
+
+
+
+
+<!--    <HorizontalScrollView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent">-->
+
+<!--        <ScrollView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent">-->
+
+<!--            <TableLayout-->
+<!--                android:id="@+id/tableLayout"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="98dp"-->
+<!--                android:paddingBottom="150dp"-->
+<!--                android:elevation="1dp"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/cabeceraClasi"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                android:showDividers="middle"-->
+<!--                android:divider="?attr/colorPrimaryVariant"-->
+<!--                android:background="?attr/colorSurface"/>-->
+<!--        </ScrollView>-->
+<!--    </HorizontalScrollView>-->
 </androidx.constraintlayout.widget.ConstraintLayout>

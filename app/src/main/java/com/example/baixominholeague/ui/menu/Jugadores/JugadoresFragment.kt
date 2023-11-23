@@ -12,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.baixominholeague.data.Jugador
 import com.example.baixominholeague.databinding.FragmentJugadoresBinding
-import com.example.baixominholeague.recyclerViewJugadores.JugadorAdapter
+import com.example.baixominholeague.ui.menu.Jugadores.adapter.JugadorAdapter
 import com.google.firebase.firestore.FirebaseFirestore
 
 class JugadoresFragment : Fragment() {

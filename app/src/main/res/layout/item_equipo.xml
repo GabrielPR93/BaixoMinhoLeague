@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <ProgressBar
+        android:id="@+id/progresBarParticipante"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="11dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/framelayoutParticipantes"
+        app:layout_constraintStart_toStartOf="@+id/framelayoutParticipantes"
+        app:layout_constraintTop_toTopOf="@+id/framelayoutParticipantes" />
+
+    <FrameLayout
+        android:id="@+id/framelayoutParticipantes"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:elevation="10dp"
+        android:layout_marginStart="-10dp"
+        android:layout_marginTop="-10dp"
+        app:layout_constraintStart_toStartOf="@id/cardViewParticipante"
+        app:layout_constraintTop_toTopOf="@id/cardViewParticipante">
+
+        <!-- ShapeableImageView para el borde -->
+        <TextView
+            android:id="@+id/tvPosicion"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            style="@style/textoStyleBoldGreen"
+            android:textSize="20dp"
+            tools:text="1º"
+            android:background="@drawable/circle_blue_border"
+            app:shapeAppearanceOverlay="@style/CircleImageView" />
+
+
+
+
+    </FrameLayout>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewParticipante"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="10dp"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintStart_toEndOf="@id/framelayoutParticipantes"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <TextView
+                android:id="@+id/tvNombreEquipo"
+                style="@style/textoStyleBoldGreen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:gravity="start"
+                android:paddingStart="7dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="2dp"
+                android:textSize="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Gabri" />
+
+
+
+            <TextView
+                android:id="@+id/tvPuntuacion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="25dp"
+                android:gravity="start"
+                android:paddingTop="7dp"
+                android:paddingStart="7dp"
+                android:paddingBottom="2dp"
+                style="@style/textoStyleBoldGreen"
+                android:textSize="16dp"
+                app:layout_constraintEnd_toEndOf="@id/linearPartidosJugados"
+                app:layout_constraintStart_toStartOf="@id/linearPartidosJugados"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="35 Pts" />
+
+            <LinearLayout
+                android:id="@+id/linearPartidosJugados"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvPuntuacion">
+
+                <TextView
+                    android:id="@+id/tvPartidosJugados"
+                    style="@style/textoStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:gravity="start"
+                    android:paddingStart="7dp"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="2dp"
+                    android:textSize="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="PJ:10" />
+
+                <TextView
+                    android:id="@+id/tvPartidosGanados"
+                    style="@style/textoStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:gravity="start"
+                    android:paddingStart="7dp"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="2dp"
+                    android:textSize="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="G:10" />
+                <TextView
+                    android:id="@+id/tvPartidosEmpatados"
+                    style="@style/textoStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:gravity="start"
+                    android:paddingStart="7dp"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="2dp"
+                    android:textSize="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="E:10" />
+                <TextView
+                    android:id="@+id/tvPartidosPerdidos"
+                    style="@style/textoStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:gravity="start"
+                    android:paddingStart="7dp"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="2dp"
+                    android:textSize="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="P:10" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,10 +1,9 @@
-package com.example.baixominholeague.ui.menu.Inicio.recyclerViewParticipantes
+package com.example.baixominholeague.ui.menu.Inicio.adapter.adapterParticipantes
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.baixominholeague.R
-import com.example.baixominholeague.data.Evento
 import com.example.baixominholeague.data.Participante
 
 class ParticipantesAdapter (private var participantes: List<Participante>): RecyclerView.Adapter<ParticipanteViewHolder>() {
