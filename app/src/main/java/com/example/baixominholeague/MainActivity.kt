@@ -14,9 +14,12 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.baixominholeague.databinding.ActivityMainBinding
+import com.example.baixominholeague.ui.menu.Clasificacion.ClasificacionFragment
+import com.example.baixominholeague.ui.menu.Clasificacion.ClasificacionGeneralFragment
 import com.example.baixominholeague.ui.menu.Inicio.EventosFragment
 import com.example.baixominholeague.ui.menu.Inicio.InicioFragment
 import com.example.baixominholeague.ui.menu.Perfil.PerfilFragment
@@ -60,6 +63,7 @@ class MainActivity : AppCompatActivity() {
         const val CLAVE_OTROS = "otros"
         const val CLAVE_FOTO = "foto"
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
