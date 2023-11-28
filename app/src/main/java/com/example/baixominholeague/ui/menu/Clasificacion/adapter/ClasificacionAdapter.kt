@@ -20,7 +20,6 @@ class ClasificacionAdapter(private var equipos: List<Equipo> = emptyList()): Rec
        holder.bind(equipos[position],position)
     }
 
-    override fun getItemCount(): Int {
-        return equipos.size
-    }
+    override fun getItemCount() = equipos.size
+
 }

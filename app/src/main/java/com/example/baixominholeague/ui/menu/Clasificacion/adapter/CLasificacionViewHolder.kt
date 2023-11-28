@@ -10,8 +10,8 @@ class CLasificacionViewHolder(view: View): RecyclerView.ViewHolder(view) {
     private val binding = ItemEquipoBinding.bind(view)
 
     fun bind(equipo: Equipo,position: Int){
-
-        binding.tvNombreEquipo.setText(equipo.nombre)
+        val context = binding.tvNombreEquipo.context
+        binding.tvNombreEquipo.text = equipo.nombre.toString()
         binding.tvPosicion.text = (position+1).toString()
         binding.tvPuntuacion.setText("98 Pts")
         binding.tvPartidosJugados.setText("PJ:10")
@@ -21,3 +21,5 @@ class CLasificacionViewHolder(view: View): RecyclerView.ViewHolder(view) {
 
     }
 }
+
+

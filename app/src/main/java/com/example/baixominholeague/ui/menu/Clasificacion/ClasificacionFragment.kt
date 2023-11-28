@@ -12,24 +12,18 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.Navigation
 import androidx.viewpager2.widget.ViewPager2
 import com.example.baixominholeague.R
 import com.example.baixominholeague.data.Jugador
 import com.example.baixominholeague.databinding.FragmentClasificacionBinding
-import com.example.baixominholeague.ui.menu.Inicio.EventosFragment
 import com.example.baixominholeague.ui.menu.Inicio.NovedadesFragment
-import com.example.baixominholeague.ui.menu.Inicio.ViewPagerAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import com.example.baixominholeague.data.Liga
 import com.example.baixominholeague.ui.menu.Clasificacion.adapter.OnSpinnerSelectedListener
 import com.example.baixominholeague.ui.menu.Clasificacion.adapter.ViewPagerAdapterClasificacion
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ClasificacionFragment : Fragment(), OnSpinnerSelectedListener {
@@ -39,44 +33,12 @@ class ClasificacionFragment : Fragment(), OnSpinnerSelectedListener {
     private var setupExecuted = false
     private val db = FirebaseFirestore.getInstance()
     private var adapter: ViewPagerAdapterClasificacion? = null
-    private val listaLigas: MutableList<Liga> = mutableListOf()
     private var isFirstCreation = true
 
 
-    private val ligaViewModel by viewModels<ClasificacionViewModel>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-//        if (isFirstCreation) {
-//            lifecycleScope.launch(Dispatchers.Main) {
-//                try {
-//                    obtenerDatosLigas()
-//                    Log.i("Gabri", "Tamaño de listaLigases: ${listaLigas.size}")
-//                } catch (e: Exception) {
-//                    Log.e("Gabri", "Error en la corrutina: $e")
-//                }
-//            }
-//            isFirstCreation = false
-//        }
         initUI()
-
-    }
-
-    private fun initUI() {
-        initUIState()
-    }
-
-    private fun initUIState() {
-//        lifecycleScope.launch {
-//            repeatOnLifecycle(Lifecycle.State.STARTED){
-//                ligaViewModel.listaLigas.collect{listaLigas ->
-//                    Spinners(listaLigas)
-//                }
-//            }
-//        }
-        viewPager()
-        Spinners()
-
     }
 
     override fun onCreateView(
@@ -86,16 +48,22 @@ class ClasificacionFragment : Fragment(), OnSpinnerSelectedListener {
         _binding = FragmentClasificacionBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        setupPlayers()
-
-
         return view
+    }
+    private fun initUI() {
+        // setupPlayers()
+        viewPager()
+        Spinners()
+
     }
 
     override fun onLigaSelected(selectedLiga: String, selectedDivision: String) {
         val fragmentClasificacionGeneral = adapter?.getFragment(0) as? ClasificacionGeneralFragment
         fragmentClasificacionGeneral?.onLigaSelected(selectedLiga,selectedDivision)
+        Log.i("GAbri","PPPPPPPP -> $fragmentClasificacionGeneral")
+
     }
+
 
     fun viewPager() {
         val viewPager: ViewPager2 = binding.viewPagerClasificacion
