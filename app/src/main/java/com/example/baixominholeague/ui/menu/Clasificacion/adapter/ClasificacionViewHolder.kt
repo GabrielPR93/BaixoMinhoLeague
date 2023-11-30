@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.baixominholeague.data.Equipo
 import com.example.baixominholeague.databinding.ItemEquipoBinding
 
-class CLasificacionViewHolder(view: View): RecyclerView.ViewHolder(view) {
+class ClasificacionViewHolder(view: View): RecyclerView.ViewHolder(view) {
 
     private val binding = ItemEquipoBinding.bind(view)
 

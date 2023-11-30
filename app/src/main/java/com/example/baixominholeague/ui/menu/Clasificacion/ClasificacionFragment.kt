@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -16,12 +17,12 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.baixominholeague.R
 import com.example.baixominholeague.data.Jugador
 import com.example.baixominholeague.databinding.FragmentClasificacionBinding
-import com.example.baixominholeague.ui.menu.Inicio.NovedadesFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.firestore.FirebaseFirestore
 import com.example.baixominholeague.ui.menu.Clasificacion.adapter.OnSpinnerSelectedListener
 import com.example.baixominholeague.ui.menu.Clasificacion.adapter.ViewPagerAdapterClasificacion
+import com.example.baixominholeague.ui.menu.Inicio.NovedadesFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -30,11 +31,9 @@ class ClasificacionFragment : Fragment(), OnSpinnerSelectedListener {
 
     private var _binding: FragmentClasificacionBinding? = null
     private val binding get() = _binding!!
-    private var setupExecuted = false
-    private val db = FirebaseFirestore.getInstance()
     private var adapter: ViewPagerAdapterClasificacion? = null
     private var isFirstCreation = true
-
+    private val clasificacionViewModel by activityViewModels<ClasificacionViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -50,33 +49,27 @@ class ClasificacionFragment : Fragment(), OnSpinnerSelectedListener {
 
         return view
     }
+
     private fun initUI() {
-        // setupPlayers()
         viewPager()
         Spinners()
-
     }
 
     override fun onLigaSelected(selectedLiga: String, selectedDivision: String) {
-        val fragmentClasificacionGeneral = adapter?.getFragment(0) as? ClasificacionGeneralFragment
-        fragmentClasificacionGeneral?.onLigaSelected(selectedLiga,selectedDivision)
-        Log.i("GAbri","PPPPPPPP -> $fragmentClasificacionGeneral")
-
+        if (!selectedLiga.isNullOrEmpty() && !selectedDivision.isNullOrEmpty()) {
+            clasificacionViewModel.obtenerDatos(selectedLiga, selectedDivision)
+            Log.i("GAbri", "Se jecuto ONLIGA: $selectedLiga y $selectedDivision")
+        }
     }
-
 
     fun viewPager() {
         val viewPager: ViewPager2 = binding.viewPagerClasificacion
         val tabs: TabLayout = binding.tabsClasificacion
 
         val fragments = listOf(ClasificacionGeneralFragment(), NovedadesFragment())
+
         adapter = ViewPagerAdapterClasificacion(requireActivity(), fragments)
         viewPager.adapter = adapter
-
-
-        val clasificacionGeneral = adapter?.getFragment(0) as? ClasificacionGeneralFragment
-        clasificacionGeneral?.setCommunicationListener(this)
-
 
         TabLayoutMediator(tabs, viewPager) { tab, position ->
             when (position) {
@@ -96,7 +89,10 @@ class ClasificacionFragment : Fragment(), OnSpinnerSelectedListener {
         val nombreLiga = resources.getStringArray(R.array.liga_options).toList()
         val divisiones = mutableListOf<String>()
 
-        Log.i("GAbri","Tamaño listas: ${nombreLiga.size.toString()} y ${divisiones.size.toString()}")
+        Log.i(
+            "GAbri",
+            "Tamaño listas: ${nombreLiga.size.toString()} y ${divisiones.size.toString()}"
+        )
 
         // Crear adaptadores para los Spinners
         val adapterSpinner1 = ArrayAdapter(
@@ -126,7 +122,7 @@ class ClasificacionFragment : Fragment(), OnSpinnerSelectedListener {
             ) {
                 divisiones.clear()
                 val seleccionLiga = nombreLiga[position]
-                Log.i("GAbri","Spiner1:Liga  $seleccionLiga")
+                Log.i("GAbri", "Spiner1:Liga  $seleccionLiga")
 
                 val divisionOptionsResourceId = resources.getIdentifier(
                     "division_options_${quitarEspacios(seleccionLiga)}",
@@ -138,11 +134,15 @@ class ClasificacionFragment : Fragment(), OnSpinnerSelectedListener {
                         resources.getStringArray(divisionOptionsResourceId).toList()
                     divisiones.addAll(divisionOptions)
                 }
+                binding.spinnerDivision.setSelection(0)
                 // Notificar al adaptador del segundo Spinner sobre el cambio en los datos
                 adapterSpinner2.notifyDataSetChanged()
-                binding.spinnerDivision.setSelection(0)
+
                 val seleccionDivision = binding.spinnerDivision.selectedItem?.toString() ?: ""
-                onLigaSelected(seleccionLiga,seleccionDivision)
+                onLigaSelected(seleccionLiga, seleccionDivision)
+                Log.i("GAbri", "SPINNER 1 :$seleccionLiga y $seleccionDivision")
+
+
             }
 
             override fun onNothingSelected(parentView: AdapterView<*>?) {
@@ -158,13 +158,12 @@ class ClasificacionFragment : Fragment(), OnSpinnerSelectedListener {
                     position: Int,
                     id: Long
                 ) {
-                    val ligaSeleccionada = binding.spinnerLiga.selectedItem?.toString()
-                    Log.i("GAbri","Spiner2:LIga $ligaSeleccionada")
-                    val divisionSeleccionada = divisiones[position]
-                    Log.i("GAbri","Spiner2:Division $divisionSeleccionada")
-                    if (ligaSeleccionada != null && divisionSeleccionada != null) {
-                        //onDivisionSelected(ligaSeleccionada, divisionSeleccionada)
-                        onLigaSelected(ligaSeleccionada,divisionSeleccionada)
+                    val seleccionLiga = binding.spinnerLiga.selectedItem?.toString()
+                    val seleccionDivision = divisiones[position]
+                    if (seleccionLiga != null && seleccionDivision != null) {
+                        onLigaSelected(seleccionLiga, seleccionDivision)
+                        isFirstCreation = true
+                        Log.i("GAbri", "SPINNER 2 :$seleccionLiga y $seleccionDivision")
                     }
                 }
 
@@ -172,25 +171,5 @@ class ClasificacionFragment : Fragment(), OnSpinnerSelectedListener {
                     // No se ha seleccionado nada
                 }
             }
-    }
-
-    private fun setupPlayers() {
-        //Obtiene todos los jugadores
-        val jugadoresCollectionRef = db.collection("jugadores")
-
-        jugadoresCollectionRef.get().addOnSuccessListener {
-            val jugadores = mutableListOf<Jugador>()
-            if (!setupExecuted) {
-                for (document in it) {
-                    val jugador = document.toObject(Jugador::class.java)
-                    if (jugador != null) {
-
-                        jugadores.add(jugador)
-                    }
-                }
-                setupExecuted = true
-                //saveData(jugadores)
-            }
-        }
     }
 }

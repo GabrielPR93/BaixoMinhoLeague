@@ -1,8 +1,12 @@
 package com.example.baixominholeague.ui.menu.Clasificacion
 
+import android.content.Context
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.baixominholeague.R
 import com.example.baixominholeague.data.Equipo
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,11 +21,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ClasificacionViewModel @Inject constructor() : ViewModel() {
-    private val _listaEquipos = MutableSharedFlow<List<Equipo>>(replay = 1)
-    val listaEquipos: SharedFlow<List<Equipo>> = _listaEquipos.asSharedFlow()
-
+    private val _listaEquipos = MutableStateFlow<List<Equipo>>(emptyList())
+    val listaEquipos: MutableStateFlow<List<Equipo>> = _listaEquipos
     private val db = FirebaseFirestore.getInstance()
 
+    val nombreLiga = "Liga do BaixoMiño"
+    val nombreDivision = "1ª División"
+
+    init {
+        obtenerDatos(nombreLiga,nombreDivision)
+    }
     fun obtenerDatos(liga: String, division: String) {
         val equipoRef = db.collection("equipos").document(liga)
         viewModelScope.launch {
@@ -38,7 +47,7 @@ class ClasificacionViewModel @Inject constructor() : ViewModel() {
                             )
                         }
                         val equiposFiltrados = equipos.filter { equipo -> equipo.division == division }
-                        _listaEquipos.emit(equiposFiltrados)
+                        _listaEquipos.value=equiposFiltrados
                     } else {
                         println("No se encontró la matriz 'equipos' en el documento")
                     }

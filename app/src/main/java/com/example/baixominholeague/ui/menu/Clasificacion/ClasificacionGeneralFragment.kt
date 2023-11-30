@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
@@ -24,21 +25,16 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class ClasificacionGeneralFragment : Fragment(), OnSpinnerSelectedListener {
+class ClasificacionGeneralFragment : Fragment() {
 
     private var _binding: FragmentClasificacionGeneralBinding? = null
     private val binding get() = _binding!!
     private lateinit var equipoAdapter: ClasificacionAdapter
-    private var spinnerSelectedListener: OnSpinnerSelectedListener? = null
-    private val listaEquipos: MutableList<Equipo> = mutableListOf()
-
-    private val clasificacionViewModel by viewModels<ClasificacionViewModel>()
-
+    private val clasificacionViewModel by activityViewModels<ClasificacionViewModel>()
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initUI()
     }
 
@@ -48,40 +44,32 @@ class ClasificacionGeneralFragment : Fragment(), OnSpinnerSelectedListener {
     ): View? {
         _binding = FragmentClasificacionGeneralBinding.inflate(inflater, container, false)
         val view = binding.root
-        Log.i("GAbri","SE CREO CALSIFICACION GENERAL **************")
+
         return view
     }
+
     private fun initUI() {
         initUIState()
-        equipoAdapter= ClasificacionAdapter(emptyList())
-        binding.recyclerViewClasificacion.adapter = equipoAdapter
-        binding.recyclerViewClasificacion.layoutManager = LinearLayoutManager(requireContext())
+        initList()
     }
 
-    private fun initUIState(){
+    private fun initList() {
+        equipoAdapter = ClasificacionAdapter()
+        binding.recyclerViewClasificacion.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = equipoAdapter
+        }
+    }
+
+    private fun initUIState() {
 
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                clasificacionViewModel.listaEquipos.collect{
-                     equipoAdapter.updateList(it)
-                    Log.i("GAbri","SE INICIOOOO + $it")
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                clasificacionViewModel.listaEquipos.collect {
+                    equipoAdapter.updateList(it)
                 }
             }
         }
     }
-    fun setCommunicationListener(listener: OnSpinnerSelectedListener) {
-        this.spinnerSelectedListener = listener
-    }
-    fun updateData(selectedLiga: String, selectedDivision: String){
-        Log.i("GAbri","CAMBIOOOOOOO: $selectedLiga y $selectedDivision")
-        if(isAdded && !isDetached){
-            if(selectedLiga!=null && selectedDivision!=null){
-                clasificacionViewModel.obtenerDatos(selectedLiga,selectedDivision)
-            }
-        }
-    }
-    override fun onLigaSelected(selectedLiga: String, selectedDivision: String) {
-        updateData(selectedLiga,selectedDivision)
-    }
-
 }
+

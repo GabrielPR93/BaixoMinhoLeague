@@ -6,17 +6,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.baixominholeague.R
 import com.example.baixominholeague.data.Equipo
 
-class ClasificacionAdapter(private var equipos: List<Equipo> = emptyList()): RecyclerView.Adapter<CLasificacionViewHolder>() {
+class ClasificacionAdapter(private var equipos: List<Equipo> = emptyList()): RecyclerView.Adapter<ClasificacionViewHolder>() {
     fun updateList(equipos: List<Equipo>){
         this.equipos=equipos
         notifyDataSetChanged()
 
     }
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CLasificacionViewHolder {
-       return CLasificacionViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_equipo,parent,false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClasificacionViewHolder {
+       return ClasificacionViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_equipo,parent,false))
     }
 
-    override fun onBindViewHolder(holder: CLasificacionViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ClasificacionViewHolder, position: Int) {
        holder.bind(equipos[position],position)
     }
 
