@@ -32,7 +32,8 @@ class ClasificacionFragment : Fragment(), OnSpinnerSelectedListener {
     private var _binding: FragmentClasificacionBinding? = null
     private val binding get() = _binding!!
     private var adapter: ViewPagerAdapterClasificacion? = null
-    private var isFirstCreation = true
+    private var seleccionDivisionSpinner1 = ""
+    private var seleccionLigaSpinner1 = ""
     private val clasificacionViewModel by activityViewModels<ClasificacionViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -58,7 +59,6 @@ class ClasificacionFragment : Fragment(), OnSpinnerSelectedListener {
     override fun onLigaSelected(selectedLiga: String, selectedDivision: String) {
         if (!selectedLiga.isNullOrEmpty() && !selectedDivision.isNullOrEmpty()) {
             clasificacionViewModel.obtenerDatos(selectedLiga, selectedDivision)
-            Log.i("GAbri", "Se jecuto ONLIGA: $selectedLiga y $selectedDivision")
         }
     }
 
@@ -84,15 +84,11 @@ class ClasificacionFragment : Fragment(), OnSpinnerSelectedListener {
         return frase.replace("\\s+".toRegex(), "")
     }
 
+
     fun Spinners() {
 
         val nombreLiga = resources.getStringArray(R.array.liga_options).toList()
         val divisiones = mutableListOf<String>()
-
-        Log.i(
-            "GAbri",
-            "Tamaño listas: ${nombreLiga.size.toString()} y ${divisiones.size.toString()}"
-        )
 
         // Crear adaptadores para los Spinners
         val adapterSpinner1 = ArrayAdapter(
@@ -121,27 +117,24 @@ class ClasificacionFragment : Fragment(), OnSpinnerSelectedListener {
                 id: Long
             ) {
                 divisiones.clear()
-                val seleccionLiga = nombreLiga[position]
-                Log.i("GAbri", "Spiner1:Liga  $seleccionLiga")
+                seleccionLigaSpinner1 = nombreLiga[position]
 
                 val divisionOptionsResourceId = resources.getIdentifier(
-                    "division_options_${quitarEspacios(seleccionLiga)}",
+                    "division_options_${quitarEspacios(seleccionLigaSpinner1)}",
                     "array",
                     requireContext().packageName
                 )
                 if (divisionOptionsResourceId != 0) {
                     val divisionOptions =
-                        resources.getStringArray(divisionOptionsResourceId).toList()
+                        resources.getStringArray(divisionOptionsResourceId)?.toList() ?: emptyList()
                     divisiones.addAll(divisionOptions)
                 }
                 binding.spinnerDivision.setSelection(0)
                 // Notificar al adaptador del segundo Spinner sobre el cambio en los datos
                 adapterSpinner2.notifyDataSetChanged()
 
-                val seleccionDivision = binding.spinnerDivision.selectedItem?.toString() ?: ""
-                onLigaSelected(seleccionLiga, seleccionDivision)
-                Log.i("GAbri", "SPINNER 1 :$seleccionLiga y $seleccionDivision")
-
+                seleccionDivisionSpinner1 = binding.spinnerDivision.selectedItem?.toString() ?: ""
+                onLigaSelected(seleccionLigaSpinner1, seleccionDivisionSpinner1)
 
             }
 
@@ -160,10 +153,15 @@ class ClasificacionFragment : Fragment(), OnSpinnerSelectedListener {
                 ) {
                     val seleccionLiga = binding.spinnerLiga.selectedItem?.toString()
                     val seleccionDivision = divisiones[position]
+
                     if (seleccionLiga != null && seleccionDivision != null) {
-                        onLigaSelected(seleccionLiga, seleccionDivision)
-                        isFirstCreation = true
-                        Log.i("GAbri", "SPINNER 2 :$seleccionLiga y $seleccionDivision")
+                        if(seleccionLiga != seleccionLigaSpinner1 || seleccionDivision != seleccionDivisionSpinner1){
+                            onLigaSelected(seleccionLiga, seleccionDivision)
+
+                            if(seleccionDivision != seleccionDivisionSpinner1){
+                                seleccionDivisionSpinner1=seleccionDivision
+                            }
+                        }
                     }
                 }
 
@@ -172,4 +170,5 @@ class ClasificacionFragment : Fragment(), OnSpinnerSelectedListener {
                 }
             }
     }
+
 }

@@ -13,12 +13,11 @@ class ClasificacionViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val context = binding.tvNombreEquipo.context
         binding.tvNombreEquipo.text = equipo.nombre.toString()
         binding.tvPosicion.text = (position+1).toString()
-        binding.tvPuntuacion.setText("98 Pts")
-        binding.tvPartidosJugados.setText("PJ:10")
-        binding.tvPartidosGanados.setText("G:8")
-        binding.tvPartidosEmpatados.setText("E:10")
-        binding.tvPartidosPerdidos.setText("P:10")
-
+        binding.tvPuntuacion.setText("${equipo.puntos.toString()} Pts")
+        binding.tvPartidosJugados.setText("PJ:${equipo.partidosJugados.toString()}")
+        binding.tvPartidosGanados.setText("G:${equipo.partidosGanados.toString()}")
+        binding.tvPartidosEmpatados.setText("E:${equipo.partidosEmpatados.toString()}")
+        binding.tvPartidosPerdidos.setText("P:${equipo.partidosPerdidos.toString()}")
     }
 }
 
