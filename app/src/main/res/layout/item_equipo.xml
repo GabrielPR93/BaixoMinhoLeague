@@ -54,13 +54,13 @@
         android:layout_marginStart="5dp"
         android:layout_marginEnd="10dp"
         app:cardCornerRadius="10dp"
+        tools:backgroundTint="@color/stBlue"
         app:layout_constraintStart_toEndOf="@id/framelayoutParticipantes"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
 
             <TextView
                 android:id="@+id/tvNombreEquipo"

@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.baixominholeague.R
 import com.example.baixominholeague.data.Equipo
+import com.example.baixominholeague.data.Jugador
 import com.example.baixominholeague.data.Participante
 import com.example.baixominholeague.ui.menu.Inicio.adapter.adapterParticipantes.ParticipantesAdapter
 import com.google.firebase.firestore.FirebaseFirestore
@@ -42,22 +43,37 @@ class ClasificacionViewModel @Inject constructor() : ViewModel() {
                 if (documentSnapshot.exists()) {
                     val equiposArray = documentSnapshot.get("equipos") as? ArrayList<Map<String, Any>>
                     if (equiposArray != null) {
+
                         val equipos = equiposArray.map { equipoMap ->
                             val partidos = equipoMap["partidosTotales"] as Map<String, Any> ?: emptyMap()
+
+                            val jugadoresArray = equipoMap["jugadores"] as? ArrayList<Map<String, Any>>
+                            val jugadores = jugadoresArray?.map { jugadorMap ->
+                                Jugador(
+                                    id = (jugadorMap["id"] as Long).toInt(),
+                                    nombre = jugadorMap["nombre"] as String,
+                                    correo = jugadorMap["correo"] as String
+                                )
+                            } ?: emptyList()
+
                             Equipo(
                                 id = (equipoMap["id"] as Long).toInt(),
-                                nombre = equipoMap["nombre"] as String,
+                                nombreEquipo = equipoMap["nombreEquipo"] as String,
                                 division = equipoMap["division"] as String,
                                 puntos = (partidos["puntos"] as Long).toInt(),
                                 partidosJugados = (partidos["partidosJugados"] as Long).toInt(),
                                 partidosGanados = (partidos["partidosGanados"] as Long).toInt(),
                                 partidosEmpatados = (partidos["partidosEmpatados"] as Long).toInt(),
                                 partidosPerdidos = (partidos["partidosPerdidos"] as Long).toInt(),
+                                jugadores = jugadores
                             )
                         }
-                        val equiposFiltrados = equipos.filter { equipo -> equipo.division == division }
-                            .sortedByDescending { equipo -> equipo.puntos  }
-                        _listaEquipos.value=equiposFiltrados
+
+                        // Filtrar fuera del bloque map
+                        val equiposFiltrados = equipos.filter { it.division == division }
+
+                        _listaEquipos.value = equiposFiltrados.sortedByDescending { it.puntos }
+                        Log.i("GAbri","EQUIPOS: $equipos")
                     } else {
                         println("No se encontró la matriz 'equipos' en el documento")
                     }
@@ -69,4 +85,5 @@ class ClasificacionViewModel @Inject constructor() : ViewModel() {
             }
         }
     }
+
 }

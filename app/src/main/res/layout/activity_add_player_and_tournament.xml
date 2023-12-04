@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.menu.Perfil.AddPlayerAndTournament"
-    android:background="@drawable/top_background">
+    style="@style/fondoEventos">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -111,6 +111,7 @@
                         android:text="Añadir jugador"
                         android:layout_marginTop="30dp"
                         android:background="@drawable/searchbackground"
+                        android:textColor="@color/white"
                         android:elevation="10dp"
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="20dp"
@@ -145,10 +146,10 @@
 
 
                     <TextView
-                        android:id="@+id/tvTituloAddTournament"
+                        android:id="@+id/tvTituloAddEquipo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Añadir Torneo disputado"
+                        android:text="Añadir Equipo"
                         android:fontFamily="@font/hurmebold"
                         android:textSize="18dp"
                         android:layout_marginTop="20dp"
@@ -157,7 +158,7 @@
                         app:layout_constraintTop_toTopOf="parent"/>
 
                     <EditText
-                        android:id="@+id/tvAddTournament"
+                        android:id="@+id/tvAddNombreEquipo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
@@ -165,19 +166,57 @@
                         android:layout_marginStart="30dp"
                         android:layout_marginEnd="10dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvTituloAddTournament"
+                        app:layout_constraintTop_toBottomOf="@id/tvTituloAddEquipo"
                         app:layout_constraintEnd_toEndOf="parent"
-                        android:hint="Nombre del torneo"/>
+                        android:hint="Nombre del Equipo"/>
+
+
+
+                        <Spinner
+                            android:id="@+id/spinnerAddLiga"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginStart="20dp"
+                            android:prompt="@string/choose_option1"
+                            app:layout_constraintTop_toBottomOf="@id/tvAddNombreEquipo"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                        <Spinner
+                            android:id="@+id/spinnerAddDivision"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginStart="20dp"
+                            android:prompt="@string/choose_option1"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/spinnerAddLiga"/>
+
+                    <View
+                        android:id="@+id/viewAdd"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="#72E2E5E8"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/spinnerAddDivision"
+                        android:gravity="center_horizontal" />
+
+
 
                     <LinearLayout
                         android:id="@+id/linearLayoutPlayers"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginTop="20dp"
                         android:layout_marginStart="30dp"
                         android:layout_marginEnd="10dp"
-                        app:layout_constraintTop_toBottomOf="@id/tvAddTournament"
+                        app:layout_constraintTop_toBottomOf="@id/viewAdd"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -196,8 +235,9 @@
                             android:id="@+id/btnAddTournament"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Añadir Torneo"
+                            android:text="Añadir Equipo"
                             android:background="@drawable/searchbackground"
+                            android:textColor="@color/white"
                             android:elevation="10dp"
                             android:layout_marginStart="20dp"
                             android:layout_marginEnd="20dp"

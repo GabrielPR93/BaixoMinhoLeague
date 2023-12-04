@@ -1,18 +1,21 @@
 package com.example.baixominholeague.ui.menu.Perfil
 
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.InputFilter
-import android.text.InputType
-import android.text.method.DigitsKeyListener
 import android.util.Log
 import android.view.View
 import android.widget.*
+import com.example.baixominholeague.R
 import com.example.baixominholeague.data.Jugador
 import com.example.baixominholeague.databinding.ActivityAddPlayerAndTournamentBinding
 import com.example.baixominholeague.ui.menu.Jugadores.JugadoresFragment
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.tasks.await
 import java.io.Serializable
 import java.util.*
 
@@ -24,13 +27,15 @@ class AddPlayerAndTournament : AppCompatActivity() {
     private val playerScores = HashMap<CheckBox, EditText>()
     private val db = FirebaseFirestore.getInstance()
     private val jugadores = mutableListOf<Jugador>()
+    private val ligas = mutableListOf<String>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddPlayerAndTournamentBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupPlayers()
+        initUI()
         binding.btnBackPerfil.setOnClickListener {
             onBackPressed()
         }
@@ -39,38 +44,77 @@ class AddPlayerAndTournament : AppCompatActivity() {
         }
         binding.btnAddTournament.setOnClickListener {
             binding.linearLayoutPlayers.clearFocus()
-            saveTournament()
+
 
         }
     }
 
-    private fun saveTournament() {
-        val nameDocument = binding.tvAddTournament.text.toString().uppercase()
-        if (!nameDocument.isNullOrEmpty() && playerMatrix.isNotEmpty()) {
-            Log.i("GABRI", "PLAYERMATRIX: $playerMatrix y PLAYERSCORE: $playerScores")
-            db.collection("clasificacionMovimiento").document(nameDocument).set(
-                hashMapOf("jugadores" to playerMatrix)
-            ).addOnSuccessListener {
-                Toast.makeText(this, "Añadido correctamente", Toast.LENGTH_SHORT).show()
+    private fun initUI() {
+        Spinner()
+        setupPlayers()
+    }
 
-                binding.tvAddTournament.text = null
-                playerScores.values.forEach { editText -> editText.text = null }
-                playerScores.keys.forEach { checkBox -> checkBox.isChecked = false }
-                playerMatrix.clear()
+    private fun Spinner(){
+        val nombreLiga = resources.getStringArray(R.array.liga_options).toList()
+        val divisiones = mutableListOf<String>()
+
+        val adapterSpinner = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_dropdown_item,
+            nombreLiga
+        )
+        val adapterSpinner2 = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_dropdown_item,
+            divisiones
+        )
+
+        adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        adapterSpinner2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        binding.spinnerAddLiga.adapter = adapterSpinner
+        binding.spinnerAddDivision.adapter = adapterSpinner2
+
+        binding.spinnerAddLiga.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parentView: AdapterView<*>?,
+                selectedItemView: View?,
+                position: Int,
+                id: Long
+            ) {
+                divisiones.clear()
+               var seleccionLigaSpinner1 = nombreLiga[position]
+
+                val divisionOptionsResourceId = resources.getIdentifier(
+                    "division_options_${quitarEspacios(seleccionLigaSpinner1)}",
+                    "array",
+                    this@AddPlayerAndTournament.packageName
+                )
+                if (divisionOptionsResourceId != 0) {
+                    val divisionOptions =
+                        resources.getStringArray(divisionOptionsResourceId)?.toList() ?: emptyList()
+                    divisiones.addAll(divisionOptions)
+                }
+                binding.spinnerAddDivision.setSelection(0)
+                // Notificar al adaptador del segundo Spinner sobre el cambio en los datos
+                adapterSpinner2.notifyDataSetChanged()
 
             }
-        } else {
-            if (nameDocument.isNullOrEmpty()) showToast("Error al guardar: Nombre de torneo necesario") else showToast(
-                "Error al guardar: Jugadores necesarios"
-            )
-        }
-    }
 
+            override fun onNothingSelected(parentView: AdapterView<*>?) {
+                // No se ha seleccionado nada
+            }
+        }
+
+    }
+    fun quitarEspacios(frase: String): String {
+        return frase.replace("\\s+".toRegex(), "")
+    }
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    private fun uiPlayers(jugadores: MutableList<Jugador>) {
+    private fun uiPlayers(jugadores: List<Jugador>) {
         binding.linearLayoutPlayers.removeAllViews()//eliminar la vista para actualizar
 
         val layoutParams = LinearLayout.LayoutParams(
@@ -98,18 +142,6 @@ class AddPlayerAndTournament : AppCompatActivity() {
                 LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
             editTextParams.setMargins(25.dpToPx(), 0, 0, 0)
 
-            val editText = EditText(this)
-            editText.hint = "Puntuación"
-            editText.inputType = InputType.TYPE_CLASS_NUMBER
-            editText.keyListener = DigitsKeyListener.getInstance("0123456789")
-            editText.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(2))
-            editText.maxLines = 1
-            editText.setBackgroundColor(Color.WHITE)
-            editText.layoutParams = editTextParams
-            linearLayout.addView(editText)
-
-            playerScores[checkBox] = editText
-
             binding.linearLayoutPlayers.addView(linearLayout)
 
             val playerData = HashMap<String, Serializable>()
@@ -117,11 +149,9 @@ class AddPlayerAndTournament : AppCompatActivity() {
             checkBox.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     val playerName = player.nombre
-                    val playerScore = editText.text.toString()
 
-                    if (!playerName.isNullOrEmpty() && !playerScore.isNullOrEmpty()) {
+                    if (!playerName.isNullOrEmpty()) {
                         playerData["nombre"] = playerName
-                        playerData["puntuacion"] = playerScore
 
                         if (!playerMatrix.contains(playerData)) {
                             playerMatrix.add(playerData)
@@ -134,32 +164,6 @@ class AddPlayerAndTournament : AppCompatActivity() {
                     Log.i("GABRI", "TAMAÑOOO check: " + playerMatrix.size.toString())
                 }
             }
-
-            //Guardar los valores
-            editText.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-                if (!hasFocus) {
-                    val playerName = player.nombre
-                    val playerScore = editText.text.toString()
-
-                    if (!playerName.isNullOrEmpty() && !playerScore.isNullOrEmpty()) {
-                        //val playerData = HashMap<String, Serializable>()
-                        playerData["nombre"] = playerName
-                        playerData["puntuacion"] = playerScore
-
-                        if (checkBox.isChecked) {
-                            if (!playerMatrix.contains(playerData)) {
-                                playerMatrix.add(playerData)
-                            }
-                            Log.i("GABRI", "PLAYERMATRIX_ADD: $playerData")
-
-                        } else {
-                            playerMatrix.remove(playerData)
-                            Log.i("GABRI", "PLAYERMATRIX_REMOVE: $playerData")
-                        }
-                        Log.i("GABRI", "TAMAÑOOO: " + playerMatrix.size.toString())
-                    }
-                }
-            }
         }
     }
 
@@ -170,8 +174,7 @@ class AddPlayerAndTournament : AppCompatActivity() {
     }
 
     private fun setupPlayers() {
-        //Obtiene todos los jugadores
-        val jugadoresCollectionRef = db.collection("jugadores")
+        val jugadoresCollectionRef = db.collection("jugadores").whereEqualTo("equipo",false)
 
         jugadoresCollectionRef.get().addOnSuccessListener {
             for (document in it) {
@@ -195,11 +198,10 @@ class AddPlayerAndTournament : AppCompatActivity() {
                 nombre.substring(0, 1).uppercase() + nombre.substring(1).lowercase()
             val jugadoresCollection = db.collection("jugadores")
 
-            // Verificar si ya existe un jugador con el mismo nombre
             jugadoresCollection.whereEqualTo("nombre", nombreCapitalizado).get()
                 .addOnSuccessListener { querySnapshot ->
                     if (querySnapshot.isEmpty) {
-                        // No existe un jugador con el mismo nombre, puedes guardarlo
+
                         db.runTransaction { transaction ->
                             val jugadorRef = db.collection("counter").document("counter")
                             val snapshot = transaction.get(jugadorRef)
@@ -210,7 +212,8 @@ class AddPlayerAndTournament : AppCompatActivity() {
                             val jugadorData = hashMapOf(
                                 "nombre" to nombreCapitalizado,
                                 "correo" to correo,
-                                "id" to jugadorId
+                                "id" to jugadorId,
+                                "equipo" to false
                             )
 
                             transaction.set(
@@ -228,30 +231,20 @@ class AddPlayerAndTournament : AppCompatActivity() {
                             null
                         }.addOnSuccessListener {
                             // La transacción se completó exitosamente
-                            Toast.makeText(this, "Guardado correctamente", Toast.LENGTH_SHORT)
-                                .show()
+                            showToast("Guardado correctamente")
                             binding.editextAddNombrePlayer.setText("")
                             binding.editextAddCorreoPlayer.setText("")
                             binding.editextAddNombrePlayer.clearFocus()
                         }.addOnFailureListener { e ->
-                            Toast.makeText(this, "Error al guardar jugador", Toast.LENGTH_SHORT)
-                                .show()
+                            showToast("Error al guardar jugador")
                         }
-                            .addOnCompleteListener {  } //<-- onPlayerAdded() Todo Cambiar este metodo
+                            .addOnCompleteListener { } //<-- onPlayerAdded() Todo Cambiar este metodo
                     } else {
-                        // Ya existe un jugador con el mismo nombre, muestra un mensaje de error
-                        Toast.makeText(
-                            this,
-                            "Ya existe un jugador con este nombre",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        showToast("Ya existe un jugador con este nombre")
                     }
                 }
         } else {
-            // El campo de nombre está vacío, muestra un mensaje de error
-            Toast.makeText(this, "Por favor, ingrese un nombre válido", Toast.LENGTH_SHORT).show()
+            showToast("Por favor, ingrese un nombre válido")
         }
     }
-
-
 }
