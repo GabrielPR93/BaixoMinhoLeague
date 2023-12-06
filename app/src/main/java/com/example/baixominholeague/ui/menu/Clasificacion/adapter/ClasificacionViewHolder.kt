@@ -46,11 +46,11 @@ class ClasificacionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         binding.apply {
             tvNombreEquipo.text = equipo.nombreEquipo.toString()
             tvPosicion.text = (position + 1).toString()
-            tvPuntuacion.setText("${equipo.puntos.toString()} Pts")
-            tvPartidosJugados.setText("PJ:${equipo.partidosJugados.toString()}")
-            tvPartidosGanados.setText("G:${equipo.partidosGanados.toString()}")
-            tvPartidosEmpatados.setText("E:${equipo.partidosEmpatados.toString()}")
-            tvPartidosPerdidos.setText("P:${equipo.partidosPerdidos.toString()}")
+            tvPuntuacion.setText("${equipo.partidosTotales["puntos"].toString()} Pts")
+            tvPartidosJugados.setText("PJ:${equipo.partidosTotales["partidosJugados"].toString()}")
+            tvPartidosGanados.setText("G:${equipo.partidosTotales["partidosGanados"].toString()}")
+            tvPartidosEmpatados.setText("E:${equipo.partidosTotales["partidosEmpatados"].toString()}")
+            tvPartidosPerdidos.setText("P:${equipo.partidosTotales["partidosPerdidos"].toString()}")
         }
     }
 }

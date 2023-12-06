@@ -1,20 +1,12 @@
 package com.example.baixominholeague.ui.menu.Clasificacion
 
-import android.content.Context
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.baixominholeague.R
 import com.example.baixominholeague.data.Equipo
 import com.example.baixominholeague.data.Jugador
-import com.example.baixominholeague.data.Participante
-import com.example.baixominholeague.ui.menu.Inicio.adapter.adapterParticipantes.ParticipantesAdapter
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -46,7 +38,7 @@ class ClasificacionViewModel @Inject constructor() : ViewModel() {
 
                         val equipos = equiposArray.map { equipoMap ->
                             val partidos = equipoMap["partidosTotales"] as Map<String, Any> ?: emptyMap()
-
+                            val partidosTotales = equipoMap["partidosTotales"] as? Map<String, Long> ?: emptyMap()
                             val jugadoresArray = equipoMap["jugadores"] as? ArrayList<Map<String, Any>>
                             val jugadores = jugadoresArray?.map { jugadorMap ->
                                 Jugador(
@@ -60,19 +52,22 @@ class ClasificacionViewModel @Inject constructor() : ViewModel() {
                                 id = (equipoMap["id"] as Long).toInt(),
                                 nombreEquipo = equipoMap["nombreEquipo"] as String,
                                 division = equipoMap["division"] as String,
-                                puntos = (partidos["puntos"] as Long).toInt(),
-                                partidosJugados = (partidos["partidosJugados"] as Long).toInt(),
-                                partidosGanados = (partidos["partidosGanados"] as Long).toInt(),
-                                partidosEmpatados = (partidos["partidosEmpatados"] as Long).toInt(),
-                                partidosPerdidos = (partidos["partidosPerdidos"] as Long).toInt(),
-                                jugadores = jugadores
+                                jugadores = jugadores,
+                                partidosTotales = mapOf(
+                                    "puntos" to (partidosTotales["puntos"] ?: 0).toInt(),
+                                    "partidosJugados" to (partidosTotales["partidosJugados"] ?: 0).toInt(),
+                                    "partidosGanados" to (partidosTotales["partidosGanados"] ?: 0).toInt(),
+                                    "partidosEmpatados" to (partidosTotales["partidosEmpatados"] ?: 0).toInt(),
+                                    "partidosPerdidos" to (partidosTotales["partidosPerdidos"] ?: 0).toInt()
+                                )
+
                             )
                         }
 
                         // Filtrar fuera del bloque map
                         val equiposFiltrados = equipos.filter { it.division == division }
 
-                        _listaEquipos.value = equiposFiltrados.sortedByDescending { it.puntos }
+                        _listaEquipos.value = equiposFiltrados.sortedByDescending { it.partidosTotales["puntos"] }
                         Log.i("GAbri","EQUIPOS: $equipos")
                     } else {
                         println("No se encontró la matriz 'equipos' en el documento")

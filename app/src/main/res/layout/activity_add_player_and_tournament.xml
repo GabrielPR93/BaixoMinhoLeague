@@ -146,7 +146,7 @@
 
 
                     <TextView
-                        android:id="@+id/tvTituloAddEquipo"
+                        android:id="@+id/tvTituloAddTeam"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Añadir Equipo"
@@ -158,7 +158,7 @@
                         app:layout_constraintTop_toTopOf="parent"/>
 
                     <EditText
-                        android:id="@+id/tvAddNombreEquipo"
+                        android:id="@+id/tvAddNombreTeam"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
@@ -166,7 +166,7 @@
                         android:layout_marginStart="30dp"
                         android:layout_marginEnd="10dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvTituloAddEquipo"
+                        app:layout_constraintTop_toBottomOf="@id/tvTituloAddTeam"
                         app:layout_constraintEnd_toEndOf="parent"
                         android:hint="Nombre del Equipo"/>
 
@@ -180,7 +180,7 @@
                             android:layout_marginTop="20dp"
                             android:layout_marginStart="20dp"
                             android:prompt="@string/choose_option1"
-                            app:layout_constraintTop_toBottomOf="@id/tvAddNombreEquipo"
+                            app:layout_constraintTop_toBottomOf="@id/tvAddNombreTeam"
                             app:layout_constraintStart_toStartOf="parent" />
 
                         <Spinner
@@ -207,7 +207,6 @@
                         android:gravity="center_horizontal" />
 
 
-
                     <LinearLayout
                         android:id="@+id/linearLayoutPlayers"
                         android:layout_width="match_parent"
@@ -232,7 +231,7 @@
 
 
                         <Button
-                            android:id="@+id/btnAddTournament"
+                            android:id="@+id/btnAddTeam"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Añadir Equipo"
