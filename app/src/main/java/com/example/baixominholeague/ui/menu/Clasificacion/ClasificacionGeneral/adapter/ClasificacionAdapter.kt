@@ -1,4 +1,4 @@
-package com.example.baixominholeague.ui.menu.Clasificacion.adapter
+package com.example.baixominholeague.ui.menu.Clasificacion.ClasificacionGeneral.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

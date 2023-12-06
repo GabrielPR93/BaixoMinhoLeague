@@ -114,7 +114,7 @@
         app:destination="@id/nuevoEvento" />
     <fragment
         android:id="@+id/clasificacionGeneralFragment"
-        android:name="com.example.baixominholeague.ui.menu.Clasificacion.ClasificacionGeneralFragment"
+        android:name="com.example.baixominholeague.ui.menu.Clasificacion.ClasificacionGeneral.ClasificacionGeneralFragment"
         android:label="fragment_clasificacion_general"
         tools:layout="@layout/fragment_clasificacion_general" />
 

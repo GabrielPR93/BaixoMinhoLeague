@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvNombreEquipoLocal"
+            style="@style/textoStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="start"
+            android:lineSpacingMultiplier="1.2"
+            android:padding="7dp"
+            android:textSize="16dp"
+            tools:text="Jugador 10 Jugador 13" />
+
+        <LinearLayout
+            android:id="@+id/linearLayoutMarcador"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvMarcador"
+                style="@style/textoStyleBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                tools:text="VS" />
+
+            <TextView
+                android:id="@+id/tvMarcador2"
+                style="@style/textoStyleBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:visibility="gone"
+                tools:text="VS" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvNombreEquipoVisitante"
+            style="@style/textoStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="end"
+            android:lineSpacingMultiplier="1.2"
+            android:padding="7dp"
+            android:textSize="16dp"
+            tools:text="Jugador 15 Jugador 14" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

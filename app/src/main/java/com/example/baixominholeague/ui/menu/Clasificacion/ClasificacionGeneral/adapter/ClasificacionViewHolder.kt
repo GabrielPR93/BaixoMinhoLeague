@@ -1,6 +1,5 @@
-package com.example.baixominholeague.ui.menu.Clasificacion.adapter
+package com.example.baixominholeague.ui.menu.Clasificacion.ClasificacionGeneral.adapter
 
-import android.graphics.Color
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView

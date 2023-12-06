@@ -3,7 +3,6 @@ package com.example.baixominholeague.ui.menu.Inicio
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.baixominholeague.ui.menu.Clasificacion.adapter.OnSpinnerSelectedListener
 
 class ViewPagerAdapter(
     fragmentActivity: FragmentActivity,

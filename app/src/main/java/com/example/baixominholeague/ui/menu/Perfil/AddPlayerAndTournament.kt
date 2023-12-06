@@ -237,45 +237,46 @@ class AddPlayerAndTournament : AppCompatActivity() {
         val nameTeam = binding.tvAddNombreTeam.text.toString().trim()
 
         if (nameTeam.isNotEmpty() && selectedLiga != "" && selectedDivision != "") {
+            if(playersTeam.size > 0) {
+                // Obtén la referencia al documento "counter"
+                val counterRef = db.collection("counter").document("counter")
 
-            // Obtén la referencia al documento "counter"
-            val counterRef = db.collection("counter").document("counter")
+                // Realiza una transacción para obtener y actualizar el contador
+                db.runTransaction { transaction ->
+                    val currentCount = transaction.get(counterRef).getLong("counterteam") ?: 0
+                    val newCount = currentCount + 1
 
-            // Realiza una transacción para obtener y actualizar el contador
-            db.runTransaction { transaction ->
-                val currentCount = transaction.get(counterRef).getLong("counterteam") ?: 0
-                val newCount = currentCount + 1
+                    // Actualiza el contador en la transacción
+                    transaction.update(counterRef, "counterteam", newCount)
 
-                // Actualiza el contador en la transacción
-                transaction.update(counterRef, "counterteam", newCount)
+                    // Crea el nuevo equipo con el ID actualizado
+                    val nuevoEquipo = Equipo(
+                        newCount.toInt(),
+                        nameTeam,
+                        selectedDivision,
+                        playersTeam,
+                        partidosTotales = mapOf(
+                            "puntos" to 0,
+                            "partidosJugados" to 0,
+                            "partidosGanados" to 0,
+                            "partidosEmpatados" to 0,
+                            "partidosPerdidos" to 0
+                        )
 
-                // Crea el nuevo equipo con el ID actualizado
-                val nuevoEquipo = Equipo(
-                    newCount.toInt(),
-                    nameTeam,
-                    selectedDivision,
-                    playersTeam,
-                    partidosTotales = mapOf(
-                        "puntos" to 0,
-                        "partidosJugados" to 0,
-                        "partidosGanados" to 0,
-                        "partidosEmpatados" to 0,
-                        "partidosPerdidos" to 0
                     )
 
-                )
+                    val equiposRef = db.collection("equipos").document(selectedLiga)
+                    transaction.update(equiposRef, "equipos", FieldValue.arrayUnion(nuevoEquipo))
 
-                val equiposRef = db.collection("equipos").document(selectedLiga)
-                transaction.update(equiposRef, "equipos", FieldValue.arrayUnion(nuevoEquipo))
-
-                // Devuelve null para indicar el éxito de la transacción
-                null
-            }.addOnSuccessListener {
-                showToast("Equipo guardado correctamente")
-                afterSave()
-            }.addOnFailureListener { exception ->
-                Log.w("SaveTeam", "Error al guardar un nuevo equipo", exception)
-            }
+                    // Devuelve null para indicar el éxito de la transacción
+                    null
+                }.addOnSuccessListener {
+                    showToast("Equipo guardado correctamente")
+                    afterSave()
+                }.addOnFailureListener { exception ->
+                    Log.w("SaveTeam", "Error al guardar un nuevo equipo", exception)
+                }
+            }else{showToast("Añade Jugadores al equipo")}
         } else {
             showToast("El nombre del equipo no puede estar vacío")
         }

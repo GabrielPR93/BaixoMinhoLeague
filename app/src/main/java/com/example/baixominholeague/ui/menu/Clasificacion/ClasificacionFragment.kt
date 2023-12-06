@@ -1,7 +1,6 @@
 package com.example.baixominholeague.ui.menu.Clasificacion
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,22 +8,17 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewpager2.widget.ViewPager2
 import com.example.baixominholeague.R
-import com.example.baixominholeague.data.Jugador
 import com.example.baixominholeague.databinding.FragmentClasificacionBinding
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
-import com.google.firebase.firestore.FirebaseFirestore
+import com.example.baixominholeague.ui.menu.Clasificacion.ClasificacionGeneral.ClasificacionGeneralFragment
+import com.example.baixominholeague.ui.menu.Clasificacion.ClasificacionGeneral.ClasificacionViewModel
+import com.example.baixominholeague.ui.menu.Clasificacion.Jornadas.JornadasFragment
 import com.example.baixominholeague.ui.menu.Clasificacion.adapter.OnSpinnerSelectedListener
 import com.example.baixominholeague.ui.menu.Clasificacion.adapter.ViewPagerAdapterClasificacion
-import com.example.baixominholeague.ui.menu.Inicio.NovedadesFragment
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ClasificacionFragment : Fragment(), OnSpinnerSelectedListener {
@@ -66,7 +60,7 @@ class ClasificacionFragment : Fragment(), OnSpinnerSelectedListener {
         val viewPager: ViewPager2 = binding.viewPagerClasificacion
         val tabs: TabLayout = binding.tabsClasificacion
 
-        val fragments = listOf(ClasificacionGeneralFragment(), NovedadesFragment())
+        val fragments = listOf(ClasificacionGeneralFragment(), JornadasFragment())
 
         adapter = ViewPagerAdapterClasificacion(requireActivity(), fragments)
         viewPager.adapter = adapter

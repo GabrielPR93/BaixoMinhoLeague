@@ -1,27 +1,18 @@
-package com.example.baixominholeague.ui.menu.Clasificacion
+package com.example.baixominholeague.ui.menu.Clasificacion.ClasificacionGeneral
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.baixominholeague.R
-import com.example.baixominholeague.data.Equipo
-import com.example.baixominholeague.databinding.FragmentClasificacionBinding
 import com.example.baixominholeague.databinding.FragmentClasificacionGeneralBinding
-import com.example.baixominholeague.ui.menu.Clasificacion.adapter.ClasificacionAdapter
-import com.example.baixominholeague.ui.menu.Clasificacion.adapter.OnSpinnerSelectedListener
-import com.example.baixominholeague.ui.menu.Inicio.adapter.EventoAdapter
+import com.example.baixominholeague.ui.menu.Clasificacion.ClasificacionGeneral.adapter.ClasificacionAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
