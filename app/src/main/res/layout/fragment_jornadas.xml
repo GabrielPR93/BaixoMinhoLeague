@@ -26,7 +26,7 @@
             android:id="@+id/linearLayoutJornadas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:orientation="horizontal"
@@ -47,6 +47,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                style="@style/textoStyleBold"
                 android:padding="5dp"
                 android:text="Jornada X"
                 android:gravity="center"/>
@@ -58,16 +59,19 @@
                 android:background="@android:color/transparent"
                 android:src="@drawable/arrow_forward"/>
         </LinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewJornadas"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="70dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            tools:listitem="@layout/item_jornada"
-            app:layout_constraintTop_toBottomOf="@id/linearLayoutJornadas"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/linearLayoutJornadas"
+            tools:listitem="@layout/item_jornada" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
