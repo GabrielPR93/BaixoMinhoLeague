@@ -17,6 +17,9 @@ class PartidosViewHolder(view:View): RecyclerView.ViewHolder(view) {
                 tvMarcador.text = partido.resultadoPrimerSet
                 tvMarcador2.visibility = View.VISIBLE
                 tvMarcador2.text = partido.resultadoSegundoSet
+            }else{
+                tvMarcador.text = "VS"
+                tvMarcador2.visibility = View.GONE
             }
 
             if(partido.nombreEquipoVisitante.equals("")){
