@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.menu.Perfil.AddJornadasActivity"
+    style="@style/fondoEventos">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="0dp" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            tools:ignore="MissingConstraints">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageButton
+                    android:id="@+id/btnBackPerfil"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/arrow_back"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginStart="30dp"
+                    android:background="@android:color/transparent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/tvEvento"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nueva Jornada"
+                    android:textStyle="bold"
+                    android:textSize="18dp"
+                    android:textColor="@color/white"
+                    android:layout_marginStart="20dp"
+                    app:layout_constraintBottom_toBottomOf="@id/btnBackPerfil"
+                    app:layout_constraintStart_toEndOf="@id/btnBackPerfil"
+                    app:layout_constraintTop_toTopOf="@+id/btnBackPerfil" />
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardViewAddTournament"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="20dp"
+                    android:elevation="20dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/btnBackPerfil"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                        <TextView
+                            android:id="@+id/tvTituloAddJornada"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Añadir Jornada"
+                            android:textSize="18dp"
+                            style="@style/textoStyleBoldGreen"
+                            android:layout_marginTop="20dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"/>
+
+
+                        <Spinner
+                            android:id="@+id/spinnerAddLigaAddJornada"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginTop="40dp"
+                            android:layout_marginStart="20dp"
+                            android:prompt="@string/choose_option1"
+                            app:layout_constraintTop_toBottomOf="@id/tvTituloAddJornada"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                        <Spinner
+                            android:id="@+id/spinnerAddDivision"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginStart="20dp"
+                            android:prompt="@string/choose_option1"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/spinnerAddLigaAddJornada"/>
+
+                        <TextView
+                            android:id="@+id/tvNumeroJornadas"
+                            style="@style/textoStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0 Jornadas"
+                            app:layout_constraintBottom_toBottomOf="@id/spinnerAddDivision"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/spinnerAddDivision"
+                            app:layout_constraintTop_toTopOf="@+id/spinnerAddDivision" />
+
+                        <View
+                            android:id="@+id/separador"
+                            android:layout_width="match_parent"
+                            android:layout_height="3dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="5dp"
+                            android:background="#72E2E5E8"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/spinnerAddDivision"
+                            android:gravity="center_horizontal" />
+
+                        <ImageButton
+                            android:id="@+id/btnAddJornada"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/background_button_add"
+                            android:src="@drawable/add"
+                            app:layout_constraintTop_toTopOf="@id/separador"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="@id/separador"/>
+
+
+                        <LinearLayout
+                            android:id="@+id/linearLayoutJornadas"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginStart="30dp"
+                            android:layout_marginEnd="10dp"
+                            app:layout_constraintTop_toBottomOf="@id/separador"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"/>
+
+                        <LinearLayout
+                            android:id="@+id/linearLayoutButtonAdd"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginTop="30dp"
+                            app:layout_constraintTop_toBottomOf="@id/linearLayoutJornadas"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent">
+
+
+                            <Button
+                                android:id="@+id/btnSaveJornada"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Guardar jornadas"
+                                android:background="@drawable/searchbackground"
+                                android:textColor="@color/white"
+                                android:elevation="10dp"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginEnd="20dp"
+                                android:layout_marginBottom="15dp"/>
+                        </LinearLayout>
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

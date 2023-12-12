@@ -36,6 +36,9 @@
         <action
             android:id="@+id/action_perfilFragment_to_addPlayerAndTournament"
             app:destination="@id/addPlayerAndTournament" />
+        <action
+            android:id="@+id/action_perfilFragment_to_addJornadasActivity"
+            app:destination="@id/addJornadasActivity" />
     </fragment>
     <activity
         android:id="@+id/configuracion"
@@ -117,5 +120,10 @@
         android:name="com.example.baixominholeague.ui.menu.Clasificacion.ClasificacionGeneral.ClasificacionGeneralFragment"
         android:label="fragment_clasificacion_general"
         tools:layout="@layout/fragment_clasificacion_general" />
+    <activity
+        android:id="@+id/addJornadasActivity"
+        android:name="com.example.baixominholeague.ui.menu.Perfil.AddJornadasActivity"
+        android:label="activity_add_jornadas"
+        tools:layout="@layout/activity_add_jornadas" />
 
 </navigation>

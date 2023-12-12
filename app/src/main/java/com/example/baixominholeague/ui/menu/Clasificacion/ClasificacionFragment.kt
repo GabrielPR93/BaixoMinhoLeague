@@ -53,6 +53,7 @@ class ClasificacionFragment : Fragment(), OnSpinnerSelectedListener {
     override fun onLigaSelected(selectedLiga: String, selectedDivision: String) {
         if (!selectedLiga.isNullOrEmpty() && !selectedDivision.isNullOrEmpty()) {
             clasificacionViewModel.obtenerDatos(selectedLiga, selectedDivision)
+            clasificacionViewModel.obtenerJornadas(selectedLiga,selectedDivision)
         }
     }
 

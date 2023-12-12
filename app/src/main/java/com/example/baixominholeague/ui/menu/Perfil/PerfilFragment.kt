@@ -74,6 +74,7 @@ class PerfilFragment : Fragment() {
         deleteData()
 
         configuration()
+        AddJornada()
 
         return view
     }
@@ -124,6 +125,11 @@ class PerfilFragment : Fragment() {
     private fun configuration(){
         binding.buttomLogout.setOnClickListener {
             findNavController().navigate(R.id.action_perfilFragment_to_configuracion)
+        }
+    }
+    private fun AddJornada(){
+        binding.btnAddJornada.setOnClickListener {
+            findNavController().navigate(R.id.action_perfilFragment_to_addJornadasActivity)
         }
     }
     fun launchImagePicker() {
@@ -232,31 +238,35 @@ class PerfilFragment : Fragment() {
 
     private fun setupUi(alias: String, nombre: String, telefono: String, localidad: String, otros: String, posiciones: String, foto: String) {
 
-        binding.textViewCorreo.text = correo
-        binding.editTextAlias.setText(alias)
-        binding.editTextNombre.setText(nombre)
-        binding.editTextTelefono.setText(telefono)
-        binding.editTextLocalidad.setText(localidad)
-        binding.editTextOtrosDatos.setText(otros)
-        binding.editTextPosiciones.setText(posiciones)
+        binding.apply {
+            textViewCorreo.text = correo
+            editTextAlias.setText(alias)
+            editTextNombre.setText(nombre)
+            editTextTelefono.setText(telefono)
+            editTextLocalidad.setText(localidad)
+            editTextOtrosDatos.setText(otros)
+            editTextPosiciones.setText(posiciones)
 
-        if (correo.equals(CORREO_ADMIN)) {
-            binding.textViewTituloTorneos.visibility = View.GONE
-            binding.btnAddPlayer.visibility = View.VISIBLE
-        }
+            if (correo.equals(CORREO_ADMIN)) {
+                textViewTituloTorneos.visibility = View.GONE
+                btnAddPlayer.visibility = View.VISIBLE
+                btnAddJornada.visibility = View.VISIBLE
+
+            }
+
 
         if (selectedImageUri != "") {//Para que al cambiar la imagen se actualize (solo entra si se cambia la imagen)
             selectedImageUri = Uri.parse(selectedImageUri).toString()
             Picasso.get().load(selectedImageUri)
-                .into(binding.imageViewProfile)
+                .into(imageViewProfile)
         } else if (foto != "") { //Cargar la imagen de perfil guardada
             selectedImageUri = Uri.parse(foto).toString()
             Picasso.get().load(selectedImageUri)
-                .into(binding.imageViewProfile)
+                .into(imageViewProfile)
         }
 
         loadEmail(correo.toString())
-
+        }
     }
 
     private fun saveData() {

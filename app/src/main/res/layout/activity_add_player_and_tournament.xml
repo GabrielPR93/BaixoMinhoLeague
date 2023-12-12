@@ -40,7 +40,7 @@
                 android:id="@+id/tvEvento"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nuevo Jugador / Torneo"
+                android:text="Nuevo Jugador / Equipo"
                 android:textStyle="bold"
                 android:textSize="18dp"
                 android:textColor="@color/white"

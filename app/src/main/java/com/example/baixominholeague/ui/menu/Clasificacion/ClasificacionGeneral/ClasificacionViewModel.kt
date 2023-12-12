@@ -142,6 +142,7 @@ class ClasificacionViewModel @Inject constructor() : ViewModel() {
                         }
 
                         _listaJornadas.value = listaJornadas
+                        Log.i("GAbri","LISTA: ${_listaJornadas.value}")
                     }
                 }
             } catch (e: Exception) {
