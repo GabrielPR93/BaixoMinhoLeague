@@ -1,26 +1,26 @@
 package com.example.baixominholeague.ui.menu.Perfil
 
-import androidx.appcompat.app.AppCompatActivity
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
+import android.view.Gravity
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.marginStart
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.baixominholeague.R
-import com.example.baixominholeague.data.Jornada
-
 import com.example.baixominholeague.databinding.ActivityAddJornadasBinding
 import com.example.baixominholeague.ui.menu.Clasificacion.ClasificacionGeneral.ClasificacionViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class AddJornadasActivity : AppCompatActivity() {
@@ -28,6 +28,7 @@ class AddJornadasActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddJornadasBinding
     private var selectedLiga = ""
     private var selectedDivision = ""
+    private var numJornada = 0
     private val viewModel: ClasificacionViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,92 +39,155 @@ class AddJornadasActivity : AppCompatActivity() {
         Spinner()
         initUIState()
         addJornada()
+        btnBack()
     }
 
     private fun initUIState() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.listaJornadas.collect { jornadas ->
-                    actualizarInterfazConJornadas(jornadas)
+                    numJornada = jornadas.size
                     binding.tvNumeroJornadas.text = "${jornadas.size} Jornadas"
                 }
             }
         }
     }
 
-    private fun addJornada() {
-        binding.btnAddJornada.setOnClickListener {
-            val contenedorJornadas: LinearLayout = binding.linearLayoutJornadas
-
-            // Crear TextView para el nombre de la jornada
-            val tvNombreJornada = TextView(this)
-            tvNombreJornada.text =
-                "Nueva Jornada" // Puedes establecer un nombre predeterminado o solicitar uno al usuario
-
-            // Puedes personalizar el TextView según tus necesidades
-            val layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            )
-            layoutParams.setMargins(0, 0, 0, 16) // Márgenes opcionales entre los elementos
-            tvNombreJornada.layoutParams = layoutParams
-
-            // Agregar TextView al contenedor
-            contenedorJornadas.addView(tvNombreJornada)
-
-            // Crear EditText para el equipo 1
-            val etEquipo1 = EditText(this)
-            etEquipo1.hint = "Equipo 1" // Puedes personalizar el hint según tus necesidades
-
-            // Agregar EditText al contenedor
-            contenedorJornadas.addView(etEquipo1)
-
-            // Crear TextView "vs"
-            val tvVs = TextView(this)
-            tvVs.text = "vs"
-
-            // Puedes personalizar el TextView según tus necesidades
-            val layoutParamsVs = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            )
-            layoutParamsVs.setMargins(0, 0, 0, 16) // Márgenes opcionales entre los elementos
-            tvVs.layoutParams = layoutParamsVs
-
-            // Agregar TextView "vs" al contenedor
-            contenedorJornadas.addView(tvVs)
-
-            // Crear EditText para el equipo 2
-            val etEquipo2 = EditText(this)
-            etEquipo2.hint = "Equipo 2" // Puedes personalizar el hint según tus necesidades
-
-            // Agregar EditText al contenedor
-            contenedorJornadas.addView(etEquipo2)
-        }
+    private fun btnBack() {
+        binding.btnBackPerfil.setOnClickListener { onBackPressed() }
     }
+    @SuppressLint("ResourceAsColor")
+    private fun crearEditText(hint: String, gravity: Int): EditText {
+        val editText = EditText(this)
+        editText.hint = hint
+        editText.setBackgroundColor(android.R.color.transparent)
+        val params = LinearLayout.LayoutParams(
+            0,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            2.0f
+        )
+        params.gravity = gravity
+        editText.layoutParams = params
+        editText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16f)
+        return editText
+    }
+    @SuppressLint("ResourceAsColor")
+    private fun crearEquipoVsEquipoLayout(): LinearLayout {
+        val linearLayout = LinearLayout(this)
+            val layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+        layoutParams.setMargins(25,0,0,0)
 
-    private fun actualizarInterfazConJornadas(jornadas: List<Jornada>) {
+        linearLayout.layoutParams = layoutParams
+        linearLayout.orientation = LinearLayout.HORIZONTAL
+
+        // Crear EditText para el equipo 1
+        val etEquipo1 = crearEditText("Equipo Local", Gravity.CENTER_VERTICAL)
+        linearLayout.addView(etEquipo1)
+
+        // Crear TextView "VS"
+        val tvVs = TextView(this,null,R.style.textoStyleBold)
+        tvVs.text = "VS"
+        val paramsTvVs = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            1.0f
+        )
+        paramsTvVs.gravity = Gravity.CENTER
+        tvVs.layoutParams = paramsTvVs
+        tvVs.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16f)
+        linearLayout.addView(tvVs)
+
+        // Crear EditText para el equipo 2
+        val etEquipo2 = crearEditText("Equipo Visitante", Gravity.END)
+        linearLayout.addView(etEquipo2)
+
+        // Crear ImageButton
+        val imageButton = ImageButton(this)
+        imageButton.setImageResource(R.drawable.round_delete_forever_24)
+        imageButton.setBackgroundColor(android.R.color.transparent)
+        val layoutParamsImageButton = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+        layoutParamsImageButton.gravity = Gravity.CENTER_VERTICAL
+        imageButton.layoutParams = layoutParamsImageButton
+        linearLayout.addView(imageButton)
+
+        imageButton.setOnClickListener {
+            val parent = linearLayout.parent as? LinearLayout
+            parent?.removeView(linearLayout)
+        }
+
+
+        return linearLayout
+    }
+    @SuppressLint("ResourceAsColor")
+    private fun addJornada() {
         val contenedorJornadas: LinearLayout = binding.linearLayoutJornadas
 
-        // Eliminar vistas antiguas si es necesario
-        contenedorJornadas.removeAllViews()
+        binding.btnAddJornada.setOnClickListener {
+            numJornada++
 
-        // Crear vistas para cada jornada y agregarlas al contenedor
-        for (jornada in jornadas) {
+            val linearLayoutJornadas = LinearLayout(this)
+            linearLayoutJornadas.layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            linearLayoutJornadas.orientation = LinearLayout.VERTICAL
+            // Crear una nueva instancia de linearLayoutJornadas para cada jornada
+            val linearLayoutTituloJornada = LinearLayout(this)
+            linearLayoutTituloJornada.layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            linearLayoutTituloJornada.orientation = LinearLayout.HORIZONTAL
             // Crear TextView para el nombre de la jornada
-            val tvNombreJornada = TextView(this)
-            tvNombreJornada.text = jornada.nombreJornada
+            val tvNombreJornada = TextView(this,null,R.style.textoStyleBold)
+
+            tvNombreJornada.text =
+                "JORNADA $numJornada" // Puedes establecer un nombre predeterminado o solicitar uno al usuario
 
             // Puedes personalizar el TextView según tus necesidades
             val layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             )
-            layoutParams.setMargins(0, 0, 0, 16) // Márgenes opcionales entre los TextViews
+            layoutParams.setMargins(0, 70, 40, 20) // Márgenes opcionales entre los elementos
             tvNombreJornada.layoutParams = layoutParams
+            tvNombreJornada.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 17f)
 
             // Agregar TextView al contenedor
-            contenedorJornadas.addView(tvNombreJornada)
+            linearLayoutTituloJornada.addView(tvNombreJornada)
+
+            val imageButtonAddMatch = ImageButton(this)
+            imageButtonAddMatch.setBackgroundColor(android.R.color.transparent)
+            imageButtonAddMatch.setImageResource(R.drawable.add) // Reemplaza "tu_icono" con el nombre de tu recurso de imagen
+
+            // Puedes personalizar el ImageButton según tus necesidades
+            val layoutParamsImageButtonAddMatch = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            layoutParamsImageButtonAddMatch.setMargins(0,30,10,0)
+            imageButtonAddMatch.layoutParams = layoutParamsImageButtonAddMatch
+            linearLayoutTituloJornada.addView(imageButtonAddMatch)
+
+
+            val linearLayoutHorizontal = crearEquipoVsEquipoLayout()
+            linearLayoutJornadas.addView(linearLayoutTituloJornada)
+            linearLayoutJornadas.addView(linearLayoutHorizontal)
+
+            //contenedorJornadas.addView(linearLayoutTituloJornada)
+            contenedorJornadas.addView(linearLayoutJornadas)
+
+            imageButtonAddMatch.setOnClickListener {
+                // Crear una nueva instancia de linearLayoutHorizontal para cada partido
+                val linearLayoutNewMatch = crearEquipoVsEquipoLayout()
+                linearLayoutJornadas.addView(linearLayoutNewMatch)
+            }
         }
     }
 
@@ -159,6 +223,7 @@ class AddJornadasActivity : AppCompatActivity() {
                 ) {
                     divisiones.clear()
                     selectedLiga = nombreLiga[position]
+                    binding.linearLayoutJornadas.removeAllViews()
 
                     val divisionOptionsResourceId = resources.getIdentifier(
                         "division_options_${quitarEspacios(selectedLiga)}",
@@ -171,10 +236,10 @@ class AddJornadasActivity : AppCompatActivity() {
                                 ?: emptyList()
                         divisiones.addAll(divisionOptions)
                     }
-                        binding.spinnerAddDivision.setSelection(0)
+                    binding.spinnerAddDivision.setSelection(0)
                     adapterSpinner2.notifyDataSetChanged()
                     selectedDivision = binding.spinnerAddDivision.selectedItem?.toString() ?: ""
-                    viewModel.obtenerJornadas(selectedLiga,selectedDivision)
+                    viewModel.obtenerJornadas(selectedLiga, selectedDivision)
 
                 }
 
@@ -191,18 +256,21 @@ class AddJornadasActivity : AppCompatActivity() {
                     position: Int,
                     id: Long
                 ) {
-
+                    binding.linearLayoutJornadas.removeAllViews()
                     val seleccionLiga = binding.spinnerAddLigaAddJornada.selectedItem?.toString()
                     val seleccionDivision = divisiones[position]
-                    Log.i("GAbri","SPINEER 1: $seleccionLiga y $selectedDivision   SPINNER 2: $seleccionLiga y $seleccionDivision")
+                    Log.i(
+                        "GAbri",
+                        "SPINEER 1: $selectedLiga y $selectedDivision   SPINNER 2: $seleccionLiga y $seleccionDivision"
+                    )
 
                     if (seleccionLiga != null && seleccionDivision != null) {
-                        if(seleccionLiga != selectedLiga || seleccionDivision != selectedDivision){
-                            viewModel.obtenerJornadas(selectedLiga,seleccionDivision)
-
-                            if(seleccionDivision != selectedDivision){
-                               selectedDivision=seleccionDivision
-                           }
+                        if (seleccionLiga != selectedLiga || seleccionDivision != selectedDivision) {
+                            viewModel.obtenerJornadas(seleccionLiga, seleccionDivision)
+                            Log.i("GAbri", "ENTROOOOOO")
+                            if (seleccionDivision != selectedDivision) {
+                                selectedDivision = seleccionDivision
+                            }
                         }
                     }
                 }

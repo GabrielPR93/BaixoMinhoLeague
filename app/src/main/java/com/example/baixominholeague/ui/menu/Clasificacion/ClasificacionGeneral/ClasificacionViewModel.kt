@@ -27,7 +27,7 @@ class ClasificacionViewModel @Inject constructor() : ViewModel() {
 
     private val db = FirebaseFirestore.getInstance()
     val nombreLiga = "Liga do BaixoMiño"
-    val nombreDivision = "1ª Division"
+    val nombreDivision = "1ª División"
 
     init {
         obtenerDatos(nombreLiga, nombreDivision)
@@ -142,7 +142,6 @@ class ClasificacionViewModel @Inject constructor() : ViewModel() {
                         }
 
                         _listaJornadas.value = listaJornadas
-                        Log.i("GAbri","LISTA: ${_listaJornadas.value}")
                     }
                 }
             } catch (e: Exception) {
@@ -168,5 +167,60 @@ class ClasificacionViewModel @Inject constructor() : ViewModel() {
         }
         return null
     }
+
+    fun guardarJornadas(liga: String, nombreDivision: String, listaJornadas: List<Jornada>) {
+        val jornadasRef = db.collection("jornadas").document(liga)
+
+        viewModelScope.launch {
+            try {
+                // Obtener el documento actual para actualizar o crear uno nuevo
+                val snapshot = jornadasRef.get().await()
+
+                // Crear un nuevo mapa para almacenar las jornadas
+                val nuevasJornadas = mutableMapOf<String, Any?>()
+
+                // Verificar si ya hay datos para la división
+                if (snapshot.exists()) {
+                    val divisionMap = snapshot.data?.get(nombreDivision) as? Map<*, *>
+                    if (divisionMap != null) {
+                        nuevasJornadas.putAll(snapshot.data ?: emptyMap())
+                    }
+                }
+
+                // Crear un nuevo mapa para almacenar las jornadas de la división
+                val nuevasJornadasDivision = mutableMapOf<String, Any?>()
+
+                // Convertir las jornadas a un formato que Firestore pueda manejar
+                val jornadasMap = listaJornadas.map { jornada ->
+                    val partidosMap = jornada.partidos.map { partido ->
+                        mapOf(
+                            "nombreEquipoLocal" to partido.nombreEquipoLocal,
+                            "nombreEquipoVisitante" to partido.nombreEquipoVisitante,
+                            "resultadoPrimerSet" to partido.resultadoPrimerSet,
+                            "resultadoSegundoSet" to partido.resultadoSegundoSet
+                        )
+                    }
+
+                    mapOf(
+                        "fecha" to jornada.fecha,
+                        "nombreJornada" to jornada.nombreJornada,
+                        "partidos" to partidosMap
+                    )
+                }
+
+                // Añadir las jornadas al mapa de la división
+                nuevasJornadasDivision["jornadas"] = jornadasMap
+
+                // Añadir el mapa de la división al mapa general
+                nuevasJornadas[nombreDivision] = nuevasJornadasDivision
+
+                // Actualizar o crear el documento en Firestore
+                jornadasRef.set(nuevasJornadas).await()
+            } catch (e: Exception) {
+                Log.e("GAbri", "Error al guardar las jornadas", e)
+            }
+        }
+    }
+
 
 }

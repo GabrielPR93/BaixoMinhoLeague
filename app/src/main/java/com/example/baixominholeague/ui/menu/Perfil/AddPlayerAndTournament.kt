@@ -332,7 +332,7 @@ class AddPlayerAndTournament : AppCompatActivity() {
                         }.addOnFailureListener { e ->
                             showToast("Error al guardar jugador")
                         }
-                            .addOnCompleteListener { } //<-- onPlayerAdded() Todo Cambiar este metodo
+                            .addOnCompleteListener { }
                     } else {
                         showToast("Ya existe un jugador con este nombre")
                     }
