@@ -23,7 +23,7 @@ class ClasificacionViewModel @Inject constructor() : ViewModel() {
     val listaJornadas: MutableStateFlow<List<Jornada>> = _listaJornadas
 
     private var indiceJornadaActual = 0
-
+    var onSaveComplete: ((Boolean) -> Unit)? = null
 
     private val db = FirebaseFirestore.getInstance()
     val nombreLiga = "Liga do BaixoMiño"
@@ -168,7 +168,7 @@ class ClasificacionViewModel @Inject constructor() : ViewModel() {
         return null
     }
 
-    fun guardarJornadas(liga: String, nombreDivision: String, listaJornadas: List<Jornada>) {
+    fun saveMatchs(liga: String, nombreDivision: String, listaJornadas: List<Jornada>) {
         val jornadasRef = db.collection("jornadas").document(liga)
 
         viewModelScope.launch {
@@ -181,14 +181,12 @@ class ClasificacionViewModel @Inject constructor() : ViewModel() {
 
                 // Verificar si ya hay datos para la división
                 if (snapshot.exists()) {
-                    val divisionMap = snapshot.data?.get(nombreDivision) as? Map<*, *>
-                    if (divisionMap != null) {
-                        nuevasJornadas.putAll(snapshot.data ?: emptyMap())
-                    }
+                    // Copiar los datos existentes al nuevo mapa
+                    nuevasJornadas.putAll(snapshot.data ?: emptyMap())
                 }
 
-                // Crear un nuevo mapa para almacenar las jornadas de la división
-                val nuevasJornadasDivision = mutableMapOf<String, Any?>()
+                // Obtener las jornadas existentes si hay alguna
+                val jornadasDivisionExistente = (nuevasJornadas[nombreDivision] as? Map<*, *>)?.get("jornadas") as? List<*>
 
                 // Convertir las jornadas a un formato que Firestore pueda manejar
                 val jornadasMap = listaJornadas.map { jornada ->
@@ -208,19 +206,24 @@ class ClasificacionViewModel @Inject constructor() : ViewModel() {
                     )
                 }
 
-                // Añadir las jornadas al mapa de la división
-                nuevasJornadasDivision["jornadas"] = jornadasMap
+                // Agregar las nuevas jornadas a las existentes
+                val nuevasJornadasDivisionList = (jornadasDivisionExistente as? MutableList<Any?>) ?: mutableListOf()
+                nuevasJornadasDivisionList.addAll(jornadasMap)
 
-                // Añadir el mapa de la división al mapa general
-                nuevasJornadas[nombreDivision] = nuevasJornadasDivision
+                // Añadir las jornadas al mapa de la división
+                nuevasJornadas[nombreDivision] = mapOf("jornadas" to nuevasJornadasDivisionList)
 
                 // Actualizar o crear el documento en Firestore
                 jornadasRef.set(nuevasJornadas).await()
+                onSaveComplete?.invoke(true)
             } catch (e: Exception) {
                 Log.e("GAbri", "Error al guardar las jornadas", e)
+                onSaveComplete?.invoke(false)
             }
         }
     }
+
+
 
 
 }

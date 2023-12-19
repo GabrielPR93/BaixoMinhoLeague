@@ -14,13 +14,15 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.marginStart
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.baixominholeague.R
+import com.example.baixominholeague.data.Jornada
+import com.example.baixominholeague.data.Partido
 import com.example.baixominholeague.databinding.ActivityAddJornadasBinding
 import com.example.baixominholeague.ui.menu.Clasificacion.ClasificacionGeneral.ClasificacionViewModel
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
 class AddJornadasActivity : AppCompatActivity() {
@@ -40,6 +42,13 @@ class AddJornadasActivity : AppCompatActivity() {
         initUIState()
         addJornada()
         btnBack()
+        btnSaveMatchs()
+    }
+
+    private fun btnSaveMatchs() {
+        binding.btnSaveMatchs.setOnClickListener {
+            saveMatchsUI()
+        }
     }
 
     private fun initUIState() {
@@ -188,9 +197,84 @@ class AddJornadasActivity : AppCompatActivity() {
                 val linearLayoutNewMatch = crearEquipoVsEquipoLayout()
                 linearLayoutJornadas.addView(linearLayoutNewMatch)
             }
+
+
         }
     }
 
+    private fun saveMatchsUI() {
+        val contenedorJornadas: LinearLayout = binding.linearLayoutJornadas
+        val listaJornadas = mutableListOf<Jornada>()
+
+        for (i in 0 until contenedorJornadas.childCount) {
+
+            val jornadaLayout = contenedorJornadas.getChildAt(i) as? LinearLayout
+            if (jornadaLayout != null) {
+
+                val nombreJornadaTextView =
+                    (jornadaLayout.getChildAt(0) as? LinearLayout)?.getChildAt(0) as? TextView
+                val nombreJornada = nombreJornadaTextView?.text.toString()
+
+                if (!nombreJornada.isNullOrEmpty()) {
+                    val listaPartidos = mutableListOf<Partido>()
+
+                    for (count in 1 until jornadaLayout.childCount) {
+                        val equipoLayout = jornadaLayout.getChildAt(count) as? LinearLayout
+
+                        if (equipoLayout != null) {
+                            val nombreEquipoLocalTextView =
+                                (jornadaLayout.getChildAt(count) as? LinearLayout)?.getChildAt(0) as? EditText
+                            val nombreEquipoLocal = nombreEquipoLocalTextView?.text.toString()
+
+                            val nombreEquipoVisitanteTextView =
+                                (jornadaLayout.getChildAt(count) as? LinearLayout)?.getChildAt(2) as? EditText
+                            val nombreEquipoVisitante =
+                                nombreEquipoVisitanteTextView?.text.toString()
+
+                            if (!nombreEquipoLocal.isNullOrEmpty() && !nombreEquipoVisitante.isNullOrEmpty()) {
+                                val partido =
+                                    Partido(nombreEquipoLocal, nombreEquipoVisitante, "", "")
+                                listaPartidos.add(partido)
+                            }
+                        }
+                    }
+
+                    val jornada = Jornada(nombreJornada, "", listaPartidos.toList())
+                    listaJornadas.add(jornada)
+
+                }
+            }
+        }
+
+        if (selectedLiga != null && selectedDivision != null) {
+            viewModel.saveMatchs(selectedLiga, selectedDivision, listaJornadas)
+            viewModel.onSaveComplete = { success ->
+                if (success) {
+                    showSaveSuccessNotification()
+                    contenedorJornadas.removeAllViews()
+                } else {
+                    showSaveErrorNotification()
+                }
+            }
+        }
+
+    }
+
+    private fun showSaveErrorNotification() {
+        Snackbar.make(
+            binding.root,
+            "Error al guardar las jornadas",
+            Snackbar.LENGTH_SHORT
+        ).show()
+    }
+
+    private fun showSaveSuccessNotification() {
+        Snackbar.make(
+            binding.root,
+            "Jornadas guardadas correctamente",
+            Snackbar.LENGTH_SHORT
+        ).show()
+    }
 
     private fun Spinner() {
         val nombreLiga = resources.getStringArray(R.array.liga_options).toList()
@@ -240,6 +324,10 @@ class AddJornadasActivity : AppCompatActivity() {
                     adapterSpinner2.notifyDataSetChanged()
                     selectedDivision = binding.spinnerAddDivision.selectedItem?.toString() ?: ""
                     viewModel.obtenerJornadas(selectedLiga, selectedDivision)
+                    Log.i(
+                        "GAbri",
+                        "SPINEER 1*: $selectedLiga y $selectedDivision"
+                    )
 
                 }
 
@@ -267,7 +355,6 @@ class AddJornadasActivity : AppCompatActivity() {
                     if (seleccionLiga != null && seleccionDivision != null) {
                         if (seleccionLiga != selectedLiga || seleccionDivision != selectedDivision) {
                             viewModel.obtenerJornadas(seleccionLiga, seleccionDivision)
-                            Log.i("GAbri", "ENTROOOOOO")
                             if (seleccionDivision != selectedDivision) {
                                 selectedDivision = seleccionDivision
                             }
