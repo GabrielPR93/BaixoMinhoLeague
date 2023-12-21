@@ -92,11 +92,9 @@ class AddJornadasActivity : AppCompatActivity() {
         linearLayout.layoutParams = layoutParams
         linearLayout.orientation = LinearLayout.HORIZONTAL
 
-        // Crear EditText para el equipo 1
         val etEquipo1 = crearEditText("Equipo Local", Gravity.CENTER_VERTICAL)
         linearLayout.addView(etEquipo1)
 
-        // Crear TextView "VS"
         val tvVs = TextView(this,null,R.style.textoStyleBold)
         tvVs.text = "VS"
         val paramsTvVs = LinearLayout.LayoutParams(
@@ -109,11 +107,9 @@ class AddJornadasActivity : AppCompatActivity() {
         tvVs.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16f)
         linearLayout.addView(tvVs)
 
-        // Crear EditText para el equipo 2
         val etEquipo2 = crearEditText("Equipo Visitante", Gravity.END)
         linearLayout.addView(etEquipo2)
 
-        // Crear ImageButton
         val imageButton = ImageButton(this)
         imageButton.setImageResource(R.drawable.round_delete_forever_24)
         imageButton.setBackgroundColor(android.R.color.transparent)
@@ -146,36 +142,33 @@ class AddJornadasActivity : AppCompatActivity() {
                 LinearLayout.LayoutParams.WRAP_CONTENT
             )
             linearLayoutJornadas.orientation = LinearLayout.VERTICAL
-            // Crear una nueva instancia de linearLayoutJornadas para cada jornada
+
             val linearLayoutTituloJornada = LinearLayout(this)
             linearLayoutTituloJornada.layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             )
             linearLayoutTituloJornada.orientation = LinearLayout.HORIZONTAL
-            // Crear TextView para el nombre de la jornada
+
             val tvNombreJornada = TextView(this,null,R.style.textoStyleBold)
 
             tvNombreJornada.text =
-                "JORNADA $numJornada" // Puedes establecer un nombre predeterminado o solicitar uno al usuario
+                "JORNADA $numJornada"
 
-            // Puedes personalizar el TextView según tus necesidades
             val layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             )
-            layoutParams.setMargins(0, 70, 40, 20) // Márgenes opcionales entre los elementos
+            layoutParams.setMargins(0, 70, 40, 20)
             tvNombreJornada.layoutParams = layoutParams
             tvNombreJornada.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 17f)
 
-            // Agregar TextView al contenedor
             linearLayoutTituloJornada.addView(tvNombreJornada)
 
             val imageButtonAddMatch = ImageButton(this)
             imageButtonAddMatch.setBackgroundColor(android.R.color.transparent)
-            imageButtonAddMatch.setImageResource(R.drawable.add) // Reemplaza "tu_icono" con el nombre de tu recurso de imagen
+            imageButtonAddMatch.setImageResource(R.drawable.add)
 
-            // Puedes personalizar el ImageButton según tus necesidades
             val layoutParamsImageButtonAddMatch = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
@@ -189,11 +182,10 @@ class AddJornadasActivity : AppCompatActivity() {
             linearLayoutJornadas.addView(linearLayoutTituloJornada)
             linearLayoutJornadas.addView(linearLayoutHorizontal)
 
-            //contenedorJornadas.addView(linearLayoutTituloJornada)
             contenedorJornadas.addView(linearLayoutJornadas)
 
             imageButtonAddMatch.setOnClickListener {
-                // Crear una nueva instancia de linearLayoutHorizontal para cada partido
+
                 val linearLayoutNewMatch = crearEquipoVsEquipoLayout()
                 linearLayoutJornadas.addView(linearLayoutNewMatch)
             }

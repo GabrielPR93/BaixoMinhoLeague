@@ -15,10 +15,12 @@ class PartidosViewHolder(view:View): RecyclerView.ViewHolder(view) {
 
             if(!partido.resultadoPrimerSet.equals("")){
                 tvMarcador.text = partido.resultadoPrimerSet
+                tvMarcador.letterSpacing = 0.3f
                 tvMarcador2.visibility = View.VISIBLE
                 tvMarcador2.text = partido.resultadoSegundoSet
             }else{
                 tvMarcador.text = "VS"
+                tvMarcador.letterSpacing = 0.0f
                 tvMarcador2.visibility = View.GONE
             }
 

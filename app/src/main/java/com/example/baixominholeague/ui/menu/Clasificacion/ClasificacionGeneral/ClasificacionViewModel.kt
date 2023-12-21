@@ -100,6 +100,7 @@ class ClasificacionViewModel @Inject constructor() : ViewModel() {
 
     fun obtenerJornadas(liga: String, nombreDivision: String) {
         val jornadasRef = db.collection("jornadas").document(liga)
+        indiceJornadaActual = 0
 
         viewModelScope.launch {
             try {
@@ -173,22 +174,16 @@ class ClasificacionViewModel @Inject constructor() : ViewModel() {
 
         viewModelScope.launch {
             try {
-                // Obtener el documento actual para actualizar o crear uno nuevo
                 val snapshot = jornadasRef.get().await()
 
-                // Crear un nuevo mapa para almacenar las jornadas
                 val nuevasJornadas = mutableMapOf<String, Any?>()
 
-                // Verificar si ya hay datos para la división
                 if (snapshot.exists()) {
-                    // Copiar los datos existentes al nuevo mapa
                     nuevasJornadas.putAll(snapshot.data ?: emptyMap())
                 }
 
-                // Obtener las jornadas existentes si hay alguna
                 val jornadasDivisionExistente = (nuevasJornadas[nombreDivision] as? Map<*, *>)?.get("jornadas") as? List<*>
 
-                // Convertir las jornadas a un formato que Firestore pueda manejar
                 val jornadasMap = listaJornadas.map { jornada ->
                     val partidosMap = jornada.partidos.map { partido ->
                         mapOf(
@@ -206,14 +201,11 @@ class ClasificacionViewModel @Inject constructor() : ViewModel() {
                     )
                 }
 
-                // Agregar las nuevas jornadas a las existentes
                 val nuevasJornadasDivisionList = (jornadasDivisionExistente as? MutableList<Any?>) ?: mutableListOf()
                 nuevasJornadasDivisionList.addAll(jornadasMap)
 
-                // Añadir las jornadas al mapa de la división
                 nuevasJornadas[nombreDivision] = mapOf("jornadas" to nuevasJornadasDivisionList)
-
-                // Actualizar o crear el documento en Firestore
+                
                 jornadasRef.set(nuevasJornadas).await()
                 onSaveComplete?.invoke(true)
             } catch (e: Exception) {
