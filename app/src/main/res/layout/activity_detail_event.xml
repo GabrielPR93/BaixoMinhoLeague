@@ -54,8 +54,8 @@
                     android:layout_height="wrap_content"
                     android:elevation="20dp"
                     app:cardCornerRadius="30dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="10dp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -76,7 +76,7 @@
                             android:textSize="22dp"
                             android:paddingEnd="10dp"
                             android:layout_marginStart="20dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="20dp"
                             app:layout_constraintStart_toStartOf="@id/lineralayoutFecha"
                             app:layout_constraintTop_toBottomOf="@id/lineralayoutFecha"
                             app:layout_constraintEnd_toEndOf="@id/lineralayoutFecha"/>
@@ -123,7 +123,7 @@
                             android:paddingStart="5dp"
                             android:paddingTop="2.5dp"
                             android:paddingBottom="2.5dp"
-                            android:paddingEnd="5dp"
+                            android:paddingEnd="7dp"
                             app:layout_constraintEnd_toEndOf="@+id/imageViewEvent"
                             app:layout_constraintStart_toStartOf="@id/imageViewEvent"
                             app:layout_constraintTop_toBottomOf="@id/imageViewEvent"
@@ -133,12 +133,12 @@
                             android:id="@+id/tvHoraEvent"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="30dp"
+                            android:layout_marginStart="10dp"
                             android:background="@drawable/background_date"
                             android:paddingStart="5dp"
                             android:paddingTop="2.5dp"
                             android:paddingBottom="2.5dp"
-                            android:paddingEnd="5dp"
+                            android:paddingEnd="7dp"
                             android:drawableStart="@drawable/watch"
                             android:drawablePadding="10dp"
                             android:gravity="center"
@@ -148,38 +148,28 @@
                             app:layout_constraintTop_toBottomOf="@id/imageViewEvent"
                             tools:text="16:00 H" />
 
+                            <TextView
+                                android:id="@+id/tvUbicacion"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:background="@drawable/background_date"
+                                android:drawablePadding="10dp"
+                                android:paddingStart="5dp"
+                                android:paddingTop="2.5dp"
+                                android:paddingBottom="2.5dp"
+                                android:paddingEnd="7dp"
+                                android:gravity="center"
+                                android:drawableStart="@drawable/location_on_24"
+                                style="@style/textoStyle"
+                                app:layout_constraintStart_toStartOf="@id/lineralayoutFecha"
+                                app:layout_constraintTop_toBottomOf="@id/tvDescripcion"
+                                app:layout_constraintEnd_toEndOf="@id/lineralayoutFecha"
+                                tools:text="A Guarda" />
+
                         </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/tvUbicacion"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
-                            android:layout_marginTop="10dp"
-                            android:gravity="start"
-                            android:drawableStart="@drawable/location_on_24"
-                            android:drawablePadding="10dp"
-                            android:paddingEnd="5dp"
-                            style="@style/textoStyle"
-                            app:layout_constraintStart_toStartOf="@id/lineralayoutFecha"
-                            app:layout_constraintTop_toBottomOf="@id/tvTituloEvent"
-                            app:layout_constraintEnd_toEndOf="@id/lineralayoutFecha"
-                            tools:text="A Guarda" />
 
-
-
-<!--                        <TextView-->
-<!--                            android:id="@+id/tvTituloDescripcion"-->
-<!--                            android:text="Descripción"-->
-<!--                            android:textSize="16dp"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_marginStart="40dp"-->
-<!--                            android:layout_marginTop="40dp"-->
-<!--                            android:paddingEnd="5dp"-->
-<!--                            android:fontFamily="@font/hurmebold"-->
-<!--                            app:layout_constraintTop_toBottomOf="@id/tvUbicacion"-->
-<!--                            app:layout_constraintStart_toStartOf="parent"/>-->
 
                         <TextView
                             android:id="@+id/tvDescripcion"
@@ -192,7 +182,7 @@
                             android:layout_marginEnd="20dp"
                             android:paddingEnd="5dp"
                             style="@style/textoStyle"
-                            app:layout_constraintTop_toBottomOf="@id/tvUbicacion"
+                            app:layout_constraintTop_toBottomOf="@id/tvTituloEvent"
                             app:layout_constraintStart_toStartOf="@id/tvInscripcion"
                             app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -200,7 +190,7 @@
                             android:id="@+id/tvInscripcion"
                             android:text="Inscripción:"
                             android:textSize="16dp"
-                            android:layout_marginTop="20dp"
+                            android:layout_marginTop="25dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingEnd="5dp"
@@ -217,7 +207,7 @@
                             android:paddingEnd="5dp"
                             style="@style/textoStyle"
                             app:layout_constraintStart_toEndOf="@id/tvInscripcion"
-                            app:layout_constraintTop_toBottomOf="@id/tvUbicacion"
+                            app:layout_constraintTop_toBottomOf="@id/tvDescripcion"
                             app:layout_constraintTop_toTopOf="@id/tvInscripcion" />
 
                         <TextView

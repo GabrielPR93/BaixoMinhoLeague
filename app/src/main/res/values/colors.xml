@@ -10,12 +10,16 @@
     <color name="DarkPrimary">#151E21</color>
     <color name="DarkSecondari">#434343</color>
     <color name="grisPrincipal">#404040</color>
+    <color name="background">#E3E6EB</color>
+    <color name="backgroundText">#657A97</color>
     <color name="fondo">#000000</color>
     <color name="colorPrimaryOverlay">#2f2f2f</color>
     <color name="greenPrimary">#00C8E0</color>
     <color name="greenSecondary">#00C8E0</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="negroBlanco">#404040</color>
     <color name="blue">#6672FF</color>
+    <color name="blueSelected">#C2C9FF</color>
     <color name="blue2">#B8BDFA</color>
     <color name="red">#CF3149</color>
     <color name="oro">#dec773</color>

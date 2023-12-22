@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            style="@style/textoStyleBoldGreen"
+            style="@style/textoStyleBoldBlue"
             android:textSize="20dp"
             tools:text="1º"
             android:background="@drawable/circle_blue_border"
@@ -54,7 +54,7 @@
         android:layout_marginStart="5dp"
         android:layout_marginEnd="10dp"
         app:cardCornerRadius="10dp"
-        tools:backgroundTint="@color/stBlue"
+
         app:layout_constraintStart_toEndOf="@id/framelayoutParticipantes"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -91,7 +91,7 @@
                 android:paddingTop="7dp"
                 android:paddingStart="7dp"
                 android:paddingBottom="2dp"
-                style="@style/textoStyleBoldGreen"
+                style="@style/textoStyleBoldBlue"
                 android:textSize="16dp"
                 app:layout_constraintEnd_toEndOf="@id/linearPartidosJugados"
                 app:layout_constraintStart_toStartOf="@id/linearPartidosJugados"

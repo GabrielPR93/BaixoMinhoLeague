@@ -21,7 +21,7 @@
         <item name="customColorValue">@color/DarkSecondari</item>
         <item name="colorPrimary">@color/greenPrimary</item>
         <item name="colorPrimaryVariant">@color/greenPrimary</item>
-        <item name="colorOnPrimary">@color/fondo</item>
+        <item name="colorOnPrimary">@color/stBlue</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/greenPrimary</item>
         <item name="colorSecondaryVariant">@color/colorPrimaryOverlay</item>
@@ -39,6 +39,20 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">16dp</item>
     </style>
+
+    <style name="titulosFragments">
+        <item name="fontFamily">@font/titulos</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@color/fondo</item>
+        <item name="android:textSize">40dp</item>
+    </style>
+
+    <style name="tituloConfiguracion">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@color/fondo</item>
+    </style>
+
     <style name="textRecyclerView">
         <item name="android:fontFamily">@font/hurmegeometricsans4</item>
         <item name="android:textColor">@color/white</item>
@@ -117,6 +131,13 @@
         <item name="android:textSize">15dp</item>
     </style>
     <style name="textoStyleBoldGreen">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textColor">@color/greenPrimary</item>
+        <item name="android:gravity">start</item>
+        <item name="fontFamily">@font/hurmebold</item>
+        <item name="android:textSize">15dp</item>
+    </style>
+    <style name="textoStyleBoldBlue">
         <item name="android:background">@android:color/transparent</item>
         <item name="android:textColor">@color/greenPrimary</item>
         <item name="android:gravity">start</item>

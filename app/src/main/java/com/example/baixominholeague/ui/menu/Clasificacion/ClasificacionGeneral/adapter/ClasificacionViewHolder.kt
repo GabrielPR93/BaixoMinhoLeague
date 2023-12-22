@@ -15,12 +15,13 @@ class ClasificacionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     fun bind(equipo: Equipo, position: Int) {
         val context = binding.tvNombreEquipo.context
-        val colorBlanco = ContextCompat.getColor(context, R.color.blanco_gris)
+        val colorBlanco = ContextCompat.getColor(context, R.color.negroBlanco)
+        val colorNegro = ContextCompat.getColor(context, R.color.DarkSecondari)
+        val colorAzulYVerde = ContextCompat.getColor(context, R.color.blue)
+
         val isCurrentUserInTeam =
             equipo.jugadores.any { jugador -> jugador.correo == currentUser?.email }
         if (isCurrentUserInTeam) {
-            val colorNegro = ContextCompat.getColor(context, R.color.DarkSecondari)
-            val colorVerde = ContextCompat.getColor(context, R.color.greenPrimary)
 
             binding.apply {
                 cardViewParticipante.setBackgroundResource(R.drawable.backgraound_card_selected)
@@ -29,7 +30,7 @@ class ClasificacionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
                 tvPartidosGanados.setTextColor(colorNegro)
                 tvPartidosEmpatados.setTextColor(colorNegro)
                 tvPartidosPerdidos.setTextColor(colorNegro)
-                tvPuntuacion.setTextColor(colorVerde)
+                tvPuntuacion.setTextColor(colorNegro)
             }
         } else {
             binding.apply {
@@ -39,6 +40,7 @@ class ClasificacionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
                 tvPartidosGanados.setTextColor(colorBlanco)
                 tvPartidosEmpatados.setTextColor(colorBlanco)
                 tvPartidosPerdidos.setTextColor(colorBlanco)
+                tvPuntuacion.setTextColor(colorAzulYVerde)
             }
         }
 

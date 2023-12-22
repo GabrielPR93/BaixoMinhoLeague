@@ -4,14 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorOnPrimary"
     tools:context=".ui.menu.Inicio.DetailEvent">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorOnPrimary"
+        style="@style/tituloConfiguracion"
         android:elevation="1dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
