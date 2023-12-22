@@ -64,7 +64,6 @@ class PerfilFragment : Fragment() {
         }
         binding.btnAddPlayer.setOnClickListener {
 
-            //startActivity(Intent(requireContext(), AddPlayerAndTournament::class.java))
             findNavController().navigate(R.id.action_perfilFragment_to_addPlayerAndTournament)
         }
 

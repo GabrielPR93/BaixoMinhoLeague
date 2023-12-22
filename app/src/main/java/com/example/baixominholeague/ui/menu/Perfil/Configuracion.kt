@@ -17,60 +17,53 @@ import com.google.firebase.auth.FirebaseAuth
 class Configuracion : AppCompatActivity() {
 
     private lateinit var binding: ActivityConfiguracionBinding
-//    val args:PerfilFragmentArgs by navArgs()
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityConfiguracionBinding.inflate(layoutInflater)
         setContentView(binding.root)
-//        val name = args.name
-//        print("ESTOOOOOOOO: $name")
+
         loadTheme()
         logout()
 
         binding.imageButtonBackPerfil.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
         ThemeDark()
     }
-
     private fun ThemeDark(){
         binding.temaNocturnoSwitch.setOnCheckedChangeListener { _, isChecked ->
-            if(isChecked){
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                saveTheme()
-            }else{
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                saveTheme()
+            val themeMode = if (isChecked) {
+                AppCompatDelegate.MODE_NIGHT_YES
+            } else {
+                AppCompatDelegate.MODE_NIGHT_NO
             }
-        }
-    }
-    private fun loadTheme(){
-        val themeMode = AppCompatDelegate.getDefaultNightMode()
 
-        when (themeMode) {
-            AppCompatDelegate.MODE_NIGHT_NO -> {
-                // El tema claro está activo
-               binding.temaNocturnoSwitch.isChecked = false
-            }
-            AppCompatDelegate.MODE_NIGHT_YES -> {
-                // El tema oscuro está activo
-                binding.temaNocturnoSwitch.isChecked = true
-            }
+            saveTheme(themeMode, isChecked)
+            AppCompatDelegate.setDefaultNightMode(themeMode)
+            recreate()
         }
     }
-    private fun saveTheme(){
+
+    private fun loadTheme() {
+        val sharedPrefs = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val themeMode = sharedPrefs.getInt("themeMode", AppCompatDelegate.MODE_NIGHT_NO)
+        val isChecked = sharedPrefs.getBoolean("isChecked", false)
+
+        binding.temaNocturnoSwitch.isChecked = isChecked
+
+        if (themeMode != AppCompatDelegate.getDefaultNightMode()) {
+            AppCompatDelegate.setDefaultNightMode(themeMode)
+        }
+    }
+
+    private fun saveTheme(themeMode: Int, isChecked: Boolean) {
         val sharedPrefs = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         val editor = sharedPrefs.edit()
 
-        val themeMode = if (binding.temaNocturnoSwitch.isChecked) {
-            AppCompatDelegate.MODE_NIGHT_YES
-        } else {
-            AppCompatDelegate.MODE_NIGHT_NO
-        }
         editor.putInt("themeMode", themeMode)
+        editor.putBoolean("isChecked", isChecked)
         editor.apply()
     }
+
     private fun logout() {
         binding.tvCerrarSesion.setOnClickListener {
             //Borramos datos de la sesión
