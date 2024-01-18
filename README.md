@@ -1,15 +1,21 @@
 # BaixoMiño League
 
-Aplicación Android desarrollada en Kotlin de una Liga.
+Aplicación Android desarrollada en Kotlin para organizar eventos como campeonatos o ligas y gestionarlas.
 Ejemplo: Futbolin,Billar,Tenis...
 
 >Librerías
 
 - Firebase:
   - Analytics
-  - Authenticación
+  - Authentication
   - Firestore Database
   - Storage
+  - Realtime Database
+  
+- Picasso
+- Navigation Component
+- Material Design
+- Dagger hilt
 
 
 [![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white&labelColor=101010)]()
