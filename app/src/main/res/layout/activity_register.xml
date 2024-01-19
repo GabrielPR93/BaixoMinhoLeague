@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".login.RegisterActivity"
-    android:background="@drawable/backgroundnewuser">
+    style="@style/fondoEventos">
 
     <ScrollView
         android:layout_width="match_parent"

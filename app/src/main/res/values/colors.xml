@@ -12,7 +12,8 @@
     <color name="grisPrincipal">#404040</color>
     <color name="background">#E3E6EB</color>
     <color name="backgroundText">#657A97</color>
-    <color name="fondo">#000000</color>
+    <color name="fondo">#191919</color>
+    <color name="fondoCard">#465262</color>
     <color name="colorPrimaryOverlay">#2f2f2f</color>
     <color name="greenPrimary">#00C8E0</color>
     <color name="greenSecondary">#00C8E0</color>

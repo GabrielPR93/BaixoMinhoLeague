@@ -28,7 +28,7 @@
         <item name="colorOnSecondary">@color/black</item>
         <item name="colorTertiary">@color/fondo</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">@color/black</item>
+        <item name="android:statusBarColor">@color/fondo</item>
         <!-- Customize your theme here. -->
     </style>
 
@@ -145,13 +145,13 @@
         <item name="android:textSize">15dp</item>
     </style>
     <style name="fondoEventos">
-        <item name="android:background">@color/black</item>
+        <item name="android:background">@color/fondo</item>
     </style>
     <style name="fondoParticipantes">
-        <item name="android:background">@color/black</item>
+        <item name="android:background">@color/fondo</item>
     </style>
     <style name="fondoView">
-        <item name="android:background">@color/black</item>
+        <item name="android:background">@color/fondo</item>
     </style>
     <style name="textButtonStyle" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:background">@android:color/transparent</item>
