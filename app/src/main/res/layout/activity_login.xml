@@ -7,6 +7,13 @@
     style="@style/fondoEventos"
     tools:context=".login.LoginActivity">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/triangulos"
+        android:layout_marginBottom="-20dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -34,29 +41,45 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:id="@+id/imageViewLogin"
+                <TextView
+                    android:id="@+id/tvTituloLogin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="-10dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
+                    android:text="BaixoMiño"
+                    android:textColor="@color/blanco_gris"
+                    android:fontFamily="@font/lobster"
+                    android:layout_marginTop="60dp"
+                    android:textSize="50dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/top_background1" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/tvTituloLogin2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="League"
+                    android:textColor="@color/blanco_gris"
+                    android:fontFamily="@font/lobster"
+                    android:textSize="50dp"
+                    app:layout_constraintStart_toStartOf="@id/tvTituloLogin"
+                    app:layout_constraintEnd_toEndOf="@id/tvTituloLogin"
+                    app:layout_constraintTop_toBottomOf="@id/tvTituloLogin"/>
+
+
 
                 <TextView
                     android:id="@+id/textViewLogin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="50dp"
-                    android:layout_marginTop="-20dp"
+                    android:layout_marginTop="55dp"
                     android:fontFamily="@font/hurme_light"
                     android:text="Bienvenid@ !!"
                     android:textSize="25dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/imageViewLogin" />
+                    app:layout_constraintTop_toBottomOf="@id/tvTituloLogin2" />
 
                 <EditText
                     android:id="@+id/editTextNombre"

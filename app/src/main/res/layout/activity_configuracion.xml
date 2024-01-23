@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.menu.Inicio.DetailEvent">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -54,6 +53,7 @@
         android:background="?attr/colorTertiary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -122,18 +122,18 @@
                             android:id="@+id/tvNotificaciones"
                             style="@style/fuentePrincipal"
                             android:layout_width="0dp"
-                            android:layout_weight="1"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:padding="15dp"
                             android:text="Notificaciones" />
 
                         <Switch
                             android:id="@+id/notificationSwitch"
-                            android:gravity="end"
-                            android:checked="true"
-                            android:layout_marginEnd="70dp"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="70dp"
+                            android:checked="true"
+                            android:gravity="end" />
 
                     </LinearLayout>
 
@@ -144,30 +144,30 @@
                         android:background="@android:color/darker_gray"
                         android:gravity="center_horizontal" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/tvTema"
-                        style="@style/fuentePrincipal"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="15dp"
-                        android:paddingBottom="10dp"
-                        android:text="Tema Nocturno" />
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
-                    <Switch
-                        android:id="@+id/temaNocturnoSwitch"
-                        android:gravity="end"
-                        android:layout_marginEnd="70dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        <TextView
+                            android:id="@+id/tvTema"
+                            style="@style/fuentePrincipal"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:padding="15dp"
+                            android:paddingBottom="10dp"
+                            android:text="Tema Nocturno" />
 
-                </LinearLayout>
+                        <Switch
+                            android:id="@+id/temaNocturnoSwitch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="70dp"
+                            android:gravity="end" />
+
+                    </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
@@ -244,14 +244,25 @@
                     android:fontFamily="@font/hurmegeometricsans4"
                     android:text="Cerrar Sesión "
                     android:textAllCaps="false"
-                    android:textStyle="bold"
                     android:textColor="?attr/colorPrimary"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/CardAcercaDe" />
-
+                    app:layout_constraintTop_toBottomOf="@id/CardAcercaDe"
+                    app:layout_constraintVertical_bias="0.0" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <TextView
+        android:id="@+id/tvVersion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Versión"
+        style="@style/textoStyle"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

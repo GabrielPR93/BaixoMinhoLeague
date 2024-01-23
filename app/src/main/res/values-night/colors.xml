@@ -2,4 +2,5 @@
 <resources>
     <color name="blue">#00C8E0</color>
     <color name="negroBlanco">#FFFFFFFF</color>
+    <color name="fondostatusbar">#191919</color>
 </resources>

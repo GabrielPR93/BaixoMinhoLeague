@@ -2,6 +2,7 @@ package com.example.baixominholeague.ui.menu.Perfil
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.AttributeSet
@@ -28,6 +29,8 @@ class Configuracion : AppCompatActivity() {
 
         binding.imageButtonBackPerfil.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
         ThemeDark()
+        val version = getAppVersion()
+        binding.tvVersion.text = "Versión: $version"
     }
     private fun ThemeDark(){
         binding.temaNocturnoSwitch.setOnCheckedChangeListener { _, isChecked ->
@@ -43,6 +46,14 @@ class Configuracion : AppCompatActivity() {
         }
     }
 
+    private fun getAppVersion(): String {
+        return try {
+            val pInfo = packageManager.getPackageInfo(packageName, 0)
+            pInfo.versionName
+        } catch (e: PackageManager.NameNotFoundException) {
+            "Desconocido"
+        }
+    }
     private fun loadTheme() {
         val sharedPrefs = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         val themeMode = sharedPrefs.getInt("themeMode", AppCompatDelegate.MODE_NIGHT_NO)

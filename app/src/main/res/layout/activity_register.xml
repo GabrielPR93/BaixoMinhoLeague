@@ -48,7 +48,6 @@
                     app:layout_constraintStart_toEndOf="@id/btnBackNewUser"
                     app:layout_constraintTop_toTopOf="@+id/btnBackNewUser" />
 
-
                 <TextView
                     android:id="@+id/textViewAuth"
                     android:layout_width="match_parent"

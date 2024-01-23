@@ -10,7 +10,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/colorOnPrimary"
+        android:background="@color/fondostatusbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -75,7 +75,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
-                            android:background="@drawable/circle_white_border"
+                            android:background="@drawable/circle_background_profile"
                             app:shapeAppearanceOverlay="@style/CircleImageView" />
 
                         <!-- ShapeableImageView para la imagen -->
@@ -85,7 +85,6 @@
                             android:layout_height="200dp"
                             android:layout_gravity="center"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/profile"
                             app:shapeAppearanceOverlay="@style/CircleImageView" />
 
                         <ImageButton

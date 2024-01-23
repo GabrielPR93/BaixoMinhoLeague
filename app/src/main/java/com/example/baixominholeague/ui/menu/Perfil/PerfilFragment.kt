@@ -262,6 +262,9 @@ class PerfilFragment : Fragment() {
             selectedImageUri = Uri.parse(foto).toString()
             Picasso.get().load(selectedImageUri)
                 .into(imageViewProfile)
+        }else{
+            Picasso.get().load(R.drawable.profile)
+                .into(imageViewProfile)
         }
 
         loadEmail(correo.toString())
