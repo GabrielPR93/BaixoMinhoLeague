@@ -39,7 +39,6 @@ class DetailEvent : AppCompatActivity() {
     private lateinit var imagenUsuario: String
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailEventBinding.inflate(layoutInflater)
