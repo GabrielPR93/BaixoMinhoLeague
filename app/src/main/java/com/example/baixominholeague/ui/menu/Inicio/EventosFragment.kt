@@ -1,24 +1,27 @@
 package com.example.baixominholeague.ui.menu.Inicio
 
 import android.content.Intent
-import android.icu.util.Calendar
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.baixominholeague.data.Evento
+import com.example.baixominholeague.data.EventosViewModel
 import com.example.baixominholeague.databinding.FragmentEventosBinding
 import com.example.baixominholeague.ui.menu.Inicio.adapter.EventoAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
-
+import kotlinx.coroutines.launch
 
 class EventosFragment : Fragment() {
 
@@ -30,78 +33,101 @@ class EventosFragment : Fragment() {
     private lateinit var eventoAdapter: EventoAdapter
     private val correo = FirebaseAuth.getInstance().currentUser?.email
 
+    private val eventosViewModel: EventosViewModel by viewModels()
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.reyclerView.adapter = eventoAdapter
-        binding.reyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.progresBarEvents.visibility=View.VISIBLE
+        initUI()
 
-        if (correo != null) {
-            getEventsOrderByDate(correo)
+    }
+
+    private fun initUI() {
+        initUIState()
+        iniList()
+    }
+
+    private fun iniList() {
+
+        eventoAdapter = EventoAdapter(emptyList(), ::eliminarEvento) { nombreEvento ->
+            navigateToDetailEvent(nombreEvento)
+        }
+
+        binding.reyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = eventoAdapter
+        }
+
+    }
+
+    private fun initUIState() {
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                eventosViewModel.eventos.collect {
+                    eventoAdapter.updateList(it)
+                }
+            }
         }
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentEventosBinding.inflate(inflater,container,false)
+        _binding = FragmentEventosBinding.inflate(inflater, container, false)
         val view = binding.root
-       ensureEventoAdapterInitialized()
-//
-
-        //eventoAdapter = EventoAdapter(emptyList(),::eliminarEvento){nombreEvento -> navigateToDetailEvent(nombreEvento) }
-
+        // ensureEventoAdapterInitialized()
 
         return view
     }
 
 
-    fun ensureEventoAdapterInitialized() {
-        if (!::eventoAdapter.isInitialized) {
-
-            eventoAdapter = EventoAdapter(emptyList(), ::eliminarEvento) { nombreEvento -> navigateToDetailEvent(nombreEvento)
-
-            }
-        }
-    }
-
-
-    fun updateEventList(){
-        ensureEventoAdapterInitialized()
-
-        if (correo != null) {
-            Log.i("Gabriele","EJECUTADOOOO")
-            getEventsOrderByDate(correo)
-            eventoAdapter.notifyDataSetChanged()
-        }
-    }
-    fun getEventsOrderByDate(correo: String) {
-        val eventsCollection = db.collection("eventos")
-        val query = eventsCollection.orderBy("fecha", Query.Direction.ASCENDING)
-
-        val currentDate = Calendar.getInstance().time
-
-        query.get().addOnSuccessListener { document ->
-            val eventos = document.toObjects(Evento::class.java)
-            val filteredEventos = eventos.filter { evento ->
-                evento.fecha!! >= currentDate
-            }
-            eventoAdapter.updateList(filteredEventos)
-
-            for (evento in filteredEventos) {
-                if (evento.correo.equals(correo)) {
-                    evento.mostrarBotonCancelar = true
-                }
-            }
-            binding.progresBarEvents.visibility = View.GONE
-        }
-            .addOnFailureListener { exception ->
-                println("Error al obtener los eventos: $exception")
-            }
-    }
+//    fun ensureEventoAdapterInitialized() {
+//        if (!::eventoAdapter.isInitialized) {
+//
+//            eventoAdapter = EventoAdapter(emptyList(), ::eliminarEvento) { nombreEvento -> navigateToDetailEvent(nombreEvento)
+//
+//            }
+//        }
+//    }
+//
+//
+//    fun updateEventList(){
+//        ensureEventoAdapterInitialized()
+//
+//        if (correo != null) {
+//            Log.i("Gabriele","EJECUTADOOOO")
+//            getEventsOrderByDate(correo)
+//            eventoAdapter.notifyDataSetChanged()
+//        }
+//    }
+//    fun getEventsOrderByDate(correo: String) {
+//        val eventsCollection = db.collection("eventos")
+//        val query = eventsCollection.orderBy("fecha", Query.Direction.ASCENDING)
+//
+//        val currentDate = Calendar.getInstance().time
+//
+//        query.get().addOnSuccessListener { document ->
+//            val eventos = document.toObjects(Evento::class.java)
+//            val filteredEventos = eventos.filter { evento ->
+//                evento.fecha!! >= currentDate
+//            }
+//            eventoAdapter.updateList(filteredEventos)
+//
+//            for (evento in filteredEventos) {
+//                if (evento.correo.equals(correo)) {
+//                    evento.mostrarBotonCancelar = true
+//                }
+//            }
+//            binding.progresBarEvents.visibility = View.GONE
+//        }
+//            .addOnFailureListener { exception ->
+//                println("Error al obtener los eventos: $exception")
+//            }
+//    }
 
     private fun eliminarEvento(evento: Evento) {
         val alertDialog = AlertDialog.Builder(requireContext())
@@ -113,7 +139,9 @@ class EventosFragment : Fragment() {
                     db.collection("eventos").document(nombreEvento.lowercase()).delete()
                         .addOnSuccessListener {
                             deleteEventFromRealtimeDatabase(nombreEvento.lowercase())
-                            updateEventList()
+                            if (correo != null) {
+                                eventosViewModel.getEventsOrderByDate(correo)
+                            }
                         }
                         .addOnFailureListener { exception ->
                             println("Error al eliminar el evento: $exception")

@@ -15,10 +15,12 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.core.net.toUri
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.example.baixominholeague.data.EventosViewModel
 import com.example.baixominholeague.databinding.ActivityNuevoEventoBinding
 import com.example.baixominholeague.ui.menu.Inicio.EventosFragment
 import com.google.firebase.auth.FirebaseAuth
@@ -43,6 +45,7 @@ class NuevoEvento : AppCompatActivity() {
     private val REQUEST_CODE_IMAGE_PICKER = 102
     private var selectedImageUri: String? = null
     private var nombreUsuario: String? = ""
+    private val eventosViewModel: EventosViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -274,7 +277,7 @@ class NuevoEvento : AppCompatActivity() {
                                     }
                                     .addOnCompleteListener {
                                         binding.progresBar.visibility = View.GONE
-                                        //eventosUpdateListener?.onEventoAddedAndClosed()
+                                        eventosViewModel.getEventsOrderByDate(correo.orEmpty())
                                         setResult(Activity.RESULT_OK)
                                         finish()
 
@@ -299,7 +302,7 @@ class NuevoEvento : AppCompatActivity() {
                             }
                             .addOnCompleteListener {
                                 binding.progresBar.visibility = View.GONE
-                                //eventosUpdateListener?.onEventoAddedAndClosed()
+                                eventosViewModel.getEventsOrderByDate(correo.orEmpty())
                                 setResult(Activity.RESULT_OK)
                                 finish()
 
