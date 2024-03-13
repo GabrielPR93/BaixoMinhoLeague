@@ -76,13 +76,11 @@
         android:label="activity_login"
         tools:layout="@layout/activity_login"/>
 
-
     <activity
         android:id="@+id/nuevoEvento"
         android:name="com.example.baixominholeague.NuevoEvento"
         android:label="activity_nuevo_evento"
         tools:layout="@layout/activity_nuevo_evento" />
-
 
     <activity
         android:id="@+id/participantesActivity"

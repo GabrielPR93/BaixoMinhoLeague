@@ -63,6 +63,10 @@ class EventosFragment : Fragment() {
 
     private fun initUIState() {
 
+        eventosViewModel.progressBarVisible.observe(viewLifecycleOwner) { visible ->
+            binding.progresBarEvents.visibility = if (visible) View.VISIBLE else View.GONE
+        }
+
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 eventosViewModel.eventos.collect {
@@ -79,7 +83,6 @@ class EventosFragment : Fragment() {
     ): View? {
         _binding = FragmentEventosBinding.inflate(inflater, container, false)
         val view = binding.root
-        // ensureEventoAdapterInitialized()
 
         return view
     }

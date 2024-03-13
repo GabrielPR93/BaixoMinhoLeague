@@ -306,7 +306,6 @@ class NuevoEvento : AppCompatActivity() {
                                 setResult(Activity.RESULT_OK)
                                 finish()
 
-
                             }
                     }
                 } else {

@@ -15,12 +15,16 @@ class EventosViewModel : ViewModel() {
     private val _eventos = MutableStateFlow<List<Evento>>(emptyList())
     val eventos: MutableStateFlow<List<Evento>> = _eventos
     private val currentUser = FirebaseAuth.getInstance().currentUser?.email
+
+    private val _progressBarVisible = MutableLiveData<Boolean>()
+    val progressBarVisible: LiveData<Boolean> get() = _progressBarVisible
     init {
         if (currentUser != null) {
             getEventsOrderByDate(currentUser)
         }
     }
     fun getEventsOrderByDate(correo: String) {
+        _progressBarVisible.value = true
         val eventsCollection = db.collection("eventos")
         val query = eventsCollection.orderBy("fecha", Query.Direction.ASCENDING)
 
@@ -39,9 +43,11 @@ class EventosViewModel : ViewModel() {
                     evento.mostrarBotonCancelar = true
                 }
             }
+            _progressBarVisible.value = false
         }
             .addOnFailureListener { exception ->
                 println("Error al obtener los eventos: $exception")
+                _progressBarVisible.value = false
             }
         Log.i("GAB","ENTRO EN GETEVENTS")
     }
