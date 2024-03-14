@@ -1,5 +1,6 @@
 package com.example.baixominholeague.ui.menu.Clasificacion
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -41,6 +42,8 @@ class ClasificacionFragment : Fragment(), OnSpinnerSelectedListener {
     ): View? {
         _binding = FragmentClasificacionBinding.inflate(inflater, container, false)
         val view = binding.root
+
+        binding.btnInfo.setOnClickListener { showInfoDialog() }
 
         return view
     }
@@ -166,4 +169,16 @@ class ClasificacionFragment : Fragment(), OnSpinnerSelectedListener {
             }
     }
 
+    private fun showInfoDialog() {
+
+        val dialog = AlertDialog.Builder(requireContext())
+            .setTitle("Información")
+            .setMessage("Pts: Puntos Totales\nPJ: Partidos Jugados\nG: Ganados\nE: Empatados\nP: Perdidos ")
+            .setPositiveButton("Aceptar") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+
+        dialog.show()
+    }
 }

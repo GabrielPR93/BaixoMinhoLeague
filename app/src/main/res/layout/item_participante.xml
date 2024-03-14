@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:background="@drawable/circle_blue_border"
+            android:background="@drawable/circle_backgroung_participants"
             app:shapeAppearanceOverlay="@style/CircleImageView" />
 
         <!-- ShapeableImageView para la imagen -->

@@ -155,7 +155,7 @@
         <item name="android:background">@color/blue2</item>
     </style>
     <style name="fondoView">
-        <item name="android:background">@drawable/top_background</item>
+        <item name="android:background">@drawable/top_background_participants</item>
     </style>
     <style name="textButtonStyle" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:background">@android:color/transparent</item>
