@@ -24,7 +24,7 @@ import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(){
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
@@ -230,6 +230,8 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra(NuevoEvento.USUARIO_PUBLICADOR, Usuario)
         startActivityForResult(intent, REQUEST_CODE_NUEVO_EVENTO)
     }
+
+
 
 //    private fun replaceFragment(fragment: Fragment) {
 //        val fragmentManager = supportFragmentManager

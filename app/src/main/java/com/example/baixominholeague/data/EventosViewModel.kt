@@ -18,10 +18,17 @@ class EventosViewModel : ViewModel() {
 
     private val _progressBarVisible = MutableLiveData<Boolean>()
     val progressBarVisible: LiveData<Boolean> get() = _progressBarVisible
+
+    private val _eventoAgregado = MutableLiveData<Boolean>()
+    val eventoAgregado: LiveData<Boolean> = _eventoAgregado
     init {
         if (currentUser != null) {
             getEventsOrderByDate(currentUser)
         }
+    }
+
+    fun notificarEventoAgregado() {
+        _eventoAgregado.value = true
     }
     fun getEventsOrderByDate(correo: String) {
         _progressBarVisible.value = true

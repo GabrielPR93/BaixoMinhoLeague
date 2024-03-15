@@ -42,7 +42,15 @@ class EventosFragment : Fragment() {
         initUI()
 
     }
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentEventosBinding.inflate(inflater, container, false)
+        val view = binding.root
 
+        return view
+    }
     private fun initUI() {
         initUIState()
         iniList()
@@ -74,17 +82,13 @@ class EventosFragment : Fragment() {
                 }
             }
         }
-    }
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentEventosBinding.inflate(inflater, container, false)
-        val view = binding.root
-
-        return view
+        eventosViewModel.eventoAgregado.observe(viewLifecycleOwner){ eventoAgregado ->
+            if(eventoAgregado){
+                eventosViewModel.getEventsOrderByDate(correo.orEmpty())
+                eventosViewModel.notificarEventoAgregado()
+            }
+        }
     }
 
 

@@ -22,6 +22,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.baixominholeague.data.EventosViewModel
 import com.example.baixominholeague.databinding.ActivityNuevoEventoBinding
+import com.example.baixominholeague.ui.menu.Inicio.DetailEvent
 import com.example.baixominholeague.ui.menu.Inicio.EventosFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -277,7 +278,7 @@ class NuevoEvento : AppCompatActivity() {
                                     }
                                     .addOnCompleteListener {
                                         binding.progresBar.visibility = View.GONE
-                                        eventosViewModel.getEventsOrderByDate(correo.orEmpty())
+                                        eventosViewModel.notificarEventoAgregado()
                                         setResult(Activity.RESULT_OK)
                                         finish()
 
@@ -302,7 +303,7 @@ class NuevoEvento : AppCompatActivity() {
                             }
                             .addOnCompleteListener {
                                 binding.progresBar.visibility = View.GONE
-                                eventosViewModel.getEventsOrderByDate(correo.orEmpty())
+                                eventosViewModel.notificarEventoAgregado()
                                 setResult(Activity.RESULT_OK)
                                 finish()
 

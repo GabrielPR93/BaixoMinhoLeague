@@ -33,6 +33,8 @@
     </style>
 
 
+
+
     <style name="fuentePrincipal">
         <item name="fontFamily">@font/hurmegeometricsans4</item>
         <item name="android:textStyle">bold</item>

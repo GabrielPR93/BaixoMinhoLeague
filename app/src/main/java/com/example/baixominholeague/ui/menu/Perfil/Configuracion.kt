@@ -6,9 +6,11 @@ import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.navigation.findNavController
 import androidx.navigation.navArgs
 import com.example.baixominholeague.R
 import com.example.baixominholeague.databinding.ActivityConfiguracionBinding
@@ -18,6 +20,9 @@ import com.google.firebase.auth.FirebaseAuth
 class Configuracion : AppCompatActivity() {
 
     private lateinit var binding: ActivityConfiguracionBinding
+    private var themeMode : Int = 0
+    private var flag : Boolean = true
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +39,7 @@ class Configuracion : AppCompatActivity() {
     }
     private fun ThemeDark(){
         binding.temaNocturnoSwitch.setOnCheckedChangeListener { _, isChecked ->
-            val themeMode = if (isChecked) {
+             themeMode = if (isChecked) {
                 AppCompatDelegate.MODE_NIGHT_YES
             } else {
                 AppCompatDelegate.MODE_NIGHT_NO
@@ -56,13 +61,16 @@ class Configuracion : AppCompatActivity() {
     }
     private fun loadTheme() {
         val sharedPrefs = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-        val themeMode = sharedPrefs.getInt("themeMode", AppCompatDelegate.MODE_NIGHT_NO)
+        themeMode = sharedPrefs.getInt("themeMode", AppCompatDelegate.MODE_NIGHT_NO)
         val isChecked = sharedPrefs.getBoolean("isChecked", false)
 
         binding.temaNocturnoSwitch.isChecked = isChecked
 
+
         if (themeMode != AppCompatDelegate.getDefaultNightMode()) {
             AppCompatDelegate.setDefaultNightMode(themeMode)
+            recreate()
+            Log.i("GAB","RECREADO")
         }
     }
 
@@ -74,8 +82,13 @@ class Configuracion : AppCompatActivity() {
         editor.putBoolean("isChecked", isChecked)
         editor.apply()
     }
-
+    private fun handleLogout() {
+        // Cambiar tema y recrear actividad después de cerrar sesión
+        AppCompatDelegate.setDefaultNightMode(themeMode)
+        recreate()
+    }
     private fun logout() {
+
         binding.tvCerrarSesion.setOnClickListener {
             //Borramos datos de la sesión
 
@@ -92,6 +105,8 @@ class Configuracion : AppCompatActivity() {
                     prefs.apply()
                     //Cerramos la sesión
                     FirebaseAuth.getInstance().signOut()
+                    //Recreamos
+                    handleLogout()
                     val intent = Intent(this, LoginActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                     startActivity(intent)

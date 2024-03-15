@@ -5,9 +5,11 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 
@@ -42,6 +44,7 @@ class LoginActivity : AppCompatActivity() {
         bundle.putString("message", "Integracion de Firebase")
         analytics.logEvent("InitScreen", bundle)
 
+        loadTheme()
 
         setup()
         session()
@@ -49,7 +52,17 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
+    private fun loadTheme() {
+        val sharedPrefs = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        var themeMode = sharedPrefs.getInt("themeMode", AppCompatDelegate.MODE_NIGHT_NO)
 
+
+        if (themeMode != AppCompatDelegate.getDefaultNightMode()) {
+            AppCompatDelegate.setDefaultNightMode(themeMode)
+            recreate()
+            Log.i("GAB","RECREADO !")
+        }
+    }
     private fun setup() {
 
         binding.tvNewUser.setOnClickListener { startActivity(Intent(this, RegisterActivity::class.java)) }
